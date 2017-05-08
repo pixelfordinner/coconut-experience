@@ -5,7 +5,7 @@ module.exports = {
     cache: true,
     target: 'web',
     entry: {
-        theme: path.join(__dirname, 'assets/js/theme.js')
+        app: path.join(__dirname, 'assets/js/app.js')
     },
     output: {
         path: path.join(__dirname, 'dist/js'),
@@ -22,7 +22,6 @@ module.exports = {
         ]
     },
     externals: {
-        jquery: 'jQuery',
         backbone: 'Backbone',
         underscore: '_'
     },
@@ -31,8 +30,6 @@ module.exports = {
             // Automatically detect jQuery and $ as free var in modules
             // and inject the jquery library
             // This is required by many jquery plugins
-            jquery: "jQuery",
-            $: "jQuery",
             backbone: "Backbone",
             underscore: "_"
         })
