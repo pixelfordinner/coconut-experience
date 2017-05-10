@@ -75,8 +75,27 @@ class Trunk {
         },
       };
 
-      this.segments.push(new TrunkSegment(scene, options));
+      let currentObject = new TrunkSegment(scene, options);
+
+      if (i > 0) {
+        let previousObject = this.segments[i - 1];
+
+        let link = scene.world.add({
+            type: 'jointHinge',
+            body1: currentObject.body,
+            body2: previousObject.body,
+            pos1: [0, -height / 2, 0],
+            pos2: [0, height / 2, 0],
+            min: 0,
+            max: 0,
+            collision: true,
+          });
+      }
+
+      this.segments.push(currentObject);
     }
+
+    console.log(this.segments);
 
     return this;
   }

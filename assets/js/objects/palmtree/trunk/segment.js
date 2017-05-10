@@ -63,9 +63,7 @@ class TrunkSegment {
       this.options.cylinder.radiusBottom * this.options.scale.radius,
     ];
 
-    scene.add(mesh, this.options.physics);
-
-    return mesh;
+    return scene.add(mesh, this.options.physics);
   }
 }
 

@@ -87,9 +87,11 @@ class Scene {
   add(mesh, physics = {}) {
     this.scene.add(mesh);
 
+    let object = {};
+
     // If there's physics, let's add the object to OIMO
     if (typeof physics === 'object' && Object.keys(physics).length > 0) {
-      console.log(mesh, physics);
+      // console.log(mesh, physics);
 
       if (physics.hasOwnProperty('size') === false) {
         physics.size = [mesh.scale.x, mesh.scale.y, mesh.scale.z];
@@ -104,11 +106,14 @@ class Scene {
       }
 
       let body = this.world.add(physics);
-      this.objects.push({ mesh: mesh, body: body });
+      object =  { mesh: mesh, body: body };
     } else {
       // If not, we only push the mesh
-      this.objects.push({ mesh: mesh });
+      object = { mesh: mesh };
     }
+
+    this.objects.push(object);
+    return object;
   }
 }
 
