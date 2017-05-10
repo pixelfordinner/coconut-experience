@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 import Renderer from './renderer';
 import Camera from './camera';
-import Controls from './controls';
 import Lights from './lights';
 import World from './world';
+import Gestures from './gestures';
+import Controls from './controls';
 
 const $ = require('jquery');
 
@@ -19,7 +20,6 @@ class Scene {
 
     this.renderer = new Renderer(options);
     this.camera = new Camera(options);
-    this.controls = new Controls(options, this.camera);
     this.lights = new Lights(options, this.camera);
     this.world = new World();
 
@@ -41,6 +41,9 @@ class Scene {
     // Event Listeners
     let updateSize = function () { this.updateSize(); }.bind(this);
     window.addEventListener('resize', updateSize, false);
+
+    this.gestures = new Gestures(this);
+    this.controls = new Controls(this.options, this.camera);
   }
 
   updateSize() {
@@ -70,6 +73,8 @@ class Scene {
         object.mesh.quaternion.copy(object.body.getQuaternion());
       }
     }.bind(this));
+
+    this.gestures.update();
   }
 
   render() {
@@ -105,6 +110,8 @@ class Scene {
         physics.rot = [mesh.rotation.x, mesh.rotation.y, mesh.rotation.z];
       }
 
+      physics.name = mesh.name;
+
       let body = this.world.add(physics);
       object =  { mesh: mesh, body: body };
     } else {
@@ -113,6 +120,7 @@ class Scene {
     }
 
     this.objects.push(object);
+    this.gestures.updateMeshes(this.objects);
     return object;
   }
 }
