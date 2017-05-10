@@ -68,9 +68,9 @@ class Gestures {
     let mouseUp = function (e) { this.mouseUp(e); }.bind(this);
     let mouseDown = function (e) { this.mouseDown(e); }.bind(this);
 
-    window.addEventListener('mousemove', mouseMove, false);
-    window.addEventListener('mouseup', mouseUp, false);
-    window.addEventListener('mousedown', mouseDown, false);
+    window.addEventListener('mousemove', mouseMove, true);
+    window.addEventListener('mouseup', mouseUp, true);
+    window.addEventListener('mousedown', mouseDown, true);
 
     return this.gestures;
   }
