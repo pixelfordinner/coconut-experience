@@ -119,14 +119,16 @@ class Gestures {
     intersects = this.ray.intersectObjects(this.meshes, true);
 
     if (intersects.length > 0) {
-      this.dragStatus = DRAG_STATUS_START;
-      this.scene.controls.enabled = false;
-      this.dragPoint = intersects[0].point;
-      this.dragBlockName = intersects[0].object.name;
-      this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
-        this.dragBlockName,
-        this.dragPoint
-      );
+      if (intersects[0].object.name != 'Ground') {
+        this.dragStatus = DRAG_STATUS_START;
+        this.scene.controls.enabled = false;
+        this.dragPoint = intersects[0].point;
+        this.dragBlockName = intersects[0].object.name;
+        this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
+          this.dragBlockName,
+          this.dragPoint
+        );
+      }
     }
   }
 
@@ -138,24 +140,25 @@ class Gestures {
   localAnchorPoint(blockName, anchorPointInThree) {
     let mesh = this.scene.world.getByName(blockName);
     let anchorPoint = new OIMO.Vec3().copy(anchorPointInThree).multiplyScalar(OIMO.INV_SCALE);
-    let position = mesh.position;
-    let rotation = mesh.rotation;
-    let rotationInvert = new OIMO.Mat33();
-    rotationInvert.invert(rotation);
-    let relativeAnchorPoint = new OIMO.Vec3();
-    relativeAnchorPoint.sub(anchorPoint, position);
-    let localAnchorPoint = new OIMO.Vec3();
-    localAnchorPoint
-      .copy(relativeAnchorPoint)
-      .applyMatrix3(rotationInvert, true);
-
-    return localAnchorPoint.multiplyScalar(OIMO.WORLD_SCALE);
+    return anchorPoint;
+    // let position = mesh.position;
+    // let rotation = mesh.rotation;
+    // let rotationInvert = new OIMO.Mat33();
+    // rotationInvert.invert(rotation);
+    // let relativeAnchorPoint = new OIMO.Vec3();
+    // relativeAnchorPoint.sub(anchorPoint, position);
+    // let localAnchorPoint = new OIMO.Vec3();
+    // localAnchorPoint
+    //   .copy(relativeAnchorPoint)
+    //   .applyMatrix3(rotationInvert, true);
+    //
+    // return localAnchorPoint.multiplyScalar(OIMO.WORLD_SCALE);
   }
 
   dragLineConnect() {
     this.dragLineModel = this.scene.world.add({
       world: this.scene.world,
-      type: 'jointHinge',
+      type: 'jointBall',
       body1: 'dragPointModel',
       body2: this.dragBlockName,
       collision: false,
@@ -166,8 +169,8 @@ class Gestures {
         this.dragBlockLocalAnchorPoint.z,
       ],
       min: 0,
-      max: 0.1,
-      spring: [100, 0.03],
+      max: 1,
+      spring: [100000, 0.3],
     });
   }
 

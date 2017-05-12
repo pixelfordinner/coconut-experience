@@ -7,7 +7,8 @@ const defaultsDeep = require('lodash.defaultsdeep');
 class Trunk {
   constructor(scene, options = {}) {
     this.options = {
-      parentName: 'PalmTree',
+      parentName: 'PalmTree_',
+      name: 'Trunk_',
       scale: {
         x: 1,
         y: 1,
@@ -19,7 +20,7 @@ class Trunk {
         z: 0,
       },
       segments: {
-        quantity: 12,
+        quantity: 30,
         radius: {
           min: 0.5,
           max: 1.5,
@@ -42,7 +43,7 @@ class Trunk {
     let currentHeight = this.options.scale.y / 2;
     let height = this.options.scale.y;
 
-    for (var i = 0; i < this.options.segments.quantity; i++, currentHeight += height * 2) {
+    for (var i = 0; i < this.options.segments.quantity; i++, currentHeight += height) {
       let radius = THREE.Math.mapLinear(
         i,
         0,
@@ -57,6 +58,8 @@ class Trunk {
         this.options.segments.density.max,
         this.options.segments.density.min
       );
+      let myName = this.options.name + 'TrunkSegment_' + i;
+      //console.log(myName);
 
       let options = {
         scale: {
@@ -68,7 +71,7 @@ class Trunk {
           y: this.options.position.y + currentHeight,
           z: this.options.position.z,
         },
-        name: 'TrunkSegment_' + i,
+        name: myName,
         physics: {
           move: true,
           density: density,
@@ -79,9 +82,11 @@ class Trunk {
 
       if (i > 0) {
         let previousObject = this.segments[i - 1];
+        console.log(previousObject);
 
         let link = scene.world.add({
             type: 'jointHinge',
+            name: this.options.name + 'TrunkLink_' + i,
             body1: currentObject.body,
             body2: previousObject.body,
             pos1: [0, -height / 2, 0],

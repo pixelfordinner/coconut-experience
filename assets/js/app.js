@@ -3,6 +3,9 @@ import { MaterialManager } from './materials/manager';
 import Base from './objects/base';
 import Coco from './objects/palmtree/coco';
 import Trunk from './objects/palmtree/trunk';
+import Crown from './objects/palmtree/crown';
+import Palmtree from './objects/palmtree';
+
 
 import * as THREE from 'three';
 
@@ -35,11 +38,12 @@ class App {
         fog: 0xE3E3E3,
         ground: 0xff0000,
         coco: 0x37b910,
-        trunkSegment: 0xb46600,
+        trunkSegment: 0xff0000,
+        leaves: 0x37b910,
       },
       scene: {
         fog: {
-          factor: .003,
+          factor: .008,
         },
       },
     };
@@ -69,6 +73,10 @@ class App {
     MaterialManager.set('palmtree.trunk.segment', new THREE.MeshPhongMaterial(
       { color: this.options.colors.trunkSegment, shading: THREE.FlatShading }
     ));
+    // leaves
+    MaterialManager.set('palmtree.trunk.segment', new THREE.MeshPhongMaterial(
+      { color: this.options.colors.leaves, shading: THREE.FlatShading }
+    ));
   }
 
   populateScene() {
@@ -76,16 +84,37 @@ class App {
     new Base(this.scene);
 
     // Test Coco
-    new Coco(this.scene, {
+
+
+    new Palmtree (this.scene, {
+      name: "Palmtree_",
+      index: 0,
       position: {
-        x: 20,
+        x: -10,
         y: 10,
         z: 0,
       },
     });
 
-    // Test Trunk
-    console.log(new Trunk(this.scene));
+    // for (var i = 0; i < 20; i++) {
+    //   let myName = 'Trunk' + i + '_';
+    //   let angl = THREE.Math.mapLinear(i, 0, 20, 0, Math.PI * 2);
+    //   let scal = THREE.Math.mapLinear(i, 0, 20, 0.1, 1);
+    //   let xPos = 10 * Math.cos(angl);
+    //   let zPos = 10 * Math.sin(angl);
+    //   let yPos = 40 * Math.random();
+    //
+    //   new Trunk(this.scene, {
+    //     name: myName,
+    //     position: {
+    //       x: xPos,
+    //       y: yPos,
+    //       z: zPos,
+    //     },
+    //   });
+    // }
+
+
   }
 }
 

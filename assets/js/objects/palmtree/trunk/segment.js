@@ -24,7 +24,7 @@ class TrunkSegment {
       },
       name: 'TrunkSegment',
       castShadow: true,
-      receiveShadow: true,
+      receiveShadow: false,
       physics: {
         type: 'cylinder',
         move: true,
