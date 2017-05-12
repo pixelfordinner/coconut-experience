@@ -5,8 +5,6 @@ import Coco from './objects/palmtree/coco';
 import Trunk from './objects/palmtree/trunk';
 import Crown from './objects/palmtree/crown';
 import Palmtree from './objects/palmtree';
-
-
 import * as THREE from 'three';
 
 const $ = require('jquery');
@@ -49,72 +47,82 @@ class App {
     };
 
     this.scene = new Scene(this.options);
-
     this.scene.init();
-
     this.registerMaterials();
     this.populateScene();
-
     this.scene.animate();
   }
 
   registerMaterials() {
-    // Ground
+
+    // Ground material
     MaterialManager.set('ground', new THREE.MeshPhongMaterial(
       { color: this.options.colors.ground, shading: THREE.FlatShading }
     ));
 
-    // Coco
+    // Coco Material
     MaterialManager.set('palmtree.coco', new THREE.MeshPhongMaterial(
       { color: this.options.colors.coco, shading: THREE.FlatShading }
     ));
 
-    // Segment
+    // Segment Materiall
     MaterialManager.set('palmtree.trunk.segment', new THREE.MeshPhongMaterial(
       { color: this.options.colors.trunkSegment, shading: THREE.FlatShading }
     ));
-    // leaves
+
+    // leaves Material
     MaterialManager.set('palmtree.trunk.segment', new THREE.MeshPhongMaterial(
       { color: this.options.colors.leaves, shading: THREE.FlatShading }
     ));
   }
 
   populateScene() {
+
     // Base plane
     new Base(this.scene);
 
-    // Test Coco
+    // Test Palmtree
+    let max = 5;
+    for (var i = 0; i < max; i++) {
+      new Palmtree(this.scene, {
+        name: 'Palmtree_',
+        index: i,
+        position: {
+          z: Math.sqrt(max) / 2 - (5 * i),
+          y: 0,
+          x: 0,
+        },
+      });
+    }
+    //
+    // new Coco(this.scene, {
+    //   position: {
+    //     x: 4,
+    //     y: 20,
+    //     z: 0,
+    //   },
+    // });
 
-
-    new Palmtree (this.scene, {
-      name: "Palmtree_",
-      index: 0,
-      position: {
-        x: 0,
-        y: 0,
-        z: 0,
-      },
-    });
-
-    // for (var i = 0; i < 20; i++) {
-    //   let myName = 'Trunk' + i + '_';
-    //   let angl = THREE.Math.mapLinear(i, 0, 20, 0, Math.PI * 2);
-    //   let scal = THREE.Math.mapLinear(i, 0, 20, 0.1, 1);
+    //test for multiples Trunks
+    //
+    // for (var i = 0; i < 10; i++) {
+    //   let myName = 'PalmThree_';
+    //   let index = i;
+    //   let angl = THREE.Math.mapLinear(i, 0, 10, 0, Math.PI * 2);
+    //   let scal = THREE.Math.mapLinear(i, 0, 10, 0.1, 1);
     //   let xPos = 10 * Math.cos(angl);
     //   let zPos = 10 * Math.sin(angl);
     //   let yPos = 40 * Math.random();
     //
-    //   new Trunk(this.scene, {
+    //   new Palmtree(this.scene, {
     //     name: myName,
     //     position: {
     //       x: xPos,
-    //       y: yPos,
+    //       y: 0,
     //       z: zPos,
     //     },
     //   });
     // }
-
-
   }
 }
 

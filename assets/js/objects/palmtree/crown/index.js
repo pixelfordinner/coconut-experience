@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { MaterialManager } from '../../../materials/manager';
+
 //import Cylinder from '../../../geometry/cylinder';
 
 const defaultsDeep = require('lodash.defaultsdeep');
@@ -10,7 +11,7 @@ class Crown {
       parentName: 'PalmTree_',
       name: 'Crown_',
       steps: 6,
-      radius: 4,
+      radius: 1.5,
       density: 10,
       height: 1,
       castShadow: true,
@@ -34,7 +35,7 @@ class Crown {
           restitution: 0.1,
           belongsTo: 1,
           collidesWith: 0xffffffff,
-      },
+        },
     };
     this.options = defaultsDeep(options, this.options);
 
@@ -43,33 +44,33 @@ class Crown {
     let rad = this.options.radius;
     let dist = 0;
 
-    for (let i = 0; i < this.options.steps; i++){
+    for (let i = 0; i < this.options.steps; i++) {
 
-      rad = THREE.Math.mapLinear(i,0,this.options.steps,rad,0.5);
-      let ang = THREE.Math.mapLinear(i,0,this.options.steps,-0.2,0.2);
-      let yPos  = Math.sin(rad*ang);
-      let f = new THREE.CylinderGeometry(rad, rad, rad/10, 8);
-      p.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI/50));
+      rad = THREE.Math.mapLinear(i, 0, this.options.steps, rad, 0.5);
+      let ang = THREE.Math.mapLinear(i, 0, this.options.steps, -0.2, 0.2);
+      let yPos  = Math.sin(rad * ang);
+      let f = new THREE.CylinderGeometry(rad, rad, rad / 10, 8);
+      p.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI / 50));
       let mtxF = new THREE.Matrix4().makeTranslation(0, yPos, -dist);
       p.merge(f, mtxF);
-      dist+= rad*1.3;
+      dist += rad * 1.3;
     }
 
-    let angl = Math.PI*2/6;
-    let a =0;
+    let angl = Math.PI * 2 / 6;
+    let a = 0;
 
-    let mtx1= new THREE.Matrix4().makeRotationY ( a );
-    a+=angl;
-    let mtx2= new THREE.Matrix4().makeRotationY ( a );
-    a+=angl;
-    let mtx3= new THREE.Matrix4().makeRotationY ( a );
-    a+=angl;
-    let mtx4= new THREE.Matrix4().makeRotationY ( a );
-    a+=angl;
-    let mtx5= new THREE.Matrix4().makeRotationY ( a );
-    a+=angl;
-    let mtx6= new THREE.Matrix4().makeRotationY ( a );
-    a+=angl;
+    let mtx1 = new THREE.Matrix4().makeRotationY(a);
+    a += angl;
+    let mtx2 = new THREE.Matrix4().makeRotationY(a);
+    a += angl;
+    let mtx3 = new THREE.Matrix4().makeRotationY(a);
+    a += angl;
+    let mtx4 = new THREE.Matrix4().makeRotationY(a);
+    a += angl;
+    let mtx5 = new THREE.Matrix4().makeRotationY(a);
+    a += angl;
+    let mtx6 = new THREE.Matrix4().makeRotationY(a);
+    a += angl;
 
     c.merge(p, mtx1);
     c.merge(p, mtx2);
@@ -99,9 +100,9 @@ class Crown {
     mesh.castShadow = this.options.castShadow;
 
     this.options.physics.size = [
-      this.options.scale.radius*6,
-      this.options.scale.height*2,
-      this.options.scale.radius*6,
+      this.options.scale.radius * 6,
+      this.options.scale.height * 2,
+      this.options.scale.radius * 6,
     ];
 
     return scene.add(mesh, this.options.physics);

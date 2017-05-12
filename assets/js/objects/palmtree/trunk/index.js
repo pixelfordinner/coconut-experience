@@ -58,10 +58,11 @@ class Trunk {
         this.options.segments.density.max,
         this.options.segments.density.min
       );
-      let myName = this.options.name + 'TrunkSegment_' + i;
+      let myName = this.options.name + '_TrunkSegment_' + i ;
+
       //console.log(myName);
       let move = true;
-      if  (i===0) move=false;
+      if (i === 0) move = false;
 
       let options = {
         scale: {
@@ -84,7 +85,7 @@ class Trunk {
 
       if (i > 0) {
         let previousObject = this.segments[i - 1];
-        console.log(previousObject);
+        //console.log(previousObject);
 
         let link = scene.world.add({
             type: 'jointHinge',
@@ -102,7 +103,7 @@ class Trunk {
       this.segments.push(currentObject);
     }
 
-    console.log(this.segments);
+    //console.log(this.segments);
 
     return this;
   }

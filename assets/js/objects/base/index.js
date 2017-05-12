@@ -55,6 +55,8 @@ class Base {
     mesh.castShadow = this.options.ground.castShadow;
 
     scene.add(mesh, this.options.ground.physics);
+
+    return Base;
   }
 }
 

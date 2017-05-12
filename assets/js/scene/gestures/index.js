@@ -77,8 +77,8 @@ class Gestures {
 
   mouseMove(e) {
     let intersects;
-
     this.updateMouse(e);
+
     this.ray.setFromCamera(this.mouse, this.scene.camera);
 
     if (this.dragStatus === DRAG_STATUS_NONE) {
@@ -141,18 +141,6 @@ class Gestures {
     let mesh = this.scene.world.getByName(blockName);
     let anchorPoint = new OIMO.Vec3().copy(anchorPointInThree).multiplyScalar(OIMO.INV_SCALE);
     return anchorPoint;
-    // let position = mesh.position;
-    // let rotation = mesh.rotation;
-    // let rotationInvert = new OIMO.Mat33();
-    // rotationInvert.invert(rotation);
-    // let relativeAnchorPoint = new OIMO.Vec3();
-    // relativeAnchorPoint.sub(anchorPoint, position);
-    // let localAnchorPoint = new OIMO.Vec3();
-    // localAnchorPoint
-    //   .copy(relativeAnchorPoint)
-    //   .applyMatrix3(rotationInvert, true);
-    //
-    // return localAnchorPoint.multiplyScalar(OIMO.WORLD_SCALE);
   }
 
   dragLineConnect() {

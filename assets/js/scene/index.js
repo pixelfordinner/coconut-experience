@@ -66,6 +66,7 @@ class Scene {
 
   update() {
     this.world.step();
+    //console.log(this.objects);
 
     this.objects.forEach(function (object) {
       if (object.hasOwnProperty('body') === true) {
@@ -85,6 +86,8 @@ class Scene {
     this.update();
     this.render();
 
+
+
     let animate = function () { this.animate(); }.bind(this);
     requestAnimationFrame(animate);
   }
@@ -96,7 +99,7 @@ class Scene {
 
     // If there's physics, let's add the object to OIMO
     if (typeof physics === 'object' && Object.keys(physics).length > 0) {
-       //console.log(mesh, physics);
+      //console.log(mesh, physics);
 
       if (physics.hasOwnProperty('size') === false) {
         physics.size = [mesh.scale.x, mesh.scale.y, mesh.scale.z];
@@ -110,12 +113,11 @@ class Scene {
         physics.rot = [mesh.rotation.x, mesh.rotation.y, mesh.rotation.z];
       }
 
-
-
       physics.name = mesh.name;
 
       let body = this.world.add(physics);
-      console.log(physics);
+
+      //console.log(physics);
       object =  { mesh: mesh, body: body };
     } else {
       // If not, we only push the mesh
