@@ -20,14 +20,14 @@ class Trunk {
         z: 0,
       },
       segments: {
-        quantity: 30,
+        quantity: 7,
         radius: {
           min: 0.5,
           max: 1.5,
         },
         density: {
-          min: 2,
-          max: 10,
+          min: 1,
+          max: 50,
         },
         height: {
           min: 0.5,
@@ -60,6 +60,8 @@ class Trunk {
       );
       let myName = this.options.name + 'TrunkSegment_' + i;
       //console.log(myName);
+      let move = true;
+      if  (i===0) move=false;
 
       let options = {
         scale: {
@@ -73,7 +75,7 @@ class Trunk {
         },
         name: myName,
         physics: {
-          move: true,
+          move: move,
           density: density,
         },
       };

@@ -56,7 +56,7 @@ class Gestures {
 
     this.dragPointModel = scene.world.add({
       type: 'sphere',
-      size: [1],
+      size: [0.25],
       pos: [0, 0, 0],
       move: true,
       noSleep: true,
