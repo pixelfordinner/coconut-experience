@@ -43,6 +43,7 @@ class Trunk {
     let currentHeight = this.options.scale.y / 2;
     let lastSegmentsHeight = 0;
     let height = this.options.scale.y;
+    let lastHeight = height;
 
     for (var i = 0; i < this.options.segments.quantity; i++, currentHeight += height) {
       let height = THREE.Math.mapLinear(
@@ -75,7 +76,7 @@ class Trunk {
       let options = {
         scale: {
           radius: radius,
-          height: height ,
+          height: height,
         },
         position: {
           x: this.options.position.x,
@@ -100,7 +101,7 @@ class Trunk {
             body1: currentObject.body,
             body2: previousObject.body,
             pos1: [0, -height / 2, 0],
-            pos2: [0, height / 2, 0],
+            pos2: [0, lastHeight / 2, 0],
             rot1: [0, 0, 0],
             rot2: [0, 0, 0],
             min: -height / 2,
@@ -109,10 +110,9 @@ class Trunk {
           });
       }
 
+      lastHeight = height;
       this.segments.push(currentObject);
     }
-
-    //console.log(this.segments);
 
     return this;
   }

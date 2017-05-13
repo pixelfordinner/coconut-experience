@@ -54,7 +54,7 @@ class Palmtree {
         pos2: [0, 0, 0],
         axe1: [0, 1, 0],
         axe2: [0, 1, 0],
-        min: 0,
+        min: -1,
         max: 0,
         collision: false,
       });

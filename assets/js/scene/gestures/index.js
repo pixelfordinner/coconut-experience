@@ -61,7 +61,7 @@ class Gestures {
       move: true,
       noSleep: true,
       name: 'dragPointModel',
-      config: [1, 0.4, 0.2, 1 << 2, 1 << 2],
+      config: [0.1, 0.4, 0.2, 1 << 2, 1 << 2],
     });
 
     let mouseMove = function (e) { this.mouseMove(e); }.bind(this);

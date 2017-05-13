@@ -32,13 +32,13 @@ class App {
         },
       },
       colors: {
-        background: 0xE3E3E3,
-        fog: 0xE3E3E3,
-        ground: 0xE3E3E3,
-        sleep : 0xE3E3E3,
-        coco: 0x37b910,
-        trunk: 0x37b910,
-        crown: 0x37b910,
+        background: 0xff00bf,
+        fog: 0xff00bf,
+        ground: 0x106cc1,
+        sleep: 0x4d7edd,
+        coco: 0x106cc1,
+        trunk: 0x106cc1,
+        crown: 0x106cc1
       },
       scene: {
         fog: {
@@ -71,7 +71,7 @@ class App {
       { color: this.options.colors.trunk, shading: THREE.FlatShading }
     ));
 
-    // leaves Material
+    // crown Material
     MaterialManager.set('palmtree_crown', new THREE.MeshPhongMaterial(
       { color: this.options.colors.crown, shading: THREE.FlatShading }
     ));
