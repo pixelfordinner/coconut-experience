@@ -35,7 +35,7 @@ class Coco {
     this.options = defaultsDeep(options, this.options);
 
     let sphere = new Sphere();
-    let material = MaterialManager.get('palmtree.coco');
+    let material = MaterialManager.get('palmtree_coco');
 
     var mesh = new THREE.Mesh(sphere, material);
     mesh.scale.set(

@@ -34,10 +34,11 @@ class App {
       colors: {
         background: 0xE3E3E3,
         fog: 0xE3E3E3,
-        ground: 0xff0000,
+        ground: 0xE3E3E3,
+        sleep : 0xE3E3E3,
         coco: 0x37b910,
-        trunkSegment: 0xff0000,
-        leaves: 0x37b910,
+        trunk: 0x37b910,
+        crown: 0x37b910,
       },
       scene: {
         fog: {
@@ -61,18 +62,23 @@ class App {
     ));
 
     // Coco Material
-    MaterialManager.set('palmtree.coco', new THREE.MeshPhongMaterial(
+    MaterialManager.set('palmtree_coco', new THREE.MeshPhongMaterial(
       { color: this.options.colors.coco, shading: THREE.FlatShading }
     ));
 
     // Segment Materiall
-    MaterialManager.set('palmtree.trunk.segment', new THREE.MeshPhongMaterial(
-      { color: this.options.colors.trunkSegment, shading: THREE.FlatShading }
+    MaterialManager.set('palmtree_trunk', new THREE.MeshPhongMaterial(
+      { color: this.options.colors.trunk, shading: THREE.FlatShading }
     ));
 
     // leaves Material
-    MaterialManager.set('palmtree.trunk.segment', new THREE.MeshPhongMaterial(
-      { color: this.options.colors.leaves, shading: THREE.FlatShading }
+    MaterialManager.set('palmtree_crown', new THREE.MeshPhongMaterial(
+      { color: this.options.colors.crown, shading: THREE.FlatShading }
+    ));
+
+    // Sleep material    MaterialManager.set('palmtree_sleeping', new THREE.MeshPhongMaterial(
+    MaterialManager.set('palmtree_sleeping', new THREE.MeshPhongMaterial(
+      { color: this.options.colors.sleep, shading: THREE.FlatShading }
     ));
   }
 
@@ -82,7 +88,7 @@ class App {
     new Base(this.scene);
 
     // Test Palmtree
-    let max = 2;
+    let max = 1;
     for (var i = 0; i < max; i++) {
       new Palmtree(this.scene, {
         name: 'Palmtree_',
@@ -94,6 +100,7 @@ class App {
         },
       });
     }
+
     //
     // new Coco(this.scene, {
     //   position: {

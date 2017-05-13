@@ -158,7 +158,7 @@ class Gestures {
       ],
       min: 0,
       max: 1,
-      spring: [100000, 0.3],
+      spring: [100, 0.3],
     });
   }
 

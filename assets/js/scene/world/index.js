@@ -8,9 +8,9 @@ class World {
       iterations: 8,
       broadphase: 2, // 1 brute force, 2 sweep and prune, 3 volume tree
       worldscale: 1, // scale full world
-      random: false,  // randomize sample
+      random: true,  // randomize sample
       info: false,   // calculate statistic or not
-      gravity: [0, -9.8, 0],
+      gravity: [0, -19.8, 0],
     };
 
     this.options = defaultsDeep(options, this.options);

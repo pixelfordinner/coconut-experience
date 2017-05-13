@@ -30,9 +30,10 @@ class Crown {
       physics: {
           type: 'cylinder',
           move: true,
-          density: 0.1,
-          friction: 0.9,
-          restitution: 0.1,
+          density: 0.5,
+          friction: 10,
+          restitution: 0,
+          collision: true,
           belongsTo: 1,
           collidesWith: 0xffffffff,
         },
@@ -47,9 +48,9 @@ class Crown {
     for (let i = 0; i < this.options.steps; i++) {
 
       rad = THREE.Math.mapLinear(i, 0, this.options.steps, rad, 0.5);
-      let ang = THREE.Math.mapLinear(i, 0, this.options.steps, -0.2, 0.2);
+      let ang = THREE.Math.mapLinear(i, 0, this.options.steps, -0.3, 0.3);
       let yPos  = Math.sin(rad * ang);
-      let f = new THREE.CylinderGeometry(rad, rad, rad / 10, 8);
+      let f = new THREE.CylinderGeometry(rad, rad, rad /4, 8);
       p.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI / 50));
       let mtxF = new THREE.Matrix4().makeTranslation(0, yPos, -dist);
       p.merge(f, mtxF);
@@ -81,7 +82,7 @@ class Crown {
 
     this.options.crowngeometry = new THREE.BufferGeometry();
     this.options.crowngeometry.fromGeometry(c);
-    let material = MaterialManager.get('palmtree.trunk.segment');
+    let material = MaterialManager.get('palmtree_crown');
     var mesh = new THREE.Mesh(this.options.crowngeometry, material);
 
     mesh.position.set(
@@ -99,11 +100,11 @@ class Crown {
     mesh.receiveShadow = this.options.receiveShadow;
     mesh.castShadow = this.options.castShadow;
 
-    this.options.physics.size = [
-      this.options.scale.radius * 6,
-      this.options.scale.height * 2,
-      this.options.scale.radius * 6,
-    ];
+    // this.options.physics.size = [
+    //   this.options.scale.radius * 1,
+    //   this.options.scale.height * 1,
+    //   this.options.scale.radius * 1,
+    // ];
 
     return scene.add(mesh, this.options.physics);
   }

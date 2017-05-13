@@ -30,7 +30,7 @@ class TrunkSegment {
         move: true,
         density: 1,
         friction: 0.3,
-        restitution: 0.1,
+        restitution: 0,
         belongsTo: 1,
         collidesWith: 0xffffffff,
       },
@@ -39,7 +39,7 @@ class TrunkSegment {
     this.options = defaultsDeep(options, this.options);
 
     let cylinder = new Cylinder(this.options.cylinder);
-    let material = MaterialManager.get('palmtree.trunk.segment');
+    let material = MaterialManager.get('palmtree_trunk');
 
     var mesh = new THREE.Mesh(cylinder, material);
     mesh.scale.set(

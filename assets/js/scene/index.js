@@ -5,6 +5,7 @@ import Lights from './lights';
 import World from './world';
 import Gestures from './gestures';
 import Controls from './controls';
+import { MaterialManager } from '../materials/manager';
 
 const $ = require('jquery');
 
@@ -64,18 +65,57 @@ class Scene {
     );
   }
 
-  update() {
-    this.world.step();
-    //console.log(this.objects);
+  updatePositions() {
 
+    this.world.step();
     this.objects.forEach(function (object) {
       if (object.hasOwnProperty('body') === true) {
         object.mesh.position.copy(object.body.getPosition());
         object.mesh.quaternion.copy(object.body.getQuaternion());
       }
     }.bind(this));
+  }
 
+  updateGestures() {
     this.gestures.update();
+  }
+
+  updateMaterials() {
+    this.objects.forEach(function (object) {
+      if (object.hasOwnProperty('body') === true) {
+
+        let name = object.mesh.name;
+
+        if (name.search('Trunk') != -1) {
+          name = 'Trunk';
+        } else if (name.search('Crown') != -1) {
+          name = 'Crown';
+        } else if (name.search('Coco') != -1) {
+          name = 'Coco';
+        }
+
+        if (object.body.sleeping) {
+
+          object.mesh.material = MaterialManager.get('palmtree_sleeping');
+
+        } else {
+
+          switch (name) {
+            case 'Trunk':
+              object.mesh.material = MaterialManager.get('palmtree_trunk');
+              break;
+            case 'Crown':
+              object.mesh.material = MaterialManager.get('palmtree_crown');
+              break;
+            case 'Coco':
+              object.mesh.material = MaterialManager.get('palmtree_coco');
+              break;
+            default:
+              object.mesh.material = MaterialManager.get('ground');
+          }
+        }
+      }
+    }.bind(this));
   }
 
   render() {
@@ -83,11 +123,10 @@ class Scene {
   }
 
   animate() {
-    this.update();
+    this.updatePositions();
+    this.updateGestures();
+    this.updateMaterials();
     this.render();
-
-
-
     let animate = function () { this.animate(); }.bind(this);
     requestAnimationFrame(animate);
   }
@@ -99,7 +138,6 @@ class Scene {
 
     // If there's physics, let's add the object to OIMO
     if (typeof physics === 'object' && Object.keys(physics).length > 0) {
-      //console.log(mesh, physics);
 
       if (physics.hasOwnProperty('size') === false) {
         physics.size = [mesh.scale.x, mesh.scale.y, mesh.scale.z];
