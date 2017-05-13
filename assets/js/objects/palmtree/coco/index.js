@@ -24,9 +24,9 @@ class Coco {
       physics: {
         type: 'sphere',
         move: true,
-        density: 1,
-        friction: 0.9,
-        restitution: 1.5,
+        density: 0.,
+        friction: 2,
+        restitution: 0.1,
         belongsTo: 1,
         collidesWith: 0xffffffff,
       },
@@ -53,9 +53,9 @@ class Coco {
     mesh.receiveShadow = this.options.receiveShadow;
     mesh.castShadow = this.options.castShadow;
 
-    scene.add(mesh, this.options.physics);
+    //scene.add(mesh, this.options.physics);
 
-    return mesh;
+    return scene.add(mesh, this.options.physics);
   }
 }
 

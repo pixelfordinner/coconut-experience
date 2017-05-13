@@ -11,7 +11,7 @@ class TrunkSegment {
         radiusTop: 0.5,
         radiusBottom: 0.45,
         height: 1,
-        radiusSegments: 8,
+        radiusSegments: 12,
       },
       scale: {
         radius: 1,
@@ -43,9 +43,9 @@ class TrunkSegment {
 
     var mesh = new THREE.Mesh(cylinder, material);
     mesh.scale.set(
-      this.options.scale.radius,
+      this.options.scale.radius / 1.333,
       this.options.scale.height,
-      this.options.scale.radius,
+      this.options.scale.radius / 1.333,
     );
     mesh.position.set(
       this.options.position.x,

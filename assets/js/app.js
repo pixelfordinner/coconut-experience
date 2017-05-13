@@ -32,8 +32,8 @@ class App {
         },
       },
       colors: {
-        background: 0xff00bf,
-        fog: 0xff00bf,
+        background: 0xd5095e,
+        fog: 0xd5095e,
         ground: 0x106cc1,
         sleep: 0x4d7edd,
         coco: 0x106cc1,

@@ -92,11 +92,19 @@ class Scene {
           name = 'Crown';
         } else if (name.search('Coco') != -1) {
           name = 'Coco';
+        } else if (name.search('Ground') != -1) {
+          name = 'Ground';
         }
 
         if (object.body.sleeping) {
 
-          object.mesh.material = MaterialManager.get('palmtree_sleeping');
+          switch (name) {
+            case 'Ground':
+              object.mesh.material = MaterialManager.get('ground');
+              break;
+            default:
+              object.mesh.material = MaterialManager.get('palmtree_sleeping');
+          }
 
         } else {
 

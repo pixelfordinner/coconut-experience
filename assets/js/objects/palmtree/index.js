@@ -3,6 +3,7 @@ import Crown from './crown';
 import Trunk from './trunk';
 import { MaterialManager } from '../../materials/manager';
 const defaultsDeep = require('lodash.defaultsdeep');
+import * as THREE from 'three';
 
 class Palmtree {
 
@@ -16,6 +17,7 @@ class Palmtree {
       name: 'Palmtree_',
       index: 0,
       height: 0,
+      cocoMax: 7,
     };
 
     this.options = defaultsDeep(options, this.options);
@@ -29,28 +31,29 @@ class Palmtree {
       },
     });
 
-    let lastBody = trunk.segments[trunk.segments.length - 1];
-    let lastB = lastBody.body;
-    let bodyPosY = lastBody.body.position.y;
+    let lastSegment = trunk.segments[trunk.segments.length - 1];
+    let lastBody = lastSegment.body;
+    let lastsegmentYpos = lastSegment.body.position.y;
 
     let crown = new Crown(scene, {
       position: {
         x: this.options.position.x,
-        y: bodyPosY + 1,
+        y: lastsegmentYpos + 1,
         z: this.options.position.z,
       },
       name: this.options.name + this.options.index + '_Crown',
     });
-    let Ypos = trunk.options.segments.height.max;
-    console.log(Ypos);
+    let heightmax = trunk.options.segments.height.max;
+    console.log(heightmax);
 
-    let crownB = crown.body;
+    let crownBody = crown.body;
+
     let link = scene.world.add({
         type: 'jointHinge',
         name: 'CrownLink_' + this.options.index,
-        body1: crownB,
-        body2: lastB,
-        pos1: [0, -Ypos / 2, 0],
+        body1: crownBody,
+        body2: lastBody,
+        pos1: [0, -heightmax / 2, 0],
         pos2: [0, 0, 0],
         axe1: [0, 1, 0],
         axe2: [0, 1, 0],
@@ -58,6 +61,47 @@ class Palmtree {
         max: 0,
         collision: false,
       });
+
+    let minRadius = trunk.options.segments.radius.min;
+
+    for (var i = 0; i < this.options.cocoMax; i++) {
+
+      let angl = THREE.Math.mapLinear(i, 0, this.options.cocoMax, 0, Math.PI * 2);
+      let xPos = 2 * minRadius * Math.cos(angl);
+      let ypos = 2 * minRadius * Math.sin(angl);
+
+      let coco = new Coco(scene, {
+        position: {
+          x: xPos,
+          y: lastsegmentYpos + 1,
+          z: ypos,
+        },
+        scale: {
+          x: 0.25,
+          y: 0.30,
+          z: 0.25,
+        },
+        name: this.options.name + this.options.index + '_Cocos_' + i,
+      });
+
+      let cocoBody = coco.body;
+
+      if (i > 0) {
+        let link = scene.world.add({
+          type: 'jointHinge',
+          name: 'CocoLink_' + (i - 1),
+          body1: cocoBody,
+          body2: lastBody,
+          pos1: [0, -heightmax / 3, 0],
+          pos2: [0, 0, 0],
+          axe1: [0, 1, 0],
+          axe2: [0, 1, 0],
+          min: 0,
+          max: 360,
+          collision: true,
+        });
+      }
+    }
 
     return Palmtree;
   }
