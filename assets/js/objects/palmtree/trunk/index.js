@@ -23,11 +23,11 @@ class Trunk {
         quantity: 7,
         radius: {
           min: 0.5,
-          max: 1.5,
+          max: 1,
         },
         density: {
           min: 1,
-          max: 50,
+          max: 3,
         },
         height: {
           min: 0.5,
@@ -94,7 +94,7 @@ class Trunk {
             body2: previousObject.body,
             pos1: [0, -height / 2, 0],
             pos2: [0, height / 2, 0],
-            min: 0,
+            min: -height*3,
             max: 0,
             collision: true,
           });

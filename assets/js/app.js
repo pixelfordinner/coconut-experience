@@ -82,13 +82,13 @@ class App {
     new Base(this.scene);
 
     // Test Palmtree
-    let max = 5;
+    let max = 2;
     for (var i = 0; i < max; i++) {
       new Palmtree(this.scene, {
         name: 'Palmtree_',
         index: i,
         position: {
-          z: Math.sqrt(max) / 2 - (5 * i),
+          z: (10 * i),
           y: 0,
           x: 0,
         },

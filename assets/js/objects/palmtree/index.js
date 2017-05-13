@@ -16,6 +16,7 @@ class Palmtree {
       },
       name: 'Palmtree_',
       index: 0,
+      height: 0,
 
     };
 
@@ -45,20 +46,21 @@ class Palmtree {
     });
     let crownB = crown.body;
 
-    console.log(crownB);
-    console.log(lastB);
+    //console.log(crownB);
+    //console.log(lastB);
+    //console.log(scene.world);
 
-    // let link = this.scene.world.add({
-    //     type: 'jointHinge',
-    //     name: 'TrunkLink_' + this.options.index,
-    //     body1: crownB,
-    //     body2: lastB,
-    //     pos1: [0, -this.options.height / 2, 0],
-    //     pos2: [0, this.options.height / 2, 0],
-    //     min: 0,
-    //     max: 1,
-    //     collision: true,
-    //   });
+    let link = scene.world.add({
+        type: 'jointHinge',
+        name: 'CrownLink_' + this.options.index,
+        body1: crownB,
+        body2: lastB,
+        pos1: [0, -this.options.height / 2, 0],
+        pos2: [0, this.options.height / 2, 0],
+        min: 0,
+        max: 1,
+        collision: true,
+      });
 
     //console.log(lastBody.body.name,' is ',bodyPosY, ' height in Coconut tree');
     return Palmtree;
