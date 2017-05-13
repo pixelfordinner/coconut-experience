@@ -50,7 +50,7 @@ class Palmtree {
 
     let link = scene.world.add({
         type: 'jointHinge',
-        name: 'CrownLink_' + this.options.index,
+        name: this.options.name + this.options.index + '_CrownLink_' + this.options.index,
         body1: crownBody,
         body2: lastBody,
         pos1: [0, -heightmax / 2, 0],
@@ -67,9 +67,9 @@ class Palmtree {
     for (var i = 0; i < this.options.cocoMax; i++) {
 
       let angl = THREE.Math.mapLinear(i, 0, this.options.cocoMax, 0, Math.PI * 2);
-      let xPos = 2 * minRadius * Math.cos(angl);
-      let ypos = 2 * minRadius * Math.sin(angl);
-
+      let xPos = this.options.position.x + (2 * minRadius * Math.cos(angl));
+      let ypos = this.options.position.z + (2 * minRadius * Math.sin(angl));
+      console.log(this.options.position.y + ' ' + i);
       let coco = new Coco(scene, {
         position: {
           x: xPos,
@@ -89,7 +89,7 @@ class Palmtree {
       if (i > 0) {
         let link = scene.world.add({
           type: 'jointHinge',
-          name: 'CocoLink_' + (i - 1),
+          name: this.options.name + this.options.index + '_CocoLink_' + (i - 1),
           body1: cocoBody,
           body2: lastBody,
           pos1: [0, -heightmax / 3, 0],

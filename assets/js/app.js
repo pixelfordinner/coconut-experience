@@ -76,7 +76,6 @@ class App {
       { color: this.options.colors.crown, shading: THREE.FlatShading }
     ));
 
-    // Sleep material    MaterialManager.set('palmtree_sleeping', new THREE.MeshPhongMaterial(
     MaterialManager.set('palmtree_sleeping', new THREE.MeshPhongMaterial(
       { color: this.options.colors.sleep, shading: THREE.FlatShading }
     ));
@@ -88,7 +87,7 @@ class App {
     new Base(this.scene);
 
     // Test Palmtree
-    let max = 1;
+    let max = 3;
     for (var i = 0; i < max; i++) {
       new Palmtree(this.scene, {
         name: 'Palmtree_',
