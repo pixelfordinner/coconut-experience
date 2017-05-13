@@ -20,11 +20,11 @@ class Coco {
       },
       name: 'Coco',
       castShadow: true,
-      receiveShadow: true,
+      receiveShadow: false,
       physics: {
         type: 'sphere',
         move: true,
-        density: 0.,
+        density: 0.1,
         friction: 2,
         restitution: 0.1,
         belongsTo: 1,
