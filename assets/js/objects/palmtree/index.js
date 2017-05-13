@@ -17,7 +17,7 @@ class Palmtree {
       name: 'Palmtree_',
       index: 0,
       height: 0,
-      cocoMax: 7,
+      cocoMax: 6,
     };
 
     this.options = defaultsDeep(options, this.options);
@@ -43,9 +43,8 @@ class Palmtree {
       },
       name: this.options.name + this.options.index + '_Crown',
     });
-    let heightmax = trunk.options.segments.height.max;
-    console.log(heightmax);
 
+    let heightmax = trunk.options.segments.height.max;
     let crownBody = crown.body;
 
     let link = scene.world.add({
@@ -69,7 +68,7 @@ class Palmtree {
       let angl = THREE.Math.mapLinear(i, 0, this.options.cocoMax, 0, Math.PI * 2);
       let xPos = this.options.position.x + (2 * minRadius * Math.cos(angl));
       let ypos = this.options.position.z + (2 * minRadius * Math.sin(angl));
-      console.log(this.options.position.y + ' ' + i);
+
       let coco = new Coco(scene, {
         position: {
           x: xPos,

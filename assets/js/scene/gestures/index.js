@@ -54,13 +54,13 @@ class Gestures {
     scene.scene.add(this.dragPlaneView);
     scene.scene.add(this.dragLineView);
 
-    this.dragPointModel = scene.world.add({
+    this.dragPointBody = scene.world.add({
       type: 'sphere',
       size: [0.25],
       pos: [0, 0, 0],
       move: true,
       noSleep: true,
-      name: 'dragPointModel',
+      name: 'dragPointBody',
       config: [0.1, 0.4, 0.2, 1 << 2, 1 << 2],
     });
 
@@ -147,7 +147,7 @@ class Gestures {
     this.dragLineModel = this.scene.world.add({
       world: this.scene.world,
       type: 'jointBall',
-      body1: 'dragPointModel',
+      body1: 'dragPointBody',
       body2: this.dragBlockName,
       collision: false,
       pos1: [0, 0, 0],
@@ -174,15 +174,16 @@ class Gestures {
 
   update() {
     if (this.dragStatus == DRAG_STATUS_START) {
-      this.dragStatus = DRAG_STATUS_DRAGGING;
+
       this.dragLineConnect();
+      this.dragStatus = DRAG_STATUS_DRAGGING;
       this.dragPointView.visible = true;
       this.dragPlaneView.visible = true;
       this.dragLineView.visible = true;
     }
 
     if (this.dragStatus == DRAG_STATUS_DRAGGING) {
-      this.dragPointModel.setPosition(this.dragPoint);
+      this.dragPointBody.setPosition(this.dragPoint);
       this.dragPointView.position.copy(this.dragPoint);
       this.dragPlaneView.position.copy(this.dragPoint);
       this.dragPlaneView.quaternion.copy(this.scene.camera.quaternion);
@@ -192,7 +193,7 @@ class Gestures {
     }
 
     if (this.dragPoint) {
-      this.dragPointModel.setPosition(this.dragPoint);
+      this.dragPointBody.setPosition(this.dragPoint);
     }
   }
 }

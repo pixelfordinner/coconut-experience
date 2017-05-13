@@ -38,7 +38,7 @@ class App {
         sleep: 0x4d7edd,
         coco: 0x106cc1,
         trunk: 0x106cc1,
-        crown: 0x106cc1
+        crown: 0x106cc1,
       },
       scene: {
         fog: {
@@ -87,20 +87,17 @@ class App {
     new Base(this.scene);
 
     // Test Palmtree
-    let max = 3;
-    for (var i = 0; i < max; i++) {
-      new Palmtree(this.scene, {
-        name: 'Palmtree_',
-        index: i,
-        position: {
-          z: (10 * i),
-          y: 0,
-          x: 0,
-        },
-      });
-    }
+    //   new Palmtree(this.scene, {
+    //     name: 'Palmtree_',
+    //     index: i,
+    //     position: {
+    //       z: (10 * i),
+    //       y: 0,
+    //       x: 0,
+    //     },
+    //   });
 
-    //
+    // Test coco
     // new Coco(this.scene, {
     //   position: {
     //     x: 4,
@@ -109,26 +106,26 @@ class App {
     //   },
     // });
 
-    //test for multiples Trunks
-    //
-    // for (var i = 0; i < 10; i++) {
-    //   let myName = 'PalmThree_';
-    //   let index = i;
-    //   let angl = THREE.Math.mapLinear(i, 0, 10, 0, Math.PI * 2);
-    //   let scal = THREE.Math.mapLinear(i, 0, 10, 0.1, 1);
-    //   let xPos = 10 * Math.cos(angl);
-    //   let zPos = 10 * Math.sin(angl);
-    //   let yPos = 40 * Math.random();
-    //
-    //   new Palmtree(this.scene, {
-    //     name: myName,
-    //     position: {
-    //       x: xPos,
-    //       y: 0,
-    //       z: zPos,
-    //     },
-    //   });
-    // }
+    //  test for multiples Palmtrees
+    for (var i = 0; i < 12; i++) {
+
+      let myName = 'PalmThree_';
+      let index = i;
+      let angl = THREE.Math.mapLinear(i, 0, 12, 0, Math.PI * 2);
+      let scal = THREE.Math.mapLinear(i, 0, 12, 0.1, 1);
+      let xPos = 20 * Math.cos(angl);
+      let zPos = 20 * Math.sin(angl);
+
+      new Palmtree(this.scene, {
+        name: myName,
+        index: i,
+        position: {
+          x: xPos,
+          y: 0,
+          z: zPos,
+        },
+      });
+    }
   }
 }
 
