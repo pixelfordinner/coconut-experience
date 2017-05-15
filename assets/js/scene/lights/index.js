@@ -20,8 +20,8 @@ class Lights {
     defaultDirectionalLight.castShadow = true;
     defaultDirectionalLight.shadow.mapSize.width = options.dimensions.width * 1;
     defaultDirectionalLight.shadow.mapSize.height = options.dimensions.height * 10;
-    defaultDirectionalLight.shadow.camera.left = -options.camera.distance;
-    defaultDirectionalLight.shadow.camera.right = options.camera.distance;
+    defaultDirectionalLight.shadow.camera.left = -options.camera.distance * 2;
+    defaultDirectionalLight.shadow.camera.right = options.camera.distance * 2;
     defaultDirectionalLight.shadow.camera.top = 10 * options.camera.distance;
     defaultDirectionalLight.shadow.camera.bottom = -options.camera.distance;
     defaultDirectionalLight.shadow.camera.far = camera.far;

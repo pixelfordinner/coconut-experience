@@ -18,7 +18,7 @@ class Coco {
         y: 0,
         z: 0,
       },
-      name: 'Coco',
+      name: 'Coco_',
       castShadow: true,
       receiveShadow: false,
       physics: {

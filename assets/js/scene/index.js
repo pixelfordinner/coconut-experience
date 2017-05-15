@@ -94,6 +94,8 @@ class Scene {
           name = 'Coco';
         } else if (name.search('Ground') != -1) {
           name = 'Ground';
+        } else if (name.search('Cristal') != -1) {
+          name = 'Cristal';
         }
 
         if (object.body.sleeping) {
@@ -117,6 +119,9 @@ class Scene {
               break;
             case 'Coco':
               object.mesh.material = MaterialManager.get('palmtree_coco');
+              break;
+            case 'Cristal':
+              object.mesh.material = MaterialManager.get('cristal');
               break;
             default:
               object.mesh.material = MaterialManager.get('ground');

@@ -10,7 +10,7 @@ class World {
       worldscale: 1, // scale full world
       random: true,  // randomize sample
       info: false,   // calculate statistic or not
-      gravity: [0, -9.8, 0],
+      gravity: [2, -9.8, 1],
     };
 
     this.options = defaultsDeep(options, this.options);

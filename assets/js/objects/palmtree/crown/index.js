@@ -16,7 +16,7 @@ class Crown {
       height: 1,
       castShadow: true,
       receiveShadow: false,
-      crowngeometry: new THREE.BufferGeometry(), // ok
+      crownGeometry: new THREE.BufferGeometry(), // ok
 
       scale: {
         radius: 0.5,
@@ -28,15 +28,15 @@ class Crown {
         z: 0,
       },
       physics: {
-          type: 'cylinder',
-          move: true,
-          density: 0.5,
-          friction: 10,
-          restitution: 0,
-          collision: true,
-          belongsTo: 1,
-          collidesWith: 0xffffffff,
-        },
+        type: 'cylinder',
+        move: true,
+        density: 0.5,
+        friction: 10,
+        restitution: 0,
+        collision: true,
+        belongsTo: 1,
+        collidesWith: 0xffffffff,
+      },
     };
     this.options = defaultsDeep(options, this.options);
 
@@ -80,10 +80,10 @@ class Crown {
     c.merge(p, mtx5);
     c.merge(p, mtx6);
 
-    this.options.crowngeometry = new THREE.BufferGeometry();
-    this.options.crowngeometry.fromGeometry(c);
+    //this.options.crownGeometry = new THREE.BufferGeometry();
+    this.options.crownGeometry.fromGeometry(c);
     let material = MaterialManager.get('palmtree_crown');
-    var mesh = new THREE.Mesh(this.options.crowngeometry, material);
+    var mesh = new THREE.Mesh(this.options.crownGeometry, material);
 
     mesh.position.set(
       this.options.position.x,

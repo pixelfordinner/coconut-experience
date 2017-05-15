@@ -16,9 +16,12 @@ class Palmtree {
       },
       name: 'Palmtree_',
       index: 0,
-      height: 0,
+      maxHeight: 1,
       cocoMax: 6,
     };
+
+    let rand = Math.random();
+    let randHeight = THREE.Math.mapLinear(rand, -1, 1, 1, 3);
 
     this.options = defaultsDeep(options, this.options);
 
@@ -28,6 +31,11 @@ class Palmtree {
         x: this.options.position.x,
         y: this.options.position.y,
         z: this.options.position.z,
+      },
+      segments: {
+        height: {
+          max: randHeight,
+        },
       },
     });
 
