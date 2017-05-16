@@ -1,6 +1,7 @@
 import Scene from './scene';
 import { MaterialManager } from './materials/manager';
 import Base from './objects/base';
+import Terrain from './objects/terrain';
 import Coco from './objects/palmtree/coco';
 import Trunk from './objects/palmtree/trunk';
 import Crown from './objects/palmtree/crown';
@@ -44,7 +45,7 @@ class App {
       },
       scene: {
         fog: {
-          factor: .008,
+          factor: .0008,
         },
       },
     };
@@ -80,7 +81,7 @@ class App {
 
     // Cristal Material
     MaterialManager.set('cristal', new THREE.MeshPhongMaterial(
-      { color: this.options.colors.cristal, shading: THREE.FlatShading }
+      { color: this.options.colors.cristal, shading: THREE.FlatShading, wireframe: true }
     ));
 
     // Sleep Material
@@ -92,42 +93,55 @@ class App {
   populateScene() {
 
     // Base plane
-    new Base(this.scene);
+    //new Base(this.scene);
 
-    //  test for multiples Palmtrees
-    for (var i = 0; i < 12; i++) {
+    let terrain = new Terrain(this.scene);
 
-      let myName = 'PalmThree_';
-      let index = i;
-      let rd = Math.random();
-      let randDist = THREE.Math.mapLinear(rd, -1, 1, 10, 60);
-      let angl = THREE.Math.mapLinear(i, 0, 12, 0, Math.PI * 2);
-      let scal = THREE.Math.mapLinear(i, 0, 12, 0.1, 1);
-      let xPos = randDist * Math.cos(angl);
-      let zPos = randDist * Math.sin(angl);
-
-      new Palmtree(this.scene, {
-        name: myName,
-        index: i,
+    for (var i = 0; i < 30; i++) {
+      let coco = new Coco(this.scene, {
         position: {
-          x: xPos,
-          y: 0,
-          z: zPos,
+          x: -25 + Math.random() * 50,
+          y: 200,
+          z: -25 + Math.random() * 50,
         },
       });
     }
 
+    //  test for multiples Palmtrees
+    // for (var i = 0; i < 12; i++) {
+    //
+    //   let myName = 'PalmThree_';
+    //   let index = i;
+    //   let rd = Math.random();
+    //   let randDist = THREE.Math.mapLinear(rd, -1, 1, 10, 60);
+    //   let angl = THREE.Math.mapLinear(i, 0, 12, 0, Math.PI * 2);
+    //   let scal = THREE.Math.mapLinear(i, 0, 12, 0.1, 1);
+    //   let xPos = randDist * Math.cos(angl);
+    //   let zPos = randDist * Math.sin(angl);
+    //
+    //   new Palmtree(this.scene, {
+    //     name: myName,
+    //     index: i,
+    //     position: {
+    //       x: xPos,
+    //       y: 0,
+    //       z: zPos,
+    //     },
+    //   });
+    // }
+
+
+
+
     //Test Cristal
-    let cristal = new Cristal(this.scene, {
-      //name: 'Cristal_',
-      position: {
-        x: 0,
-        y: -1,
-        z: 0,
-      },
-    });
-
-
+    // let cristal = new Cristal(this.scene, {
+    //   //name: 'Cristal_',
+    //   position: {
+    //     x: 0,
+    //     y: -1,
+    //     z: 0,
+    //   },
+    // });
 
   }
 }

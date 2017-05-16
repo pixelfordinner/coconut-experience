@@ -179,6 +179,20 @@ class Scene {
     this.gestures.updateMeshes(this.objects);
     return object;
   }
+
+  addTerrain(mesh, position, radius) {
+    this.scene.add(mesh);
+
+    for (var i = 0; i < position.length; i++) {
+      let pos = position[i];
+      let myName = 'terrainSection_' + i;
+      let rad = radius;
+      //console.log('index ', i, 'position ', pos);
+      console.log([pos[0], pos[1], pos[2]]);
+
+      let body = this.world.add({ type: 'sphere', position: [pos[0], pos[1], pos[2]], size: [rad]});
+    }
+  }
 }
 
 export default Scene;

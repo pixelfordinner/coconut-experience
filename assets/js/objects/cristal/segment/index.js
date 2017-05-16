@@ -7,7 +7,7 @@ class CristalSegment {
   constructor(scene, options = {}) {
     this.options = {
       parentName: 'Cristal_',
-      name: '_Tube_',
+      name: '_Segment_',
       index: 0,
       max: 6,
       radius: 0.5,
