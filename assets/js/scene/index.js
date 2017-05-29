@@ -112,7 +112,7 @@ class Scene {
 
           switch (name) {
             case 'Trunk':
-              object.mesh.material = MaterialManager.get('palmtree_trunk');
+              object.mesh.material = MaterialManager.get('basic');
               break;
             case 'Crown':
               object.mesh.material = MaterialManager.get('palmtree_crown');
@@ -132,6 +132,7 @@ class Scene {
   }
 
   render() {
+
     this.renderer.render(this.scene, this.camera);
   }
 

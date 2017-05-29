@@ -41,6 +41,7 @@ class TrunkSegment {
     let cylinder = new Cylinder(this.options.cylinder);
     let material = MaterialManager.get('palmtree_trunk');
 
+
     var mesh = new THREE.Mesh(cylinder, material);
     mesh.scale.set(
       this.options.scale.radius / 1.333,

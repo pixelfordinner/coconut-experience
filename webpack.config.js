@@ -1,37 +1,39 @@
-var webpack = require('webpack'),
-    path = require('path');
+var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
     cache: true,
     target: 'web',
     entry: {
-        app: path.join(__dirname, 'assets/js/app.js')
-    },
+        app: path.join(__dirname, 'assets/js/app.js'),
+      },
     output: {
         path: path.join(__dirname, 'dist/js'),
         publicPath: '',
-        filename: '[name].min.js'
-    },
+        filename: '[name].min.js',
+      },
     module: {
         loaders: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
-            }
-        ]
-    },
+                loader: 'babel-loader',
+              },
+            { test: /\.(glsl|frag|vert)$/, loader: 'raw', exclude: /node_modules/ },
+            { test: /\.(glsl|frag|vert)$/, loader: 'glslify', exclude: /node_modules/ },
+        ],
+      },
     externals: {
         backbone: 'Backbone',
-        underscore: '_'
-    },
+        underscore: '_',
+      },
     plugins: [
         new webpack.ProvidePlugin({
             // Automatically detect jQuery and $ as free var in modules
             // and inject the jquery library
             // This is required by many jquery plugins
-            backbone: "Backbone",
-            underscore: "_"
-        })
-    ]
-};
+            backbone: 'Backbone',
+            underscore: '_',
+          }),
+    ],
+  };

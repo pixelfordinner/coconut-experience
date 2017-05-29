@@ -1,3 +1,4 @@
+import { MaterialManager } from '../../materials/manager';
 import * as THREE from 'three';
 const OIMO = require('oimo');
 
@@ -14,17 +15,20 @@ class Gestures {
     this.scene = scene;
     this.meshes = [];
 
+
     this.dragPointView = new THREE.Mesh(
       new THREE.SphereGeometry(1, 8, 8),
       new THREE.MeshLambertMaterial({
-        color: 0xff0000,
+        color: 0xffffff,
+        transparent: true,
+        opacity: 1,
       })
     );
 
     this.dragPlaneView = new THREE.Mesh(
       new THREE.PlaneGeometry(200, 200, 1, 1),
       new THREE.MeshLambertMaterial({
-        color: 0x770000,
+        color: 0xffffff,
         transparent: true,
         opacity: 0.3,
       })
@@ -41,8 +45,8 @@ class Gestures {
     this.dragLineView = new THREE.Line(
       lineGeometry,
       new THREE.LineBasicMaterial({
-        color: 0x770000,
-        linewidth: 5,
+        color: 0xffffff,
+        linewidth: 1,
       })
     );
 

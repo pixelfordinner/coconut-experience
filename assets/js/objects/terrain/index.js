@@ -39,13 +39,9 @@ class Terrain {
       };
 
     // Ground
-    //let w = this.options.size.x;
     let w = this.options.vertices.w;
     let h = this.options.vertices.h;
-    let amp = 10 ;
-
-    // let h = 32 || h;
-    //let g = new THREE.PlaneGeometry( 600, 600, w-1, h-1);
+    let amp = 10;
     let g = new THREE.PlaneBufferGeometry(
       this.options.size.x,
       this.options.size.z,
@@ -78,7 +74,6 @@ class Terrain {
     let sizes = [];
     let positions = [];
     let n = 0;
-
     let xPos;
     let yPos;
     let zPos;
@@ -93,17 +88,14 @@ class Terrain {
       yPos = vertices[j + 1] - r;
       zPos = vertices[j + 2];
 
-      // b = world.add({ type: 'sphere', size: [r], pos: [xPos, yPos, zPos] });
-      let b = scene.world.add({ type: 'sphere', size: [r], pos: [xPos, yPos, zPos] });
-      b.name = 'terrainSegment' + i;
-
+      //ADD PHISICS SHERE IMPOSTOR AT EACH VERTEX OF THE TERRAIN
+      //let b = scene.world.add({ type: 'sphere', size: [r], pos: [xPos, yPos, zPos] });
+      //b.name = 'terrainSegment' + i;
 
       let position = [xPos, yPos, zPos];
       if (position[0] != null) {
         groundBodiesPosition.push(position);
-
       }
-
     }
 
     g.computeFaceNormals();
@@ -117,11 +109,7 @@ class Terrain {
     terrain.castShadow = this.options.castShadow;
     terrain.receiveShadow = this.options.receiveShadow;
     terrain.name = 'Terrain_';
-
     scene.add(terrain);
-
-    //return scene.addTerrain(terrain, groundBodiesPosition, r);
-
   }
 }
 

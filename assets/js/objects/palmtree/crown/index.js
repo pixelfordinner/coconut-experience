@@ -83,6 +83,7 @@ class Crown {
     //this.options.crownGeometry = new THREE.BufferGeometry();
     this.options.crownGeometry.fromGeometry(c);
     let material = MaterialManager.get('palmtree_crown');
+
     var mesh = new THREE.Mesh(this.options.crownGeometry, material);
 
     mesh.position.set(

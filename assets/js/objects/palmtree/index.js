@@ -17,11 +17,11 @@ class Palmtree {
       name: 'Palmtree_',
       index: 0,
       maxHeight: 1,
-      cocoMax: 6,
+      cocoMax: 5,
     };
 
     let rand = Math.random();
-    let randHeight = THREE.Math.mapLinear(rand, -1, 1, 1, 3);
+    let randHeight = THREE.Math.mapLinear(rand, 0, 1, 2, 3);
 
     this.options = defaultsDeep(options, this.options);
 
@@ -93,21 +93,20 @@ class Palmtree {
 
       let cocoBody = coco.body;
 
-      if (i > 0) {
-        let link = scene.world.add({
-          type: 'jointHinge',
-          name: this.options.name + this.options.index + '_CocoLink_' + (i - 1),
-          body1: cocoBody,
-          body2: lastBody,
-          pos1: [0, -heightmax / 3, 0],
-          pos2: [0, 0, 0],
-          axe1: [0, 1, 0],
-          axe2: [0, 1, 0],
-          min: 0,
-          max: 360,
-          collision: true,
-        });
-      }
+      let link = scene.world.add({
+        type: 'jointHinge',
+        name: this.options.name + this.options.index + '_CocoLink_' + (i - 1),
+        body1: cocoBody,
+        body2: lastBody,
+        pos1: [0, -heightmax / 3, 0],
+        pos2: [0, 0, 0],
+        axe1: [0, 1, 0],
+        axe2: [0, 1, 0],
+        min: -1,
+        max: 0,
+        collision: true,
+      });
+
     }
 
     return Palmtree;

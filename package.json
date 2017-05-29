@@ -32,8 +32,10 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
+    "glslify-loader": "^1.0.2",
     "lodash.defaultsdeep": "^4.6.0",
     "oimo": "^1.0.9",
+    "raw-loader": "^0.5.1",
     "three": "^0.85.2",
     "three-orbit-controls": "^82.1.0"
   }
