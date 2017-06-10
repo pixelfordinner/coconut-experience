@@ -10,23 +10,38 @@ import Crown from './objects/palmtree/crown';
 import Palmtree from './objects/palmtree';
 import Cristal from './objects/cristal';
 import ShaderMaterial from './materials/shadermaterial.js';
+import MakeMaterial from './materials/makematerial.js';
 
 // MATERIAL MANAGER
 import { MaterialManager } from './materials/manager';
 
 ////////////////////// SHADERS //////////////////////
-//BASIC WITH FOG
+
+// BASIC WITH FOG
 const BasicFragment = require('./shaders/basic/fragment.glsl');
 const BasicVertex = require('./shaders/basic/vertex.glsl');
-//STRIPES
+
+// Y AXIS STRIPES
 const StripesFragment = require('./shaders/stripes/fragment.glsl');
 const StripesVertex = require('./shaders/stripes/vertex.glsl');
-//X axis STRIPES
-const StripesH_Fragment = require('./shaders/stripes2/fragment.glsl');
-const StripesH_Vertex = require('./shaders/stripes2/vertex.glsl');
+
+// X AXIS STRIPES
+const StripesHFragment = require('./shaders/stripes2/fragment.glsl');
+const StripesHVertex = require('./shaders/stripes2/vertex.glsl');
+
+// IMPORTATION SHADER WIP
+const FullFragment = require('./shaders/shader03/fragment.glsl');
+const FullVertex = require('./shaders/shader03/vertex.glsl');
+
+// CELSHADER
+const CelFragment = require('./shaders/celshader/fragment.glsl');
+const CelVertex = require('./shaders/celshader/vertex.glsl');
 
 // JQUERY
 const $ = require('jquery');
+
+// GLSLIFY
+const glslify = require('glslify');
 
 class App {
   constructor() {
@@ -120,18 +135,19 @@ class App {
       shading: THREE.SmoothShading,
     }
   ));
-//console.log(clock.getDelta());
+
+    //console.log(clock.getDelta());
     //Shaders Material
     // BASIC SHADER WITH FOG INTEGRATION
-    var uniforms = {
-          diffuse: { type: 'c', value: new THREE.Color(0xffffff) },
-          alpha: { type: "f", value: 0.5, min: 0.0, max: 1.0},
-          fogColor: { type: 'c', value: this.scene.scene.fog.color },
-          fogNear: { type: 'f', value: this.scene.scene.fog.near },
-          fogFar: { type: 'f', value: this.scene.scene.fog.far },
-          fogDensity: { type: 'f', value: this.scene.scene.fog.density },
-          fogFactor: { type: 'f', value: 0.008 },
-        };
+    let uniforms = {
+        diffuse: { type: 'c', value: new THREE.Color(0xffffff) },
+        alpha: { type: 'f', value: 0.5, min: 0.0, max: 1.0 },
+        fogColor: { type: 'c', value: this.scene.scene.fog.color },
+        fogNear: { type: 'f', value: this.scene.scene.fog.near },
+        fogFar: { type: 'f', value: this.scene.scene.fog.far },
+        fogDensity: { type: 'f', value: this.scene.scene.fog.density },
+        fogFactor: { type: 'f', value: 0.008 },
+      };
 
     MaterialManager.set('basic',
     new ShaderMaterial(
@@ -142,35 +158,89 @@ class App {
     ));
 
     //STRIPES SHADER
-    console.log(this.scene.clock.getDelta());
-    var uniforms = {
-        color1 : { type : "c", value : new THREE.Color(0x000000)},
-        alpha1: { type: "f", value: 1.0, min: 0.0, max: 1.0},
-        color2 : { type : "c", value : new THREE.Color(0xffffff)},
-        alpha2: { type: "f", value: 0.1, min: 0.0, max: 1.0},
-        lines: { type:"f", value: 6, min: 1, max: 10},
-        linewidth: { type: "f", value: 40.0, min: 0.0, max: 100.0},
+    uniforms = {
+        color1: { type: 'c', value: new THREE.Color(0x000000) },
+        alpha1: { type: 'f', value: 1.0, min: 0.0, max: 1.0 },
+        color2: { type: 'c', value: new THREE.Color(0xffffff) },
+        alpha2: { type: 'f', value: 0.1, min: 0.0, max: 1.0 },
+        lines: { type: 'f', value: 6, min: 1, max: 10 },
+        linewidth: { type: 'f', value: 40.0, min: 0.0, max: 100.0 },
         fogColor: { type: 'c', value: this.scene.scene.fog.color },
         fogNear: { type: 'f', value: this.scene.scene.fog.near },
         fogFar: { type: 'f', value: this.scene.scene.fog.far },
         fogDensity: { type: 'f', value: this.scene.scene.fog.density },
         fogFactor: { type: 'f', value: 0.008 },
-        iGlobalTime: { type: "f", value: this.scene.clock.getDelta(), hidden: 1},
+        iGlobalTime: { type: 'f', value: this.scene.clock.getDelta(), hidden: 1 },
       };
-      MaterialManager.set('stripes',
-      new ShaderMaterial(
-        uniforms,
-        StripesVertex,
-        StripesFragment,
-        false
-      ));
-      MaterialManager.set('stripes_H',
-      new ShaderMaterial(
-        uniforms,
-        StripesH_Vertex,
-        StripesH_Fragment,
-        false
-      ));
+    MaterialManager.set('stripes',
+    new ShaderMaterial(
+      uniforms,
+      StripesVertex,
+      StripesFragment,
+      false
+    ));
+    MaterialManager.set('stripes_H',
+    new ShaderMaterial(
+      uniforms,
+      StripesHVertex,
+      StripesHFragment,
+      false
+    ));
+
+    // Test Shader for glslify import (THREE.ShaderChunks)
+    // let customuniforms = {
+    //
+    //     iGlobalTime: { type: 'f', value: this.scene.clock.getDelta(), hidden: 1 },
+    //     color1: { type: 'c', value: new THREE.Color(0x000000) },
+    //     alpha1: { type: 'f', value: 1.0, min: 0.0, max: 1.0 },
+    //     color2: { type: 'c', value: new THREE.Color(0xffffff) },
+    //     alpha2: { type: 'f', value: 0.1, min: 0.0, max: 1.0 },
+    //     lines: { type: 'f', value: 6, min: 1, max: 10 },
+    //     linewidth: { type: 'f', value: 40.0, min: 0.0, max: 100.0 },
+    //   };
+    //
+    // uniforms = THREE.UniformsUtils.merge([
+    //     customuniforms,
+    //
+    //     THREE.UniformsLib.common,
+    //     THREE.UniformsLib.ambient,
+    //     THREE.UniformsLib.lights,
+    //     THREE.UniformsLib.fog,
+    // ]);
+    //
+    // MaterialManager.set('customshader',
+    // new MakeMaterial(
+    //   uniforms,
+    //   FullVertex,
+    //   FullFragment,
+    //   false
+    // ));
+
+    // CELSHADER
+    //let lightPosition = this.scene.scene.defaultDirectionalLight.getPosition();
+    //  console.log(this.scene.scene.lights.defaultDirectionalLight);
+
+    let vector = new THREE.Vector3(0, 0, 0);
+    console.log(vector);
+
+    uniforms = {
+        lightPos: { type: 'v3', value: vector },
+        fogColor: { type: 'c', value: this.scene.scene.fog.color },
+        fogNear: { type: 'f', value: this.scene.scene.fog.near },
+        fogFar: { type: 'f', value: this.scene.scene.fog.far },
+        fogDensity: { type: 'f', value: this.scene.scene.fog.density },
+        fogFactor: { type: 'f', value: 0.008 },
+        iGlobalTime: { type: 'f', value: this.scene.clock.getDelta(), hidden: 1 },
+      };
+    MaterialManager.set('celshader',
+    new MakeMaterial(
+      uniforms,
+      CelVertex,
+      CelFragment,
+      false,
+    ));
+
+    //  console.log(MaterialManager.get('celshader'));
   }
 
   populateScene() {

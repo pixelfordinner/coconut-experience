@@ -7,9 +7,11 @@ let ShaderMaterial = function (uniforms, vertex, fragment, alpha) {
     vertexShader: vertex,
     fragmentShader: fragment,
     fog: true,
+    lights: true,
+    visible: true,
 
   });
-  //console.log(fragment);
+  console.log(fragment);
   material.transparent = alpha;
 
   return material;

@@ -30,7 +30,7 @@ class Crown {
       physics: {
         type: 'cylinder',
         move: true,
-        density: 0.5,
+        density: 0.1,
         friction: 10,
         restitution: 0,
         collision: true,

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import Renderer from './renderer';
 import Camera from './camera';
 import Lights from './lights';
+import Clock from './clock';
 import World from './world';
 import Gestures from './gestures';
 import Controls from './controls';
@@ -23,6 +24,7 @@ class Scene {
     this.camera = new Camera(options);
     this.lights = new Lights(options, this.camera);
     this.world = new World();
+    this.clock = new Clock();
 
     return this;
   }
@@ -80,7 +82,14 @@ class Scene {
     this.gestures.update();
   }
 
+  updateShaders() {
+    let material = MaterialManager.get('stripes_H');
+    material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+
+  }
+
   updateMaterials() {
+
     this.objects.forEach(function (object) {
       if (object.hasOwnProperty('body') === true) {
 
@@ -112,13 +121,13 @@ class Scene {
 
           switch (name) {
             case 'Trunk':
-              object.mesh.material = MaterialManager.get('basic');
+              object.mesh.material = MaterialManager.get('celshader');
               break;
             case 'Crown':
-              object.mesh.material = MaterialManager.get('palmtree_crown');
+              object.mesh.material = MaterialManager.get('basic');
               break;
             case 'Coco':
-              object.mesh.material = MaterialManager.get('palmtree_coco');
+              object.mesh.material = MaterialManager.get('stripes');
               break;
             case 'Cristal':
               object.mesh.material = MaterialManager.get('cristal');
@@ -140,6 +149,7 @@ class Scene {
     this.updatePositions();
     this.updateGestures();
     this.updateMaterials();
+  //  this.updateShaders();
     this.render();
     let animate = function () { this.animate(); }.bind(this);
     requestAnimationFrame(animate);
@@ -191,7 +201,7 @@ class Scene {
       //console.log('index ', i, 'position ', pos);
       console.log([pos[0], pos[1], pos[2]]);
 
-      let body = this.world.add({ type: 'sphere', position: [pos[0], pos[1], pos[2]], size: [rad]});
+      let body = this.world.add({ type: 'sphere', position: [pos[0], pos[1], pos[2]], size: [rad] });
     }
   }
 }

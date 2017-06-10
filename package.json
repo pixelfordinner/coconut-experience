@@ -29,14 +29,16 @@
     "gulp-util": "^3.0.7",
     "jquery": "^3.2.1",
     "postcss-flexibility": "^1.1.0",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "glslify": "^6.0.1"
   },
   "dependencies": {
     "glslify-loader": "^1.0.2",
+    "raw-loader": "^0.5.1",
     "lodash.defaultsdeep": "^4.6.0",
     "oimo": "^1.0.9",
-    "raw-loader": "^0.5.1",
     "three": "^0.85.2",
     "three-orbit-controls": "^82.1.0"
   }
+
 }

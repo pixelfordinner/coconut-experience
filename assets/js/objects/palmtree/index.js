@@ -17,7 +17,7 @@ class Palmtree {
       name: 'Palmtree_',
       index: 0,
       maxHeight: 1,
-      cocoMax: 5,
+      cocoMax: 4,
     };
 
     let rand = Math.random();
@@ -104,7 +104,7 @@ class Palmtree {
         axe2: [0, 1, 0],
         min: -1,
         max: 0,
-        collision: true,
+        collision: false,
       });
 
     }

@@ -20,7 +20,7 @@ class Trunk {
         z: 0,
       },
       segments: {
-        quantity: 10,
+        quantity: 8,
         radius: {
           min: 0.4,
           max: 1,
