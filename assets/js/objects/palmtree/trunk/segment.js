@@ -8,10 +8,10 @@ class TrunkSegment {
   constructor(scene, options = {}) {
     this.options = {
       cylinder: {
-        radiusTop: 0.45,
-        radiusBottom: 0.5,
+        radiusTop: 0.5,
+        radiusBottom: 0.48,
         height: 1,
-        radiusSegments: 8,
+        radiusSegments: 20,
         heightSegments: 1,
         openEnded: true,
       },

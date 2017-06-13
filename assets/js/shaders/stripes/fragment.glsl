@@ -1,5 +1,10 @@
 //Stripes
-
+uniform vec3 color1;
+uniform float alpha1;
+uniform vec3 color2;
+uniform float alpha2;
+uniform float lines;
+uniform float linewidth;
 varying vec2 vUv;
 //Fog
 uniform vec3 fogColor;

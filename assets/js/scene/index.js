@@ -83,8 +83,17 @@ class Scene {
   }
 
   updateShaders() {
-    let material = MaterialManager.get('stripes_H');
-    material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+    if (MaterialManager.get('cel_stripes_H') != null ) {
+      let material = MaterialManager.get('cel_stripes_H');
+      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+
+    }
+
+    if (MaterialManager.get('cel_stripes_V') != null ) {
+      let material = MaterialManager.get('cel_stripes_V');
+      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+
+    }
 
   }
 
@@ -121,13 +130,13 @@ class Scene {
 
           switch (name) {
             case 'Trunk':
-              object.mesh.material = MaterialManager.get('celshader');
+              object.mesh.material = MaterialManager.get('cel_stripes_V');
               break;
             case 'Crown':
-              object.mesh.material = MaterialManager.get('basic');
+              object.mesh.material = MaterialManager.get('cel_basic');
               break;
             case 'Coco':
-              object.mesh.material = MaterialManager.get('stripes');
+              object.mesh.material = MaterialManager.get('cel_stripes_H');
               break;
             case 'Cristal':
               object.mesh.material = MaterialManager.get('cristal');
@@ -149,7 +158,7 @@ class Scene {
     this.updatePositions();
     this.updateGestures();
     this.updateMaterials();
-  //  this.updateShaders();
+    this.updateShaders();
     this.render();
     let animate = function () { this.animate(); }.bind(this);
     requestAnimationFrame(animate);

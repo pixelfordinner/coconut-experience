@@ -1,23 +1,26 @@
-varying vec3 vNormal;
-varying vec3 vLightDir;
-uniform vec3 uLightDir;
+//Stripes
+uniform vec3 color1;
+uniform float alpha1;
+uniform vec3 color2;
+uniform float alpha2;
+uniform float lines;
+uniform float linewidth;
+varying vec2 vUv;
+//Fog
+uniform vec3 fogColor;
+uniform float fogNear;
+uniform float fogFar;
+uniform float fogFactor;
+uniform float fogDensity;
+uniform float iGlobalTime;
+const float LOG2 = 1.442695;
 
+void main() {
+  float depth = gl_FragCoord.z / gl_FragCoord.w;
+  float t = mod(iGlobalTime/5.0, 1.0);
+  gl_FragColor = vec4(floor(cos( vUv.y * 6.3 - (iGlobalTime * 4.0))) + 1.0);
 
-void main(void) {
-  float skalarprod;
-  vec4 color;
-
-  skalarprod = dot(vLightDir, vNormal) * 1.22;
-
-  if (skalarprod > 0.8) {
-    color = vec4(0.8, 0.8, 1.0, 1.0);
-  } else if (skalarprod > 0.6) {
-    color = vec4(0.3, 0.3, 0.6, 1.0);
-  } else if (skalarprod > 0.3) {
-    color = vec4(0.2, 0.2, 0.4, 1.0);
-  } else {
-    color = vec4(0.1, 0.1, 0.2, 1.0);
-  }
-    // color = vec4(skalarprod,skalarprod, skalarprod, 1.0);
-  gl_FragColor = color;
+  float fogFactor = exp2( - fogDensity * fogDensity * depth * depth * LOG2);
+	fogFactor = 1.0 - clamp(fogFactor, 0.0, 1.0);
+  gl_FragColor = mix(gl_FragColor, vec4( fogColor, gl_FragColor.w ), fogFactor);
 }

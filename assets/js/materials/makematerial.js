@@ -8,7 +8,6 @@ let ShaderMaterial = function (uniforms, vertex, fragment, alpha) {
     fragmentShader: fragment,
     fog: true,
     lights: true,
-    visible: true,
 
   });
   console.log(fragment);

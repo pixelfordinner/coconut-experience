@@ -26,8 +26,8 @@ class Trunk {
           max: 1,
         },
         density: {
-          min: 0.5,
-          max: 3.8,
+          min: 0.2,
+          max: 0.8,
         },
         height: {
           min: 1,

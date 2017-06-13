@@ -5,17 +5,15 @@ class Lights {
     this.lights = [];
 
     // Default Ambient Light
-    let defaultAmbientLight = new THREE.AmbientLight(0xcdcaec, 1.4);
+    let defaultAmbientLight = new THREE.AmbientLight(0xcdcaec, 1);
     this.lights.push(defaultAmbientLight);
 
     // Default Directional Light
     let defaultDirectionalLight = new THREE.DirectionalLight(0xcdcaec, 1.4);
 
-
-
     defaultDirectionalLight.position.set(
-      options.camera.distance ,
-      options.camera.distance ,
+      options.camera.distance,
+      options.camera.distance,
       options.camera.distance
     );
 

@@ -10,20 +10,38 @@ import Crown from './objects/palmtree/crown';
 import Palmtree from './objects/palmtree';
 import Cristal from './objects/cristal';
 import ShaderMaterial from './materials/shadermaterial.js';
+import MakeMaterial from './materials/makematerial.js';
 
 // MATERIAL MANAGER
 import { MaterialManager } from './materials/manager';
 
 ////////////////////// SHADERS //////////////////////
+
 //BASIC WITH FOG
 const BasicFragment = require('./shaders/basic/fragment.glsl');
 const BasicVertex = require('./shaders/basic/vertex.glsl');
+
 //STRIPES
 const StripesFragment = require('./shaders/stripes/fragment.glsl');
 const StripesVertex = require('./shaders/stripes/vertex.glsl');
+
 //X axis STRIPES
-const StripesH_Fragment = require('./shaders/stripes2/fragment.glsl');
-const StripesH_Vertex = require('./shaders/stripes2/vertex.glsl');
+const StripesHFragment = require('./shaders/stripes2/fragment.glsl');
+const StripesHVertex = require('./shaders/stripes2/vertex.glsl');
+
+// full Shader WIP
+
+const CelFragment = require('./shaders/cel/fragment.glsl');
+const CelVertex = require('./shaders/cel/vertex.glsl');
+
+const C_V_FRAGMENT = require('./shaders/v_cstripes/fragment.glsl');
+const C_V_VERTEX = require('./shaders/v_cstripes/vertex.glsl');
+
+const C_H_FRAGMENT = require('./shaders/h_cstripes/fragment.glsl');
+const C_H_VERTEX = require('./shaders/h_cstripes/vertex.glsl');
+
+const C_FRAGMENT = require('./shaders/celbasic/fragment.glsl');
+const C_VERTEX = require('./shaders/celbasic/vertex.glsl');
 
 // JQUERY
 const $ = require('jquery');
@@ -51,8 +69,8 @@ class App {
         },
       },
       colors: {
-        background: 0xd5095e,
-        fog: 0xd5095e,
+        background: 0x106cc1,
+        fog: 0x106cc1,
         ground: 0xcfcfcf,
         sleep: 0x4d7edd,
         coco: 0x106cc1,
@@ -63,7 +81,7 @@ class App {
       },
       scene: {
         fog: {
-          factor: .008,
+          factor: .01,
         },
       },
     };
@@ -120,12 +138,13 @@ class App {
       shading: THREE.SmoothShading,
     }
   ));
-//console.log(clock.getDelta());
-    //Shaders Material
+
+
+    // Shaders Material
     // BASIC SHADER WITH FOG INTEGRATION
-    var uniforms = {
+    let uniforms = {
           diffuse: { type: 'c', value: new THREE.Color(0xffffff) },
-          alpha: { type: "f", value: 0.5, min: 0.0, max: 1.0},
+          alpha: { type: 'f', value: 0.5, min: 0.0, max: 1.0 },
           fogColor: { type: 'c', value: this.scene.scene.fog.color },
           fogNear: { type: 'f', value: this.scene.scene.fog.near },
           fogFar: { type: 'f', value: this.scene.scene.fog.far },
@@ -143,34 +162,90 @@ class App {
 
     //STRIPES SHADER
     console.log(this.scene.clock.getDelta());
-    var uniforms = {
-        color1 : { type : "c", value : new THREE.Color(0x000000)},
-        alpha1: { type: "f", value: 1.0, min: 0.0, max: 1.0},
-        color2 : { type : "c", value : new THREE.Color(0xffffff)},
-        alpha2: { type: "f", value: 0.1, min: 0.0, max: 1.0},
-        lines: { type:"f", value: 6, min: 1, max: 10},
-        linewidth: { type: "f", value: 40.0, min: 0.0, max: 100.0},
+    uniforms = {
+        color1: { type: 'c', value: new THREE.Color(0x000000) },
+        alpha1: { type: 'f', value: 1.0, min: 0.0, max: 1.0 },
+        color2: { type: 'c', value: new THREE.Color(0xffffff) },
+        alpha2: { type: 'f', value: 0.1, min: 0.0, max: 1.0 },
+        lines: { type: 'f', value: 6, min: 1, max: 10 },
+        linewidth: { type: 'f', value: 40.0, min: 0.0, max: 100.0 },
         fogColor: { type: 'c', value: this.scene.scene.fog.color },
         fogNear: { type: 'f', value: this.scene.scene.fog.near },
         fogFar: { type: 'f', value: this.scene.scene.fog.far },
         fogDensity: { type: 'f', value: this.scene.scene.fog.density },
         fogFactor: { type: 'f', value: 0.008 },
-        iGlobalTime: { type: "f", value: this.scene.clock.getDelta(), hidden: 1},
+        iGlobalTime: { type: 'f', value: this.scene.clock.getDelta(), hidden: 1 },
       };
-      MaterialManager.set('stripes',
-      new ShaderMaterial(
-        uniforms,
-        StripesVertex,
-        StripesFragment,
-        false
-      ));
-      MaterialManager.set('stripes_H',
-      new ShaderMaterial(
-        uniforms,
-        StripesH_Vertex,
-        StripesH_Fragment,
-        false
-      ));
+    MaterialManager.set('stripes',
+    new ShaderMaterial(
+      uniforms,
+      StripesVertex,
+      StripesFragment,
+      false
+    ));
+    MaterialManager.set('stripes_H',
+    new ShaderMaterial(
+      uniforms,
+      StripesHVertex,
+      StripesHFragment,
+      false
+    ));
+
+    // CELShader
+
+    uniforms = THREE.UniformsUtils.merge([{
+      lightPos:	{ type: 'v3', value: this.scene.lights[1].position },
+      iGlobalTime: { type: 'f', value: this.scene.clock.getDelta(), hidden: 1 },
+    },
+        THREE.UniformsLib.fog,
+        THREE.UniformsLib.lights,
+    ]);
+
+    MaterialManager.set('celshader',
+    new MakeMaterial(
+      uniforms,
+      CelVertex,
+      CelFragment,
+      false
+    ));
+
+    uniforms = THREE.UniformsUtils.merge([{
+      uDirLightPos:	{ type: 'v3', value: this.scene.lights[1].position },
+      uDirLightColor:	{ type: 'c', value: this.scene.lights[1].color },
+      uMaterialColor:  { type: 'c', value: new THREE.Color(0x106cc1) },
+      uMaterialColor2:  { type: 'c', value: new THREE.Color(0xcdcaec) },
+      uKd: { type: 'f', value: 1.5 },
+      uBorder: { type: 'f', value: 2.0, },
+      iGlobalTime: { type: 'f', value: this.scene.clock.getDelta(), hidden: 1 },
+    },
+        THREE.UniformsLib.fog,
+        THREE.UniformsLib.lights,
+    ]);
+
+    MaterialManager.set('cel_stripes_V',
+    new MakeMaterial(
+      uniforms,
+      C_V_VERTEX,
+      C_V_FRAGMENT,
+      false
+    ));
+
+    MaterialManager.set('cel_stripes_H',
+    new MakeMaterial(
+      uniforms,
+      C_H_VERTEX,
+      C_H_FRAGMENT,
+      false
+    ));
+
+    MaterialManager.set('cel_basic',
+    new MakeMaterial(
+      uniforms,
+      C_VERTEX,
+      C_FRAGMENT,
+      false
+    ));
+
   }
 
   populateScene() {

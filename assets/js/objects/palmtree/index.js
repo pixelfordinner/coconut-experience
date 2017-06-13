@@ -104,7 +104,7 @@ class Palmtree {
         axe2: [0, 1, 0],
         min: -1,
         max: 0,
-        collision: false,
+        collision: true,
       });
 
     }
