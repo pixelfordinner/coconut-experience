@@ -8,12 +8,12 @@ const B_S_FRAGMENT = shaderParse(require('../shaders/basic_shadows/fragment.glsl
 let ShadowMaterial = function (parameters) {
 
   let uniforms = THREE.UniformsUtils.merge([{
-      opacity: { type: 'f', value: 0.25 },
+      opacity: { type: 'f', value: 0.99 },
     },
         THREE.UniformsLib.fog,
         THREE.UniformsLib.lights,
     ]);
-  console.log(B_S_VERTEX);
+
   let material = new THREE.ShaderMaterial({
     uniforms: uniforms,
     vertexShader: B_S_VERTEX,

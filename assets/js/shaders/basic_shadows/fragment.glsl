@@ -9,5 +9,5 @@ uniform float opacity;
 
 void main(void) {
 
-    gl_FragColor = vec4( 0.0, 0.0, 0.0, opacity * (  1.0 - getShadowMask() ) );
+    gl_FragColor = vec4( 0.6, 0.1, 0.9, opacity * (  1.0 - getShadowMask() ) );
 }
