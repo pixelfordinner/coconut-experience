@@ -50,7 +50,7 @@ void main(void) {
   else { diffuse = 0.3; }
 
 
-  gl_FragColor = vec4( uKd * color * uDirLightColor * diffuse , 1.0 );
+  gl_FragColor = vec4( uKd * color * (uDirLightColor * 4.0) * diffuse , 1.0 );
 
 
   float fogFactor = exp2( - fogDensity * fogDensity * depth * depth * LOG2 );

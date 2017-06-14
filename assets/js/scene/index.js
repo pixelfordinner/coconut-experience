@@ -83,13 +83,13 @@ class Scene {
   }
 
   updateShaders() {
-    if (MaterialManager.get('cel_stripes_H') != null ) {
+    if (MaterialManager.get('cel_stripes_H') != null) {
       let material = MaterialManager.get('cel_stripes_H');
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
 
     }
 
-    if (MaterialManager.get('cel_stripes_V') != null ) {
+    if (MaterialManager.get('cel_stripes_V') != null) {
       let material = MaterialManager.get('cel_stripes_V');
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
 
@@ -142,7 +142,7 @@ class Scene {
               object.mesh.material = MaterialManager.get('cristal');
               break;
             default:
-              object.mesh.material = MaterialManager.get('ground');
+              object.mesh.material = MaterialManager.get('basic_shadows');
           }
         }
       }
@@ -207,10 +207,11 @@ class Scene {
       let pos = position[i];
       let myName = 'terrainSection_' + i;
       let rad = radius;
+
       //console.log('index ', i, 'position ', pos);
       console.log([pos[0], pos[1], pos[2]]);
-
-      let body = this.world.add({ type: 'sphere', position: [pos[0], pos[1], pos[2]], size: [rad] });
+      let body = this.world.add({ type: 'sphere', position:
+      [pos[0], pos[1], pos[2]], size: [rad], });
     }
   }
 }

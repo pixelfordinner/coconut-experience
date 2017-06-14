@@ -10,22 +10,29 @@ import Crown from './objects/palmtree/crown';
 import Palmtree from './objects/palmtree';
 import Cristal from './objects/cristal';
 import ShaderMaterial from './materials/shadermaterial.js';
+import ShadowShaderMaterial from './materials/makeshadowmaterial_2.js';
+
 import MakeMaterial from './materials/makematerial.js';
+
+import shaderParse from './shaders/shaderparse.js';
 
 // MATERIAL MANAGER
 import { MaterialManager } from './materials/manager';
 
 ////////////////////// SHADERS //////////////////////
 
-//BASIC WITH FOG
+// BASIC WITH FOG
 const BasicFragment = require('./shaders/basic/fragment.glsl');
 const BasicVertex = require('./shaders/basic/vertex.glsl');
 
-//STRIPES
+// const B_S_FRAGMENT = shaderParse(require('./shaders/basic_shadows/fragment.glsl'));
+// const B_S_VERTEX = shaderParse(require('./shaders/basic_shadows/vertex.glsl'));
+
+// STRIPES
 const StripesFragment = require('./shaders/stripes/fragment.glsl');
 const StripesVertex = require('./shaders/stripes/vertex.glsl');
 
-//X axis STRIPES
+// X axis STRIPES
 const StripesHFragment = require('./shaders/stripes2/fragment.glsl');
 const StripesHVertex = require('./shaders/stripes2/vertex.glsl');
 
@@ -100,6 +107,12 @@ class App {
       { color: this.options.colors.ground, shading: THREE.FlatShading }
     ));
 
+    // Shadow Material
+
+    MaterialManager.set('ground_2', new THREE.ShadowMaterial());
+
+    MaterialManager.get('ground_2').opacity = 0.1;
+
     // Coco Material
     MaterialManager.set('palmtree_coco', new THREE.MeshPhongMaterial(
       { color: this.options.colors.coco, shading: THREE.FlatShading }
@@ -138,7 +151,6 @@ class App {
       shading: THREE.SmoothShading,
     }
   ));
-
 
     // Shaders Material
     // BASIC SHADER WITH FOG INTEGRATION
@@ -211,7 +223,7 @@ class App {
 
     uniforms = THREE.UniformsUtils.merge([{
       uDirLightPos:	{ type: 'v3', value: this.scene.lights[1].position },
-      uDirLightColor:	{ type: 'c', value: this.scene.lights[1].color },
+      uDirLightColor:	{ type: 'c', value: new THREE.Color(0xf937be) },
       uMaterialColor:  { type: 'c', value: new THREE.Color(0x106cc1) },
       uMaterialColor2:  { type: 'c', value: new THREE.Color(0xcdcaec) },
       uKd: { type: 'f', value: 1.5 },
@@ -245,6 +257,9 @@ class App {
       C_FRAGMENT,
       false
     ));
+
+    new ShadowShaderMaterial();
+    console.log('basic_shadows',  MaterialManager.get('basic_shadows'));
 
   }
 

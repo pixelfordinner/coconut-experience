@@ -33,7 +33,7 @@ class Base {
 
     // Ground
     let box = new Box();
-    let groundMaterial = MaterialManager.get('ground');
+    let groundMaterial = MaterialManager.get('toon');
 
     let mesh = new THREE.Mesh(box, groundMaterial);
     mesh.scale.set(
@@ -51,10 +51,22 @@ class Base {
     // mesh.rotation.set(5, 0, 0);
 
     mesh.name = this.options.ground.name;
-    mesh.receiveShadow = this.options.ground.receiveShadow;
-    mesh.castShadow = this.options.ground.castShadow;
+    mesh.receiveShadow = true;
+    mesh.castShadow = false;
+
+    // mesh.receiveShadow = this.options.ground.receiveShadow;
+    // mesh.castShadow = this.options.ground.castShadow;
 
     scene.add(mesh, this.options.ground.physics);
+
+    // let planeGeometry = new THREE.PlaneGeometry(400, 400);
+    // planeGeometry.rotateX(-Math.PI / 2);
+    // let plane = new THREE.Mesh(planeGeometry, MaterialManager.get('ground_2'));
+    // plane.position.set(0, 0, 5.0, 0.0);
+    // plane.receiveShadow = true;
+    // plane.castShadow = false;
+    // plane.name = 'Ground_Shadows';
+    // scene.add(plane);
 
     return Base;
   }

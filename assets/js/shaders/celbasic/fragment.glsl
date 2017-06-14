@@ -33,7 +33,7 @@ void main(void) {
   else if ( diffuse > -0.1 ) { diffuse = 0.5; }
   else { diffuse = 0.3; }
 
-  gl_FragColor = vec4( uKd * uMaterialColor * uDirLightColor * diffuse , 1.0 );
+  gl_FragColor = vec4( uKd * uMaterialColor * (uDirLightColor * 4.0) * diffuse , 1.0 );
 
 
   float fogFactor = exp2( - fogDensity * fogDensity * depth * depth * LOG2 );

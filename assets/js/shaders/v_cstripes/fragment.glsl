@@ -31,7 +31,7 @@ void main(void) {
   vec3 normal = normalize( vNormal );
 
   vec3 color;
-  float f = floor(cos( vUv.y * 6.3 - (iGlobalTime * 4.0))) + 1.0;
+  float f = floor(cos( vUv.y * 6.3 - (iGlobalTime * 1.0))) + 1.0;
   if( f > 0.0 ){
     color = uMaterialColor;
   } else {
@@ -45,7 +45,7 @@ void main(void) {
   else { diffuse = 0.3; }
 
 
-  gl_FragColor = vec4( uKd * color * uDirLightColor * diffuse , 1.0 );
+  gl_FragColor = vec4( uKd * color * (uDirLightColor * 4.0) * diffuse , 1.0 );
 
 
   float fogFactor = exp2( - fogDensity * fogDensity * depth * depth * LOG2 );

@@ -15,7 +15,6 @@ class Gestures {
     this.scene = scene;
     this.meshes = [];
 
-
     this.dragPointView = new THREE.Mesh(
       new THREE.SphereGeometry(1, 8, 8),
       new THREE.MeshLambertMaterial({
@@ -123,7 +122,15 @@ class Gestures {
     intersects = this.ray.intersectObjects(this.meshes, true);
 
     if (intersects.length > 0) {
-      if (intersects[0].object.name != 'Ground') {
+
+      let draggable = true;
+      if (intersects[0].object.name == 'Ground' || intersects[0].object.name == 'Ground_Shadows') {
+        draggable = false;
+      } else {
+        draggable = true;
+      }
+
+      if (draggable) {
         this.dragStatus = DRAG_STATUS_START;
         this.scene.controls.enabled = false;
         this.dragPoint = intersects[0].point;
