@@ -10,7 +10,7 @@ import Crown from './objects/palmtree/crown';
 import Palmtree from './objects/palmtree';
 import Cristal from './objects/cristal';
 import ShaderMaterial from './materials/shadermaterial.js';
-import ShadowShaderMaterial from './materials/makeshadowmaterial_2.js';
+import ShadowShaderMaterial from './materials/shadowmaterial.js';
 
 import MakeMaterial from './materials/makematerial.js';
 
@@ -88,7 +88,7 @@ class App {
       },
       scene: {
         fog: {
-          factor: .01,
+          factor: .015,
         },
       },
     };

@@ -6,8 +6,13 @@ uniform float opacity;
 //chunk(lights_pars);
 //chunk(shadowmap_pars_fragment);
 //chunk(shadowmask_pars_fragment);
+//chunk(fog_pars_fragment);
 
 void main(void) {
 
-    gl_FragColor = vec4( 0.6, 0.1, 0.9, opacity * (  1.0 - getShadowMask() ) );
+    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0 );
+    vec4 shadows = vec4(0.0, 0.0, 0.0, opacity * (1.0 - getShadowMask()));
+    gl_FragColor -=  shadows;
+
+    //chunk(fog_fragment);
 }
