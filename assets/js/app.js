@@ -3,6 +3,7 @@ import * as THREE from 'three';
 // OBJECTS
 import Scene from './scene';
 import Base from './objects/base';
+
 import Terrain from './objects/terrain';
 import Coco from './objects/palmtree/coco';
 import Trunk from './objects/palmtree/trunk';

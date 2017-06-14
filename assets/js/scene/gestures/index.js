@@ -124,7 +124,7 @@ class Gestures {
     if (intersects.length > 0) {
 
       let draggable = true;
-      if (intersects[0].object.name == 'Ground' || intersects[0].object.name == 'Ground_copy') {
+      if (intersects[0].object.name == 'Ground' || intersects[0].object.name == 'Fake_Water') {
         draggable = false;
       } else {
         draggable = true;

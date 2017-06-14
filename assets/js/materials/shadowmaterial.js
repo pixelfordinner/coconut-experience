@@ -1,14 +1,17 @@
 import * as THREE from 'three';
+
 import shaderParse from '../shaders/shaderparse.js';
 import { MaterialManager } from './manager';
 
 const B_S_VERTEX = shaderParse(require('../shaders/basic_shadows/vertex.glsl'));
 const B_S_FRAGMENT = shaderParse(require('../shaders/basic_shadows/fragment.glsl'));
 
-let ShadowMaterial = function (parameters) {
+let ShadowMaterial = function () {
 
   let uniforms = THREE.UniformsUtils.merge([{
       opacity: { type: 'f', value: 0.99 },
+      diffuse: { type: 'c', value: new THREE.Color(0xffffff) },
+      diffshadow: { type: 'c', value: new THREE.Color(0xf937be) },
     },
         THREE.UniformsLib.fog,
         THREE.UniformsLib.lights,

@@ -1,5 +1,8 @@
 
 uniform float opacity;
+uniform vec3 diffuse;
+uniform vec3 diffshadow;
+
 //chunk(common);
 //chunk(packing);
 //chunk(bsdfs);
@@ -10,9 +13,8 @@ uniform float opacity;
 
 void main(void) {
 
-    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0 );
-    vec4 shadows = vec4(0.0, 0.0, 0.0, opacity * (1.0 - getShadowMask()));
-    gl_FragColor -=  shadows;
+     float shdw = smoothstep(-1.0, 1.0, getShadowMask());
+     gl_FragColor = mix(vec4(diffshadow, opacity), vec4(diffuse, 1.0), shdw);
 
     //chunk(fog_fragment);
 }

@@ -29,6 +29,15 @@ class Base {
           collidesWith: 0xffffffff,
         },
       },
+      ocean: {
+        name: 'Fake_Water',
+        active: true,
+        position: {
+          x: 0,
+          y: 1.0,
+          z: 0,
+        },
+      },
     };
 
     // Ground
@@ -48,23 +57,21 @@ class Base {
       this.options.ground.position.z
     );
 
-    // mesh.rotation.set(5, 0, 0);
-
     mesh.name = this.options.ground.name;
-
     mesh.receiveShadow = this.options.ground.receiveShadow;
     mesh.castShadow = this.options.ground.castShadow;
-
     scene.add(mesh, this.options.ground.physics);
 
-    // let planeGeometry = new THREE.PlaneGeometry(400, 400);
-    // planeGeometry.rotateX(-Math.PI / 2);
-    // let plane = new THREE.Mesh(planeGeometry, MaterialManager.get('toon'));
-    // plane.position.set(0, 0, 0.0, 0.0);
-    // plane.receiveShadow = false;
-    // plane.castShadow = false;
-    // plane.name = 'Ground_copy';
-    // scene.add(plane);
+    let planeGeometry = new THREE.PlaneGeometry(10, 10);
+    planeGeometry.rotateX(-Math.PI / 2);
+    let mesh2 = new THREE.Mesh(planeGeometry, MaterialManager.get('stripes_H'));
+    mesh2.position.set(
+      this.options.ocean.position.x,
+      this.options.ocean.position.y,
+      this.options.ocean.position.z
+    );
+    mesh2.name = this.options.ocean.name;
+    scene.add(mesh2);
 
     return Base;
   }
