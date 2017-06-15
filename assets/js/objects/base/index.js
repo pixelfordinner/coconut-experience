@@ -32,9 +32,11 @@ class Base {
       ocean: {
         name: 'Fake_Water',
         active: true,
+        receiveShadow: false,
+        castShadow: true,
         position: {
           x: 0,
-          y: 1.0,
+          y: 5.0,
           z: 0,
         },
       },
@@ -62,15 +64,17 @@ class Base {
     mesh.castShadow = this.options.ground.castShadow;
     scene.add(mesh, this.options.ground.physics);
 
-    let planeGeometry = new THREE.PlaneGeometry(10, 10);
+    let planeGeometry = new THREE.PlaneGeometry(25, 25);
     planeGeometry.rotateX(-Math.PI / 2);
-    let mesh2 = new THREE.Mesh(planeGeometry, MaterialManager.get('stripes_H'));
+    let mesh2 = new THREE.Mesh(planeGeometry, MaterialManager.get('Fake_Water'));
     mesh2.position.set(
       this.options.ocean.position.x,
       this.options.ocean.position.y,
       this.options.ocean.position.z
     );
     mesh2.name = this.options.ocean.name;
+    mesh2.receiveShadow = this.options.ocean.receiveShadow;
+    mesh2.castShadow = this.options.ocean.castShadow;
     scene.add(mesh2);
 
     return Base;

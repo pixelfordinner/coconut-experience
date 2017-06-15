@@ -26,8 +26,8 @@ import { MaterialManager } from './materials/manager';
 const BasicFragment = require('./shaders/basic/fragment.glsl');
 const BasicVertex = require('./shaders/basic/vertex.glsl');
 
-// const B_S_FRAGMENT = shaderParse(require('./shaders/basic_shadows/fragment.glsl'));
-// const B_S_VERTEX = shaderParse(require('./shaders/basic_shadows/vertex.glsl'));
+const F_W_FRAGMENT = shaderParse(require('./shaders/fake_water/fragment.glsl'));
+const F_W_VERTEX = shaderParse(require('./shaders/fake_water/vertex.glsl'));
 
 // STRIPES
 const StripesFragment = require('./shaders/stripes/fragment.glsl');
@@ -89,7 +89,7 @@ class App {
       },
       scene: {
         fog: {
-          factor: .015,
+          factor: .01,
         },
       },
     };
@@ -194,14 +194,29 @@ class App {
       uniforms,
       StripesVertex,
       StripesFragment,
-      false
+      true
     ));
     MaterialManager.set('stripes_H',
     new ShaderMaterial(
       uniforms,
       StripesHVertex,
       StripesHFragment,
-      false
+      true
+    ));
+
+    uniforms = THREE.UniformsUtils.merge([{
+      iGlobalTime: { type: 'f', value: this.scene.clock.getDelta(), hidden: 1 },
+    },
+        THREE.UniformsLib.fog,
+        THREE.UniformsLib.lights,
+    ]);
+
+    MaterialManager.set('Fake_Water',
+    new ShaderMaterial(
+      uniforms,
+      F_W_VERTEX,
+      F_W_FRAGMENT,
+      true
     ));
 
     // CELShader
@@ -272,14 +287,14 @@ class App {
     //let terrain = new Terrain(this.scene);
 
     // test for multiples Palmtrees
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 4; i++) {
 
       let myName = 'PalmThree_';
       let index = i;
       let rd = Math.random();
-      let randDist = THREE.Math.mapLinear(rd, -1, 1, 10, 20);
-      let angl = THREE.Math.mapLinear(i, 0, 5, 0, Math.PI * 2);
-      let scal = THREE.Math.mapLinear(i, 0, 5, 0.1, 1);
+      let randDist = THREE.Math.mapLinear(rd, 0, 1, 10, 20);
+      let angl = THREE.Math.mapLinear(i, 0, 4, 0, Math.PI * 2);
+      let scal = THREE.Math.mapLinear(i, 0, 4, 0.1, 1);
       let xPos = randDist * Math.cos(angl);
       let zPos = randDist * Math.sin(angl);
 

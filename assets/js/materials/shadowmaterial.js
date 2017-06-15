@@ -9,9 +9,9 @@ const B_S_FRAGMENT = shaderParse(require('../shaders/basic_shadows/fragment.glsl
 let ShadowMaterial = function () {
 
   let uniforms = THREE.UniformsUtils.merge([{
-      opacity: { type: 'f', value: 0.99 },
-      diffuse: { type: 'c', value: new THREE.Color(0xffffff) },
-      diffshadow: { type: 'c', value: new THREE.Color(0xf937be) },
+      opacity: { type: 'f', value: 0.5 },
+      diffuse: { type: 'c', value: new THREE.Color(0xf937be) },
+      diffshadow: { type: 'c', value: new THREE.Color(0x000000) },
     },
         THREE.UniformsLib.fog,
         THREE.UniformsLib.lights,
