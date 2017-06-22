@@ -83,21 +83,20 @@ class Scene {
   }
 
   updateShaders() {
+
     if (MaterialManager.get('cel_stripes_H') != null) {
       let material = MaterialManager.get('cel_stripes_H');
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
-
     }
 
     if (MaterialManager.get('cel_stripes_V') != null) {
       let material = MaterialManager.get('cel_stripes_V');
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
-
     }
+
     if (MaterialManager.get('Fake_Water') != null) {
       let material = MaterialManager.get('Fake_Water');
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
-
     }
 
   }
@@ -119,16 +118,27 @@ class Scene {
           name = 'Ground';
         } else if (name.search('Cristal') != -1) {
           name = 'Cristal';
+        } else if (name.search('Cone') != -1) {
+          name = 'Cone';
+        } else if (name.search('Ball') != -1) {
+          name = 'Ball';
         }
 
         if (object.body.sleeping) {
 
           switch (name) {
             case 'Ground':
-              object.mesh.material = MaterialManager.get('ground');
+              object.mesh.material = MaterialManager.get('basic_shadows');
               break;
+
+            // case 'Cone':
+            //   object.mesh.material = MaterialManager.get('cel_stripes_H');
+            //   break;
+            // case 'Ball':
+            //   object.mesh.material = MaterialManager.get('cel_stripes_V');
+            //   break;
             default:
-              object.mesh.material = MaterialManager.get('palmtree_sleeping');
+              object.mesh.material = MaterialManager.get('basic_shadows');
           }
 
         } else {
@@ -145,6 +155,12 @@ class Scene {
               break;
             case 'Cristal':
               object.mesh.material = MaterialManager.get('cristal');
+              break;
+            case 'Cone':
+              object.mesh.material = MaterialManager.get('cel_stripes_H');
+              break;
+            case 'Ball':
+              object.mesh.material = MaterialManager.get('cel_basic');
               break;
             default:
               object.mesh.material = MaterialManager.get('basic_shadows');

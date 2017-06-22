@@ -9,6 +9,7 @@ import Coco from './objects/palmtree/coco';
 import Trunk from './objects/palmtree/trunk';
 import Crown from './objects/palmtree/crown';
 import Palmtree from './objects/palmtree';
+import IceCream from './objects/icecream';
 import Cristal from './objects/cristal';
 import ShaderMaterial from './materials/shadermaterial.js';
 import ShadowShaderMaterial from './materials/shadowmaterial.js';
@@ -292,7 +293,8 @@ class App {
       let myName = 'PalmThree_';
       let index = i;
       let rd = Math.random();
-      let randDist = THREE.Math.mapLinear(rd, 0, 1, 10, 20);
+      // let randDist = THREE.Math.mapLinear(rd, 0, 1, 10, 20);
+      let randDist = 20.0;
       let angl = THREE.Math.mapLinear(i, 0, 4, 0, Math.PI * 2);
       let scal = THREE.Math.mapLinear(i, 0, 4, 0.1, 1);
       let xPos = randDist * Math.cos(angl);
@@ -308,6 +310,16 @@ class App {
         },
       });
     }
+
+    // TEST    IceCream
+    let icecream = new IceCream(this.scene, {
+      index: 0,
+      position: {
+        x: 0,
+        y: 1,
+        z: 0,
+      },
+    });
 
     //Test Cristal
     // let cristal = new Cristal(this.scene, {
