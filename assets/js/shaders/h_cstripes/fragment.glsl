@@ -32,7 +32,7 @@ void main(void) {
   vec3 normal = normalize( vNormal );
   vec3 color;
   //float t = mod(iGlobalTime/5.0, 1.0);
-  float f = floor(cos( vUv.x * 6.3 * 3.0 - (iGlobalTime * 4.0))) + 1.0;
+  float f = floor(cos( vUv.x * 6.3 * 2.0 - (iGlobalTime * 4.0))) + 1.0;
   if( f > 0.0 ){
     color = uMaterialColor;
   } else {

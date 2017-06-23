@@ -11,7 +11,7 @@ class TrunkSegment {
         radiusTop: 0.5,
         radiusBottom: 0.48,
         height: 1,
-        radiusSegments: 20,
+        radiusSegments: 22,
         heightSegments: 1,
         openEnded: true,
       },
@@ -42,7 +42,21 @@ class TrunkSegment {
 
     let cylinder = new Cylinder(this.options.cylinder);
     let material = MaterialManager.get('palmtree_trunk');
+    let Uv = cylinder.attributes.uv;
 
+    for (var i = 0; i < cylinder.attributes.uv.count; i++) {
+
+      let UVx = Uv.getX(i);
+      let UVy = Uv.getY(i);
+      //let UVw = Uv.getW(i);
+      //console.log('x ', UVx, 'y ', UVy, 'w ', UVw);
+
+      if (UVy !== 0) {
+        cylinder.attributes.uv.setX(i, 0.5);
+      } else {
+        cylinder.attributes.uv.setX(i, 1);
+      }
+    }
 
     var mesh = new THREE.Mesh(cylinder, material);
     mesh.scale.set(

@@ -145,7 +145,7 @@ class Scene {
 
           switch (name) {
             case 'Trunk':
-              object.mesh.material = MaterialManager.get('cel_stripes_V');
+              object.mesh.material = MaterialManager.get('cel_stripes_H');
               break;
             case 'Crown':
               object.mesh.material = MaterialManager.get('cel_basic');
@@ -160,7 +160,7 @@ class Scene {
               object.mesh.material = MaterialManager.get('cel_stripes_H');
               break;
             case 'Ball':
-              object.mesh.material = MaterialManager.get('cel_basic');
+              object.mesh.material = MaterialManager.get('cel_stripes_H');
               break;
             default:
               object.mesh.material = MaterialManager.get('basic_shadows');

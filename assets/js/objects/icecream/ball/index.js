@@ -19,12 +19,13 @@ class Ball {
         z: 0,
       },
       name: '_Ball_',
+      index: 0,
       castShadow: true,
       receiveShadow: false,
       physics: {
         type: 'sphere',
         move: true,
-        density: 0.1,
+        density: 0.05,
         friction: 0.01,
         restitution: 0.1,
         belongsTo: 1,
@@ -36,6 +37,31 @@ class Ball {
 
     let shape = new Sphere();
     let material = MaterialManager.get('cel_stripes_V');
+
+    // MAP cylinder UVs
+    let Uv = shape.attributes.uv;
+    for (var i = 0; i < shape.attributes.uv.count; i++) {
+
+      let UVx = Uv.getX(i);
+      let UVy = Uv.getY(i);
+      let UVw = Uv.getW(i);
+
+      switch (this.options.index) {
+        case 0:
+          shape.attributes.uv.setX(i, 0.0);
+          break;
+        case 1:
+          shape.attributes.uv.setX(i, UVy / 0.5);
+          break;
+        case 2:
+          shape.attributes.uv.setY(i, UVx / 0.1);
+          break;
+        case 3:
+          shape.attributes.uv.setX(i,  UVy + UVx / 2.0 );
+          break;
+        default:
+      }
+    }
 
     var mesh = new THREE.Mesh(shape, material);
     mesh.scale.set(

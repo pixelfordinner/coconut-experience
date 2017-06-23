@@ -23,9 +23,9 @@ class Cone {
         radiusTop: 0.5,
         radiusBottom: 0.025,
         height: 1,
-        radiusSegments: 20,
-        heightSegments: 20,
-        openEnded: true,
+        radiusSegments: 4,
+        heightSegments: 1,
+        openEnded: false,
       },
       name: 'Cone_',
       castShadow: true,
@@ -33,7 +33,7 @@ class Cone {
       physics: {
         type: 'cylinder',
         move: true,
-        density: 0.05,
+        density: 1.0,
         friction: 0.01,
         restitution: 0.1,
         belongsTo: 1,
@@ -42,10 +42,25 @@ class Cone {
     };
 
     this.options = defaultsDeep(options, this.options);
-
     let shape = new Cylinder(this.options.cylinder);
+
+    // MAP cylinder UVs
+    let Uv = shape.attributes.uv;
+    for (var i = 0; i < shape.attributes.uv.count; i++) {
+      let UVx = Uv.getX(i);
+      let UVy = Uv.getY(i);
+      let UVw = Uv.getW(i);
+
+      if (UVy !== 0) {
+        shape.attributes.uv.setX(i, 0.5);
+      } else {
+        shape.attributes.uv.setX(i, 1);
+      }
+    }
+
     let material = MaterialManager.get('palmtree_coco');
 
+    // CONFIGURATION
     var mesh = new THREE.Mesh(shape, material);
     mesh.scale.set(
       this.options.scale.radius,

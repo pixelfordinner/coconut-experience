@@ -266,6 +266,7 @@ class App {
       C_H_FRAGMENT,
       false
     ));
+    MaterialManager.get('cel_stripes_H').WrapT;
 
     MaterialManager.set('cel_basic',
     new MakeMaterial(
