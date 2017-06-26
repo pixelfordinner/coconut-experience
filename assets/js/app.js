@@ -1,9 +1,14 @@
 import * as THREE from 'three';
 
+
+
+// GEOMETRY
+import Sphere from './geometry/sphere';
+
 // OBJECTS
+
 import Scene from './scene';
 import Base from './objects/base';
-
 import Terrain from './objects/terrain';
 import Coco from './objects/palmtree/coco';
 import Trunk from './objects/palmtree/trunk';
@@ -11,22 +16,22 @@ import Crown from './objects/palmtree/crown';
 import Palmtree from './objects/palmtree';
 import IceCream from './objects/icecream';
 import Cristal from './objects/cristal';
+import Tester from './objects/tester';
+
+// MATERIALS
 import ShaderMaterial from './materials/shadermaterial.js';
 import ShadowShaderMaterial from './materials/shadowmaterial.js';
-
+import DisplacementShaderMaterial from './materials/displacementmaterial.js';
 import MakeMaterial from './materials/makematerial.js';
-
 import shaderParse from './shaders/shaderparse.js';
 
 // MATERIAL MANAGER
 import { MaterialManager } from './materials/manager';
 
 ////////////////////// SHADERS //////////////////////
-
 // BASIC WITH FOG
 const BasicFragment = require('./shaders/basic/fragment.glsl');
 const BasicVertex = require('./shaders/basic/vertex.glsl');
-
 const F_W_FRAGMENT = shaderParse(require('./shaders/fake_water/fragment.glsl'));
 const F_W_VERTEX = shaderParse(require('./shaders/fake_water/vertex.glsl'));
 
@@ -277,7 +282,9 @@ class App {
     ));
 
     new ShadowShaderMaterial();
-    console.log('basic_shadows',  MaterialManager.get('basic_shadows'));
+
+    new DisplacementShaderMaterial();
+    console.log('displacement',  MaterialManager.get('displacement'));
 
   }
 
@@ -317,6 +324,14 @@ class App {
       index: 0,
       position: {
         x: 0,
+        y: 1,
+        z: 0,
+      },
+    });
+    let tester = new Tester(this.scene, {
+      radius: 4,
+      position: {
+        x: -5,
         y: 1,
         z: 0,
       },

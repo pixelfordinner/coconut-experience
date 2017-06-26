@@ -122,6 +122,8 @@ class Scene {
           name = 'Cone';
         } else if (name.search('Ball') != -1) {
           name = 'Ball';
+        } else if (name.search('Tester') != -1) {
+          name = 'Tester';
         }
 
         if (object.body.sleeping) {
@@ -130,13 +132,9 @@ class Scene {
             case 'Ground':
               object.mesh.material = MaterialManager.get('basic_shadows');
               break;
-
-            // case 'Cone':
-            //   object.mesh.material = MaterialManager.get('cel_stripes_H');
-            //   break;
-            // case 'Ball':
-            //   object.mesh.material = MaterialManager.get('cel_stripes_V');
-            //   break;
+            case 'Tester':
+              object.mesh.material = MaterialManager.get('displacement');
+              break;
             default:
               object.mesh.material = MaterialManager.get('basic_shadows');
           }
@@ -161,6 +159,9 @@ class Scene {
               break;
             case 'Ball':
               object.mesh.material = MaterialManager.get('cel_stripes_H');
+              break;
+            case 'Tester':
+              object.mesh.material = MaterialManager.get('displacement');
               break;
             default:
               object.mesh.material = MaterialManager.get('basic_shadows');
