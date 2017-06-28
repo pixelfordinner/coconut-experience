@@ -2,12 +2,11 @@ varying vec3 vNormal;
 varying float displacement;
 uniform float iGlobalTime;
 
-/////////////////////////// THREE CHUNKS ///////////////////////////////////////
+/////////////////////////// THREE *hunkS ///////////////////////////////////////
 
-//chunk(common);
-//chunk(uv_pars_vertex);
-//chunk(displacementmap_pars_vertex);
-//chunk(logdepthbuf_pars_fragment);
+
+//chunk(shadowmap_pars_vertex);
+//chunk(fog_pars_vertex);
 
 ///////////////////////////// 4D NOISE /////////////////////////////////////////
 
@@ -110,17 +109,15 @@ float snoise(vec4 v){
 
 void main() {
 
-
-
-
-
+  //chunk(begin_vertex);
+  //chunk(project_vertex);
+  //chunk(worldpos_vertex);
+  //chunk(shadowmap_vertex);
 
   displacement = snoise(vec4(position, iGlobalTime));
   vec3 vPosition = vec3(position + normal * displacement * 0.5);
   vNormal = normal;
   gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
-
-
-
+  //chunk(fog_vertex);
 
 }

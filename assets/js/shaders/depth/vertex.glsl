@@ -1,10 +1,13 @@
 varying vec3 vNormal;
 varying float displacement;
-uniform float iGloblalTime;
-//////////////////////////// CHUNKS ///////////////////////////////////////////
-//chunk(common);
+uniform float iGlobalTime;
 
-//chunk(fog_pars_fragment);
+
+varying vec4 vWorldPosition;
+
+//chunk(common);
+//chunk(uv_pars_vertex);
+
 //////////////////////////// 2D NOISE //////////////////////////////////////////
 float hash( float n ) {
     return fract(sin(n)*43758.5453123);
@@ -129,15 +132,17 @@ float snoise(vec4 v){
 }
 /////////////////////////////////////////////////////////////////////////////////
 
-
-
-
 void main() {
 
 
+  //chunk(begin_vertex);
+  //chunk(project_vertex);
+  //chunk(worldpos_vertex);
+
+  displacement = snoise(vec4(position, iGlobalTime));
+  vec3 vPosition = vec3(position + normal * displacement * 0.5);
+  vNormal = normal;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
 
 
-  vec3 color =   vNormal * displacement + 0.1;
-  gl_FragColor = vec4(color, 1.0);
-  //chunk(fog_fragment);
 }

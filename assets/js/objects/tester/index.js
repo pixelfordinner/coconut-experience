@@ -1,18 +1,19 @@
 import * as THREE from 'three';
 import Sphere from '../../geometry/sphere';
 import { MaterialManager } from '../../materials/manager';
+import Clock from '../../scene/clock';
 import shaderParse from '../../shaders/shaderparse';
 const glslify = require('glslify');
 
 const defaultsDeep = require('lodash.defaultsdeep');
-
-const FRAGMENT = glslify(shaderParse(require('raw-loader!shaderlib/depth_frag.glsl'), true));
-const VERTEX = glslify(shaderParse(require('raw-loader!shaderlib/depth_frag.glsl'), true));
+const FRAGMENT = glslify(shaderParse(require('raw-loader!shaderlib/distanceRGBA_frag.glsl'), true));
+const VERTEX = shaderParse(require('../../shaders/depth/vertex.glsl'));
 
 console.log('------ FRAGMENT -----');
 console.log(FRAGMENT);
-console.log('------ VERTEX -----');
-console.log(VERTEX);
+
+// console.log('------ VERTEX -----');
+// console.log(VERTEX);
 
 class Tester {
   constructor(scene, options = {}) {
@@ -48,27 +49,26 @@ class Tester {
     let sphere = new Sphere(this.options.radius,
                             this.options.widthSegments,
                             this.options.heightSegments);
-    let material = MaterialManager.get('displacement');
-    console.log(VERTEX);
 
+    let material = MaterialManager.get('displacement');
     var mesh = new THREE.Mesh(sphere, material);
 
-    let uniforms = THREE.UniformsUtils.merge([{
-        opacity: { type: 'f', value: 0.5 },
-        diffuse: { type: 'c', value: new THREE.Color(0xf937be) },
-        diffshadow: { type: 'c', value: new THREE.Color(0x000000) },
-      },
-          THREE.UniformsLib.fog,
-          THREE.UniformsLib.lights,
-      ]);
+    let uniforms = {
+      opacity: { type: 'f', value: 0.5 },
+      iGlobalTime: { type: 'f', value: new Clock().getDelta(), hidden: 1 },
+    };
 
-    // mesh.customDepthMaterial = new THREE.ShaderMaterial({
-    //   uniforms: uniforms,
-    //   vertexShader: VERTEX,
-    //   fragmentShader: FRAGMENT,
-    //
-    //   //side: THREE.DoubleSide,
-    // });
+    let defines = {
+      DEPTH_PACKING: 3201,
+    };
+
+    mesh.customDepthMaterial = new THREE.ShaderMaterial({
+      defines: defines,
+      uniforms: material.uniforms,
+      vertexShader: VERTEX,
+      fragmentShader: FRAGMENT,
+    });
+    console.log(mesh.customDepthMaterial);
 
     mesh.scale.set(
       this.options.radius * this.options.scale.x,
@@ -88,23 +88,3 @@ class Tester {
 }
 
 export default Tester;
-
-
-
-
-
-/*var uniforms = { texture:  { value: clothTexture } };
-				var vertexShader = document.getElementById( 'vertexShaderDepth' ).textContent;
-				var fragmentShader = document.getElementById( 'fragmentShaderDepth' ).textContent;
-				// cloth mesh
-				object = new THREE.Mesh( clothGeometry, clothMaterial );
-				object.position.set( 0, 0, 0 );
-				object.castShadow = true;
-				scene.add( object );
-				object.customDepthMaterial = new THREE.ShaderMaterial( {
-					uniforms: uniforms,
-					vertexShader: vertexShader,
-					fragmentShader: fragmentShader,
-					side: THREE.DoubleSide
-				} );
-*/

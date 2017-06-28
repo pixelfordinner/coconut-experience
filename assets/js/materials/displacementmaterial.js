@@ -15,7 +15,13 @@ let DisplacementMaterial = function () {
     THREE.UniformsLib.lights,
   ]);
 
+  // let defines = {
+  //   USE_DISPLACEMENTMAP: true,
+  //   DEPTH_PACKING: 3200,
+  // };
+
   let material = new THREE.ShaderMaterial({
+    //defines: defines,
     uniforms: uniforms,
     vertexShader: DISPLACEMENT_VERTEX,
     fragmentShader: DISPLACEMENT_FRAGMENT,
