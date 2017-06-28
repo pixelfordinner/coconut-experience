@@ -162,6 +162,8 @@ class Scene {
               break;
             case 'Tester':
               object.mesh.material = MaterialManager.get('displacement');
+
+              //object.mesh.customDepthMaterial = MaterialManager.get('displacement');
               break;
             default:
               object.mesh.material = MaterialManager.get('basic_shadows');

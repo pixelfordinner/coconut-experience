@@ -23,6 +23,11 @@ module.exports = {
               { test: /\.(glsl|frag|vert)$/, loader: 'glslify', exclude: /node_modules/ },
         ],
       },
+    resolve: {
+      alias: {
+        shaderlib: path.join(__dirname, 'node_modules/three/src/renderers/shaders/ShaderLib'),
+      },
+    },
     externals: {
         backbone: 'Backbone',
         underscore: '_',

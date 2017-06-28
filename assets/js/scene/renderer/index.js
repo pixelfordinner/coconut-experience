@@ -21,6 +21,7 @@ class Renderer {
     this.renderer.gammaInput = true;
     this.renderer.gammaOutput = true;
     this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.setPixelRatio(window.devicePixelRatio);
 
     return this.renderer;

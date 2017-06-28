@@ -284,7 +284,8 @@ class App {
     new ShadowShaderMaterial();
 
     new DisplacementShaderMaterial();
-    console.log('displacement',  MaterialManager.get('displacement'));
+
+    //console.log('displacement',  MaterialManager.get('displacement'));
 
   }
 
@@ -301,6 +302,7 @@ class App {
       let myName = 'PalmThree_';
       let index = i;
       let rd = Math.random();
+
       // let randDist = THREE.Math.mapLinear(rd, 0, 1, 10, 20);
       let randDist = 20.0;
       let angl = THREE.Math.mapLinear(i, 0, 4, 0, Math.PI * 2);
