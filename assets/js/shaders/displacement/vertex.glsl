@@ -1,9 +1,9 @@
 varying vec3 vNormal;
+//varying vec4 vWorldPosition;
 varying float displacement;
 uniform float iGlobalTime;
 
 /////////////////////////// THREE *hunkS ///////////////////////////////////////
-
 
 //chunk(shadowmap_pars_vertex);
 //chunk(fog_pars_vertex);
@@ -115,9 +115,11 @@ void main() {
   //chunk(shadowmap_vertex);
 
   displacement = snoise(vec4(position, iGlobalTime));
-  vec3 vPosition = vec3(position + normal * displacement * 0.5);
-  vNormal = normal;
+  vec3 vPosition = vec3(position + normal * displacement * 0.35);
+  //vNormal = normal;
   gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
+  vNormal = normalize( normalMatrix * normal );
+
   //chunk(fog_vertex);
 
 }

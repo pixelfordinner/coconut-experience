@@ -1,10 +1,25 @@
 varying vec3 vNormal;
 varying float displacement;
-uniform float iGloblalTime;
-//////////////////////////// CHUNKS ///////////////////////////////////////////
-//chunk(common);
+//varying vec4 vWorldPosition;
 
+uniform float iGloblalTime;
+uniform vec3 lightPos;
+uniform vec3 diffuse;
+uniform vec3 diffuse2;
+uniform vec3 lightColor;
+uniform float opacity;
+uniform float uKd;
+
+//////////////////////////// CHUNKS ///////////////////////////////////////////
+
+//chunk(common);
+//chunk(packing);
+//chunk(bsdfs);
+//chunk(lights_pars);
+//chunk(shadowmap_pars_fragment);
+//chunk(shadowmask_pars_fragment);
 //chunk(fog_pars_fragment);
+
 //////////////////////////// 2D NOISE //////////////////////////////////////////
 float hash( float n ) {
     return fract(sin(n)*43758.5453123);
@@ -18,6 +33,7 @@ float noise( in vec2 x ){
     return mix(mix( hash(n + 0.0), hash(n + 1.0), f.x), mix(hash(n + 57.0), hash(n + 58.0), f.x), f.y);
 }
 //////////////////////////// FBM ///////////////////////////////////////////////
+//
 // 	<https://www.shadertoy.com/view/MdX3Rr>
 //	by inigo quilez
 //
@@ -33,7 +49,7 @@ float fbm(vec2 p){
     return f;
 }
 ///////////////////////////// 4D NOISE /////////////////////////////////////////
-
+//
 //	Simplex 4D Noise
 //	by Ian McEwan, Ashima Arts
 //
@@ -62,12 +78,11 @@ float snoise(vec4 v){
   vec4 x0 = v -   i + dot(i, C.xxxx);
 
 // Other corners
-
 // Rank sorting originally contributed by Bill Licea-Kane, AMD (formerly ATI)
   vec4 i0;
-
   vec3 isX = step( x0.yzw, x0.xxx );
   vec3 isYZ = step( x0.zww, x0.yyz );
+
 //  i0.x = dot( isX, vec3( 1.0 ) );
   i0.x = isX.x + isX.y + isX.z;
   i0.yzw = 1.0 - isX;
@@ -75,7 +90,6 @@ float snoise(vec4 v){
 //  i0.y += dot( isYZ.xy, vec2( 1.0 ) );
   i0.y += isYZ.x + isYZ.y;
   i0.zw += 1.0 - isYZ.xy;
-
   i0.z += isYZ.z;
   i0.w += 1.0 - isYZ.z;
 
@@ -129,15 +143,34 @@ float snoise(vec4 v){
 }
 /////////////////////////////////////////////////////////////////////////////////
 
-
-
-
 void main() {
+  // compute direction to light
+  vec4 lDirection = viewMatrix * vec4( lightPos, 0.0 );
+  vec3 lVector = normalize( lDirection.xyz );
+  vec3 normal = normalize( vNormal );
+
+  // COLOR BASE
+  float grad = smoothstep(-1.0, 0.8, displacement);
+  vec3 col = mix(diffuse, diffuse2, grad );
+  //gl_FragColor = vec4(col, 1.0);
+  // CEILING
+  float diff = dot( normal, lVector );
+  if ( diff > 0.7 ) { diff = 1.0; }
+  else if ( diff > 0.4 ) { diff = 0.7; }
+  else if ( diff > -0.1 ) { diff = 0.5; }
+  else { diff = 0.3; }
+
+  gl_FragColor = vec4( 1.5 * col * (lightColor * 6.0) * diff , 1.0 );
 
 
 
+  // vec3 lightDirection = normalize(lightPos - vWorldPosition.xyz);
+  // // simpliest hardcoded lighting ^^
+  // float c = 0.35 + max(0.0, dot(vNormal, lightDirection)) * 0.4;
+  // gl_FragColor = vec4(vec3(c, c, c),1.0);
 
-  vec3 color =   vNormal * displacement + 0.1;
-  gl_FragColor = vec4(color, 1.0);
+  // SHADOWS
+  // float shdw = smoothstep(-1.0, 1.0, getShadowMask());
+  // gl_FragColor = mix(vec4(diffuse2, opacity), vec4(diffuse, 1.0), shdw);
   //chunk(fog_fragment);
 }

@@ -99,6 +99,11 @@ class Scene {
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
     }
 
+    if (MaterialManager.get('displacement') != null) {
+      let material = MaterialManager.get('displacement');
+      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+    }
+
   }
 
   updateMaterials() {

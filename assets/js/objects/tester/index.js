@@ -9,9 +9,8 @@ const defaultsDeep = require('lodash.defaultsdeep');
 const FRAGMENT = glslify(shaderParse(require('raw-loader!shaderlib/distanceRGBA_frag.glsl'), true));
 const VERTEX = shaderParse(require('../../shaders/depth/vertex.glsl'));
 
-console.log('------ FRAGMENT -----');
-console.log(FRAGMENT);
-
+// console.log('------ FRAGMENT -----');
+// console.log(FRAGMENT);
 // console.log('------ VERTEX -----');
 // console.log(VERTEX);
 
@@ -30,8 +29,8 @@ class Tester {
         z: 0,
       },
       name: 'Tester',
-      widthSegments: 10,
-      heightSegments: 10,
+      widthSegments: 40,
+      heightSegments: 40,
       castShadow: true,
       receiveShadow: false,
       physics: {
@@ -54,12 +53,13 @@ class Tester {
     var mesh = new THREE.Mesh(sphere, material);
 
     let uniforms = {
-      opacity: { type: 'f', value: 0.5 },
+      opacity: { type: 'f', value: 1.0 },
       iGlobalTime: { type: 'f', value: new Clock().getDelta(), hidden: 1 },
+      lightPos:	{ type: 'v3', value: scene.lights[1].position },
     };
 
     let defines = {
-      DEPTH_PACKING: 3201,
+      DEPTH_PACKING: 3200,
     };
 
     mesh.customDepthMaterial = new THREE.ShaderMaterial({
@@ -68,7 +68,6 @@ class Tester {
       vertexShader: VERTEX,
       fragmentShader: FRAGMENT,
     });
-    console.log(mesh.customDepthMaterial);
 
     mesh.scale.set(
       this.options.radius * this.options.scale.x,

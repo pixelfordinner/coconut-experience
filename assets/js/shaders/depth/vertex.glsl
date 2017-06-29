@@ -1,5 +1,5 @@
-varying vec3 vNormal;
-varying float displacement;
+
+//varying float displacement;
 uniform float iGlobalTime;
 
 
@@ -139,9 +139,9 @@ void main() {
   //chunk(project_vertex);
   //chunk(worldpos_vertex);
 
-  displacement = snoise(vec4(position, iGlobalTime));
-  vec3 vPosition = vec3(position + normal * displacement * 0.5);
-  vNormal = normal;
+  float displacement = snoise(vec4(position, iGlobalTime));
+  vec3 vPosition = vec3(position + normal * displacement * 0.35);
+
   gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
 
 

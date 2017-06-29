@@ -282,8 +282,7 @@ class App {
     ));
 
     new ShadowShaderMaterial();
-
-    new DisplacementShaderMaterial();
+    new DisplacementShaderMaterial(this.scene);
 
     //console.log('displacement',  MaterialManager.get('displacement'));
 
@@ -293,8 +292,6 @@ class App {
 
     // Base plane
     new Base(this.scene);
-
-    //let terrain = new Terrain(this.scene);
 
     // test for multiples Palmtrees
     for (var i = 0; i < 4; i++) {
@@ -331,24 +328,13 @@ class App {
       },
     });
     let tester = new Tester(this.scene, {
-      radius: 4,
+      radius: 3,
       position: {
-        x: -5,
+        x: -3,
         y: 1,
         z: 0,
       },
     });
-
-    //Test Cristal
-    // let cristal = new Cristal(this.scene, {
-    //   //name: 'Cristal_',
-    //   position: {
-    //     x: 0,
-    //     y: -1,
-    //     z: 0,
-    //   },
-    // });
-
   }
 }
 
