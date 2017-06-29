@@ -1,12 +1,9 @@
 import * as THREE from 'three';
 
-
-
 // GEOMETRY
 import Sphere from './geometry/sphere';
 
 // OBJECTS
-
 import Scene from './scene';
 import Base from './objects/base';
 import Terrain from './objects/terrain';
@@ -17,11 +14,13 @@ import Palmtree from './objects/palmtree';
 import IceCream from './objects/icecream';
 import Cristal from './objects/cristal';
 import Tester from './objects/tester';
+import Sky from './objects/sky';
 
 // MATERIALS
 import ShaderMaterial from './materials/shadermaterial.js';
 import ShadowShaderMaterial from './materials/shadowmaterial.js';
 import DisplacementShaderMaterial from './materials/displacementmaterial.js';
+import CloudShaderMaterial from './materials/cloudmaterial.js';
 import MakeMaterial from './materials/makematerial.js';
 import shaderParse from './shaders/shaderparse.js';
 
@@ -85,7 +84,7 @@ class App {
       colors: {
         background: 0x106cc1,
         fog: 0x106cc1,
-        ground: 0xcfcfcf,
+        ground: 0xcdcaec,
         sleep: 0x4d7edd,
         coco: 0x106cc1,
         trunk: 0x106cc1,
@@ -117,7 +116,6 @@ class App {
     // Shadow Material
 
     MaterialManager.set('ground_2', new THREE.ShadowMaterial());
-
     MaterialManager.get('ground_2').opacity = 0.1;
 
     // Coco Material
@@ -180,7 +178,6 @@ class App {
     ));
 
     //STRIPES SHADER
-    console.log(this.scene.clock.getDelta());
     uniforms = {
         color1: { type: 'c', value: new THREE.Color(0x000000) },
         alpha1: { type: 'f', value: 1.0, min: 0.0, max: 1.0 },
@@ -282,7 +279,10 @@ class App {
     ));
 
     new ShadowShaderMaterial();
+    new CloudShaderMaterial();
+    //console.log('cloud',  MaterialManager.get('cloud'));
     new DisplacementShaderMaterial(this.scene);
+
 
     //console.log('displacement',  MaterialManager.get('displacement'));
 
@@ -296,7 +296,7 @@ class App {
     // test for multiples Palmtrees
     for (var i = 0; i < 4; i++) {
 
-      let myName = 'PalmThree_';
+      let myName = 'PalmTree_';
       let index = i;
       let rd = Math.random();
 
@@ -330,11 +330,18 @@ class App {
     let tester = new Tester(this.scene, {
       radius: 3,
       position: {
-        x: -3,
-        y: 1,
+        x: -6,
+        y: 3,
         z: 0,
       },
+      physics: {
+        move: false,
+      },
     });
+    let sky = new Sky(this.scene, {
+      radius: 5,
+    });
+
   }
 }
 

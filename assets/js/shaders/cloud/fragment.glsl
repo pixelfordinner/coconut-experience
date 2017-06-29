@@ -2,8 +2,9 @@
 uniform float opacity;
 uniform float iGlobalTime;
 uniform vec3 diffuse;
-uniform vec3 diffshadow;
-//varying vec2 vUv;
+//uniform vec3 diffshadow;
+varying vec2 vUv;
+
 
 //////////////////////////// 2D NOISE //////////////////////////////////////////
 float hash( float n ) {
@@ -35,29 +36,27 @@ float fbm(vec2 p){
 }
 ///////////////////////////////////////////////////////////////////////////////
 
+
 //chunk(common);
-//chunk(packing);
-//chunk(bsdfs);
-//chunk(lights_pars);
-//chunk(shadowmap_pars_fragment);
-//chunk(shadowmask_pars_fragment);
 //chunk(fog_pars_fragment);
 
 void main(void) {
 
-  // CLOUDY TESTURE
-  // vec3 color = vec3(fbm(vec2(vUv * 7.0 ) + vec2(iGlobalTime * 0.02)));
-  // color = vec3(smoothstep(0.5, 0.7, color));
-  // color = mix(color, diffuse, 0.8);
+  //CLOUDY TEXTURE NOISE 2D
+  float alpha = fbm(vec2(vUv * 7.0 ) + vec2(iGlobalTime * 0.02));
+  vec3 color = vec3(fbm(vec2(vUv * 7.0 ) + vec2(iGlobalTime * 0.02)));
+  color = vec3(smoothstep(0.5, 0.7, color));
+  color = mix(color, diffuse, 0.8);
 
-  // SHADOW MAPPING
-  float shdw = smoothstep(-1.0, 1.0, getShadowMask());
+
 
   // COLORIZE
-  vec4 col = mix(vec4(diffshadow, 1.0), vec4(diffuse, opacity), shdw);
-  gl_FragColor = col;
+  //vec4 col = mix(vec4(diffshadow, 1.0), vec4(diffuse, opacity), shdw);
+  gl_FragColor = vec4(color, alpha);
 
   // ADD FOG
+
   //chunk(fog_fragment);
+
 }
 ////////////////////////////////////////////////////////////////////////////////

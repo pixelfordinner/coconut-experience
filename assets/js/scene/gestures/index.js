@@ -121,25 +121,18 @@ class Gestures {
     this.ray.setFromCamera(this.mouse, this.scene.camera);
     intersects = this.ray.intersectObjects(this.meshes, true);
 
-    if (intersects.length > 0) {
+    const excluded = ['Ground', 'Sky', 'Fake_Water'];
+    let draggable =  intersects.length > 0 && excluded.indexOf(intersects[0].object.name) === -1;
 
-      let draggable = true;
-      if (intersects[0].object.name == 'Ground' || intersects[0].object.name == 'Fake_Water') {
-        draggable = false;
-      } else {
-        draggable = true;
-      }
-
-      if (draggable) {
-        this.dragStatus = DRAG_STATUS_START;
-        this.scene.controls.enabled = false;
-        this.dragPoint = intersects[0].point;
-        this.dragBlockName = intersects[0].object.name;
-        this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
-          this.dragBlockName,
-          this.dragPoint
-        );
-      }
+    if (draggable) {
+      this.dragStatus = DRAG_STATUS_START;
+      this.scene.controls.enabled = false;
+      this.dragPoint = intersects[0].point;
+      this.dragBlockName = intersects[0].object.name;
+      this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
+        this.dragBlockName,
+        this.dragPoint
+      );
     }
   }
 

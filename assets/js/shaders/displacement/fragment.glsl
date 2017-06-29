@@ -159,10 +159,8 @@ void main() {
   else if ( diff > 0.4 ) { diff = 0.7; }
   else if ( diff > -0.1 ) { diff = 0.5; }
   else { diff = 0.3; }
-
-  gl_FragColor = vec4( 1.5 * col * (lightColor * 6.0) * diff , 1.0 );
-
-
+  //float diff2 = smoothstep(-1.0, 1.0, dot( normal, lVector ));
+  gl_FragColor = vec4( 1.5 * col * (lightColor * 3.5) * diff , 1.0 );
 
   // vec3 lightDirection = normalize(lightPos - vWorldPosition.xyz);
   // // simpliest hardcoded lighting ^^

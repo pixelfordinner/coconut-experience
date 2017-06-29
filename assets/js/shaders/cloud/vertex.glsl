@@ -1,42 +1,12 @@
 
-//varying float displacement;
+varying vec2 vUv;
+varying float displacement;
 uniform float iGlobalTime;
 
+//chunk(fog_pars_vertex);
 
-varying vec4 vWorldPosition;
-
-//chunk(common);
-//chunk(uv_pars_vertex);
-
-//////////////////////////// 2D NOISE //////////////////////////////////////////
-float hash( float n ) {
-    return fract(sin(n)*43758.5453123);
-}
-
-float noise( in vec2 x ){
-    vec2 p = floor(x);
-    vec2 f = fract(x);
-    f = f * f * (3.0 - 2.0 * f);
-    float n = p.x + p.y * 57.0;
-    return mix(mix( hash(n + 0.0), hash(n + 1.0), f.x), mix(hash(n + 57.0), hash(n + 58.0), f.x), f.y);
-}
-//////////////////////////// FBM ///////////////////////////////////////////////
-// 	<https://www.shadertoy.com/view/MdX3Rr>
-//	by inigo quilez
-//
-const mat2 mtrx = mat2(0.8,-0.6,0.6,0.8);
-float fbm(vec2 p){
-
-    float f = 0.0;
-    f += 0.5000 * noise(p); p = mtrx * p * 2.01;
-    f += 0.2500 * noise(p); p = mtrx * p * 2.02;
-    f += 0.1250 * noise(p); p = mtrx * p * 2.03;
-    f += 0.0625 * noise(p); p = mtrx * p * 2.04;
-    f /= 0.9375;
-    return f;
-}
 ///////////////////////////// 4D NOISE /////////////////////////////////////////
-
+//
 //	Simplex 4D Noise
 //	by Ian McEwan, Ashima Arts
 //
@@ -133,16 +103,14 @@ float snoise(vec4 v){
 /////////////////////////////////////////////////////////////////////////////////
 
 void main() {
-
-
+  vUv = uv;
   //chunk(begin_vertex);
-  //chunk(project_vertex);
-  //chunk(worldpos_vertex);
+	//chunk(project_vertex);
+	//chunk(worldpos_vertex);
 
-  float displacement = snoise(vec4(position * 0.5, iGlobalTime));
-  vec3 vPosition = vec3(position + normal * displacement * 0.35);
+  //chunk(fog_vertex);
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
+
 
 
 }

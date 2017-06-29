@@ -11,13 +11,14 @@ let DisplacementMaterial = function (scene) {
   let uniforms = THREE.UniformsUtils.merge([{
     iGlobalTime: { type: 'f', value: new Clock().getDelta(), hidden: 1 },
     diffuse: { type: 'c', value: new THREE.Color(0x106cc1) },
-    diffuse2: { type: 'c', value: new THREE.Color(0xf937be) },
+    diffuse2: { type: 'c', value: new THREE.Color(0xcdcaec) },
     lightColor:	{ type: 'c', value: new THREE.Color(0xf937be) },
     lightPos:	{ type: 'v3', value: scene.lights[1].position },
   },
     THREE.UniformsLib.fog,
     THREE.UniformsLib.lights,
   ]);
+
   //console.log(scene);
   let material = new THREE.ShaderMaterial({
     uniforms: uniforms,

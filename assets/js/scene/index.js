@@ -111,68 +111,49 @@ class Scene {
     this.objects.forEach(function (object) {
       if (object.hasOwnProperty('body') === true) {
 
-        let name = object.mesh.name;
+        const updatables = [
+          'TrunkSegment',
+          'Crown',
+          'Cocos',
+          'Ground',
+          'Cristal',
+          'Cone',
+          'Ball',
+          'Tester',
+        ];
 
-        if (name.search('Trunk') != -1) {
-          name = 'Trunk';
-        } else if (name.search('Crown') != -1) {
-          name = 'Crown';
-        } else if (name.search('Coco') != -1) {
-          name = 'Coco';
-        } else if (name.search('Ground') != -1) {
-          name = 'Ground';
-        } else if (name.search('Cristal') != -1) {
-          name = 'Cristal';
-        } else if (name.search('Cone') != -1) {
-          name = 'Cone';
-        } else if (name.search('Ball') != -1) {
-          name = 'Ball';
-        } else if (name.search('Tester') != -1) {
-          name = 'Tester';
-        }
+        const parts = object.mesh.name.split('_');
+        const matches = parts.filter(part => updatables.indexOf(part) > -1 ? true : false);
+        const name = parts.length > 0  && matches.length > 0 ?
+                     matches[0] :
+                     object.mesh.name;
+
+        // console.log(partsa);
 
         if (object.body.sleeping) {
+          const sleepingMaterials = {
+            Ground: 'basic_shadows',
+            Tester: 'displacement',
+          };
 
-          switch (name) {
-            case 'Ground':
-              object.mesh.material = MaterialManager.get('basic_shadows');
-              break;
-            case 'Tester':
-              object.mesh.material = MaterialManager.get('displacement');
-              break;
-            default:
-              object.mesh.material = MaterialManager.get('basic_shadows');
-          }
-
+          object.mesh.material = sleepingMaterials.hasOwnProperty(name) ?
+                                 MaterialManager.get(sleepingMaterials[name]) :
+                                 MaterialManager.get('basic_shadows');
         } else {
+          const materials = {
+            TrunkSegment: 'cel_stripes_H',
+            Crown: 'cel_basic',
+            Cocos: 'cel_stripes_H',
+            Cristal: 'cristal',
+            Cone: 'cel_stripes_H',
+            Ball: 'cel_stripes_H',
+            Tester: 'displacement',
+          };
 
-          switch (name) {
-            case 'Trunk':
-              object.mesh.material = MaterialManager.get('cel_stripes_H');
-              break;
-            case 'Crown':
-              object.mesh.material = MaterialManager.get('cel_basic');
-              break;
-            case 'Coco':
-              object.mesh.material = MaterialManager.get('cel_stripes_H');
-              break;
-            case 'Cristal':
-              object.mesh.material = MaterialManager.get('cristal');
-              break;
-            case 'Cone':
-              object.mesh.material = MaterialManager.get('cel_stripes_H');
-              break;
-            case 'Ball':
-              object.mesh.material = MaterialManager.get('cel_stripes_H');
-              break;
-            case 'Tester':
-              object.mesh.material = MaterialManager.get('displacement');
+          object.mesh.material = materials.hasOwnProperty(name) ?
+                                 MaterialManager.get(materials[name]) :
+                                 MaterialManager.get('basic_shadows');
 
-              //object.mesh.customDepthMaterial = MaterialManager.get('displacement');
-              break;
-            default:
-              object.mesh.material = MaterialManager.get('basic_shadows');
-          }
         }
       }
     }.bind(this));

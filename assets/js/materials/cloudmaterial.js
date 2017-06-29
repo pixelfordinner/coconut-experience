@@ -3,10 +3,10 @@ import * as THREE from 'three';
 import shaderParse from '../shaders/shaderparse.js';
 import { MaterialManager } from './manager';
 
-const B_S_VERTEX = shaderParse(require('../shaders/basic_shadows/vertex.glsl'));
-const B_S_FRAGMENT = shaderParse(require('../shaders/basic_shadows/fragment.glsl'));
+const VERTEX = shaderParse(require('../shaders/cloud/vertex.glsl'));
+const FRAGMENT = shaderParse(require('../shaders/cloud/fragment.glsl'));
 
-let ShadowMaterial = function () {
+let CloudMaterial = function () {
 
   let uniforms = THREE.UniformsUtils.merge([{
       opacity: { type: 'f', value: 0.75 },
@@ -20,15 +20,15 @@ let ShadowMaterial = function () {
 
   let material = new THREE.ShaderMaterial({
     uniforms: uniforms,
-    vertexShader: B_S_VERTEX,
-    fragmentShader: B_S_FRAGMENT,
+    vertexShader: VERTEX,
+    fragmentShader: FRAGMENT,
     fog: true,
     lights: true,
     transparent: true,
 
   });
-  MaterialManager.set('basic_shadows', material);
+  MaterialManager.set('cloud', material);
   return material;
 };
 
-export default ShadowMaterial;
+export default CloudMaterial;
