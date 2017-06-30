@@ -4,7 +4,7 @@ uniform float iGlobalTime;
 uniform vec3 diffuse;
 //uniform vec3 diffshadow;
 varying vec2 vUv;
-varying float ewaNoise3D;
+varying float displacement;
 
 
 //////////////////////////// 2D NOISE //////////////////////////////////////////
@@ -35,8 +35,6 @@ float fbm(vec2 p){
     f /= 0.9375;
     return f;
 }
-
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -45,20 +43,19 @@ float fbm(vec2 p){
 
 void main(void) {
 
-  //CLOUDY TEXTURE (noise 2D)
-  float alpha = fbm(vec2(vUv * 7.0 ) - vec2(iGlobalTime * 0.2));
-  vec3 color = vec3(fbm(vec2(vUv * 7.0 ) - vec2(iGlobalTime * 0.2)));
-  color = vec3(smoothstep(0.5, 0.7, color));
-  color = mix(color * 10.5, diffuse, 0.15);
+  //CLOUDY TEXTURE NOISE 2D
+  // float alpha = fbm(vec2(vUv * 7.0 ) + vec2(iGlobalTime * 0.02));
+  // vec3 color = vec3(fbm(vec2(vUv * 7.0 ) + vec2(iGlobalTime * 0.02)));
+  // color = vec3(smoothstep(0.5, 0.7, color));
+  // color = mix(color, diffuse, 0.8);
 
-  // VORONOI TEXTURE (noise 3D)
-  vec3 color2 = vec3(ewaNoise3D ) ;
-  float alpha2 =  (ewaNoise3D  ) ;
+  // CLOUDY TEXTURE NOISE 4D
+  vec3 color2 = vec3(fbm(vec2(displacement * 30.0) + vec2(iGlobalTime)));
+  float alpha2 = fbm(vec2(displacement * 30.0) * vec2(iGlobalTime));
 
   // COLORIZE
   //vec4 col = mix(vec4(diffshadow, 1.0), vec4(diffuse, opacity), shdw);
-  //position.x += iGlobalTime * 0.2;
-  gl_FragColor = vec4(mix(color, color2, 0.2), mix(alpha, alpha2, 0.2) * 2.0);
+  gl_FragColor = vec4(color2, 1.0);
 
   // ADD FOG
   //chunk(fog_fragment);

@@ -21,6 +21,7 @@ import ShaderMaterial from './materials/shadermaterial.js';
 import ShadowShaderMaterial from './materials/shadowmaterial.js';
 import DisplacementShaderMaterial from './materials/displacementmaterial.js';
 import CloudShaderMaterial from './materials/cloudmaterial.js';
+import SmoothCloudShaderMaterial from './materials/smoothcloudmaterial.js';
 import MakeMaterial from './materials/makematerial.js';
 import shaderParse from './shaders/shaderparse.js';
 
@@ -94,7 +95,7 @@ class App {
       },
       scene: {
         fog: {
-          factor: .01,
+          factor: .012,
         },
       },
     };
@@ -280,9 +281,10 @@ class App {
 
     new ShadowShaderMaterial();
     new CloudShaderMaterial();
+    new SmoothCloudShaderMaterial();
+
     //console.log('cloud',  MaterialManager.get('cloud'));
     new DisplacementShaderMaterial(this.scene);
-
 
     //console.log('displacement',  MaterialManager.get('displacement'));
 
@@ -296,7 +298,7 @@ class App {
     // test for multiples Palmtrees
     for (var i = 0; i < 4; i++) {
 
-      let myName = 'PalmTree_';
+      let myName = 'Palmtree_';
       let index = i;
       let rd = Math.random();
 
@@ -339,7 +341,7 @@ class App {
       },
     });
     let sky = new Sky(this.scene, {
-      radius: 5,
+      radius: 110,
     });
 
   }

@@ -22,7 +22,9 @@ class Renderer {
     this.renderer.gammaOutput = true;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
-    this.renderer.setPixelRatio(window.devicePixelRatio);
+
+    //this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setPixelRatio(1);
 
     return this.renderer;
   }

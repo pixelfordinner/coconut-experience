@@ -49,7 +49,7 @@ void main(void) {
   float alpha = fbm(vec2(vUv * 7.0 ) - vec2(iGlobalTime * 0.2));
   vec3 color = vec3(fbm(vec2(vUv * 7.0 ) - vec2(iGlobalTime * 0.2)));
   color = vec3(smoothstep(0.5, 0.7, color));
-  color = mix(color * 10.5, diffuse, 0.15);
+  color = mix(color * 3.5, diffuse, 0.15);
 
   // VORONOI TEXTURE (noise 3D)
   vec3 color2 = vec3(ewaNoise3D ) ;
@@ -58,8 +58,9 @@ void main(void) {
   // COLORIZE
   //vec4 col = mix(vec4(diffshadow, 1.0), vec4(diffuse, opacity), shdw);
   //position.x += iGlobalTime * 0.2;
-  gl_FragColor = vec4(mix(color, color2, 0.2), mix(alpha, alpha2, 0.2) * 2.0);
-
+  vec4 col = vec4(mix(color, color2, 0.2), mix(alpha, alpha2, 0.2) * 2.0);
+  col.w = 0.05;
+  gl_FragColor = col;
   // ADD FOG
   //chunk(fog_fragment);
 

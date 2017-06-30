@@ -59,7 +59,6 @@ class Scene {
       this.options.dimensions.width / this.options.dimensions.height;
 
     this.camera.updateProjectionMatrix();
-
     this.renderer.setSize(
       this.options.dimensions.width,
       this.options.dimensions.height,
@@ -104,6 +103,21 @@ class Scene {
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
     }
 
+    if (MaterialManager.get('basic_shadows') != null) {
+      let material = MaterialManager.get('basic_shadows');
+      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+    }
+
+    if (MaterialManager.get('cloud') != null) {
+      let material = MaterialManager.get('cloud');
+      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+    }
+
+    if (MaterialManager.get('smooth_cloud') != null) {
+      let material = MaterialManager.get('smooth_cloud');
+      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+    }
+
   }
 
   updateMaterials() {
@@ -128,7 +142,7 @@ class Scene {
                      matches[0] :
                      object.mesh.name;
 
-        // console.log(partsa);
+        //console.log(parts);
 
         if (object.body.sleeping) {
           const sleepingMaterials = {
@@ -165,6 +179,7 @@ class Scene {
   }
 
   animate() {
+    this.movelights();
     this.updatePositions();
     this.updateGestures();
     this.updateMaterials();
@@ -198,7 +213,6 @@ class Scene {
 
       let body = this.world.add(physics);
 
-      //console.log(physics);
       object =  { mesh: mesh, body: body };
     } else {
       // If not, we only push the mesh
@@ -210,20 +224,29 @@ class Scene {
     return object;
   }
 
-  addTerrain(mesh, position, radius) {
-    this.scene.add(mesh);
-
-    for (var i = 0; i < position.length; i++) {
-      let pos = position[i];
-      let myName = 'terrainSection_' + i;
-      let rad = radius;
-
-      //console.log('index ', i, 'position ', pos);
-      console.log([pos[0], pos[1], pos[2]]);
-      let body = this.world.add({ type: 'sphere', position:
-      [pos[0], pos[1], pos[2]], size: [rad], });
-    }
+  movelights() {
+    let angle;
+    // console.log('------TARGET--------');
+    // console.log(this.lights[1].target);
+    // console.log('-----POSITION-------');
+    // console.log(this.lights[1].position);
   }
+
+  //addTerrain(mesh, position, radius) {
+  //   this.scene.add(mesh);
+  //
+  //   for (var i = 0; i < position.length; i++) {
+  //     let pos = position[i];
+  //     let myName = 'terrainSection_' + i;
+  //     let rad = radius;
+  //
+  //     //console.log('index ', i, 'position ', pos);
+  //     console.log([pos[0], pos[1], pos[2]]);
+  //     let body = this.world.add({ type: 'sphere', position:
+  //     [pos[0], pos[1], pos[2]], size: [rad], });
+  //   }
+  // }
+
 }
 
 export default Scene;

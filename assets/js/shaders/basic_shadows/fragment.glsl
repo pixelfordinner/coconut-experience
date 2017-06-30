@@ -3,7 +3,7 @@ uniform float opacity;
 uniform float iGlobalTime;
 uniform vec3 diffuse;
 uniform vec3 diffshadow;
-//varying vec2 vUv;
+
 
 //////////////////////////// 2D NOISE //////////////////////////////////////////
 float hash( float n ) {
@@ -45,17 +45,21 @@ float fbm(vec2 p){
 
 void main(void) {
 
-  // CLOUDY TESTURE
-  // vec3 color = vec3(fbm(vec2(vUv * 7.0 ) + vec2(iGlobalTime * 0.02)));
-  // color = vec3(smoothstep(0.5, 0.7, color));
-  // color = mix(color, diffuse, 0.8);
+  // SIMPLE CLOUDY TESTURE
+  //float grad = fbm(vec2(vUv * 7.0 ) - vec2(iGlobalTime * 0.2));
+  // vec3 color = vec3(ewaNoise3D * 3.0);
+  // color = mix(color, vec4(diffuse, 1.0), 0.5);
+
+
+
 
   // SHADOW MAPPING
   float shdw = smoothstep(-1.0, 1.0, getShadowMask());
 
   // COLORIZE
-  vec4 col = mix(vec4(diffshadow, 1.0), vec4(diffuse, opacity), shdw);
-  gl_FragColor = col;
+  vec4 color2 = mix(vec4(diffshadow, 1.0), vec4(diffuse, opacity), shdw);
+  //color2 = mix(color2, color1, 0.4);
+  gl_FragColor = color2;
 
   // ADD FOG
   //chunk(fog_fragment);

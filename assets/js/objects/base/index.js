@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { MaterialManager } from '../../materials/manager';
 import Box from '../../geometry/box';
+import Cylinder from '../../geometry/cylinder';
 
 class Base {
   constructor(scene, options = {}) {
@@ -9,12 +10,12 @@ class Base {
         name: 'Ground',
         scale: {
           x: 400,
-          y: 40,
+          y: 20,
           z: 400,
         },
         position: {
           x: 0,
-          y: -20,
+          y: -17,
           z: 0,
         },
         receiveShadow: true,
@@ -29,26 +30,47 @@ class Base {
           collidesWith: 0xffffffff,
         },
       },
+      island: {
+        radius: 60,
+        height: 10,
+        name: 'Ground',
+        receiveShadow: true,
+        castShadow: false,
+        position: {
+          x:  0,
+          y: -5,
+          z:  0,
+        },
+        physics: {
+          type: 'cylinder',
+          move: false,
+          density: 10,
+          friction: 0.2,
+          restitution: 0.2,
+          belongsTo: 1,
+          collidesWith: 0xffffffff,
+        },
+      },
       ocean: {
         name: 'Fake_Water',
-        active: false,
+        active: true,
         receiveShadow: false,
         castShadow: true,
         position: {
-          x: 0,
-          y: 0.15,
-          z: 0,
+          x:  0,
+          y: -6.9,
+          z:  0,
         },
         scale: {
-          x: 25,
-          y: 25,
+          x: 200,
+          y: 200,
         },
       },
     };
 
     // Ground
     let box = new Box();
-    let groundMaterial = MaterialManager.get('toon');
+    let groundMaterial = MaterialManager.get('basic_shadows');
 
     let mesh = new THREE.Mesh(box, groundMaterial);
     mesh.scale.set(
@@ -68,9 +90,31 @@ class Base {
     mesh.castShadow = this.options.ground.castShadow;
     scene.add(mesh, this.options.ground.physics);
 
+    // ISLAND
+    let cylinder = new Cylinder({
+      radiusTop: this.options.island.radius * 0.4,
+      radiusBottom: this.options.island.radius * 0.6,
+      height: this.options.island.height,
+      radiusSegments: 6,
+    });
+    let island = new THREE.Mesh(cylinder, groundMaterial);
+    island.position.set(
+      this.options.island.position.x,
+      this.options.island.position.y,
+      this.options.island.position.z
+    );
+    island.name = this.options.island.name;
+    island.receiveShadow = this.options.island.receiveShadow;
+    island.castShadow = this.options.island.castShadow;
+    this.options.island.physics.size = [
+      this.options.island.radius * 0.4,
+      this.options.island.height,
+      this.options.island.radius * 0.4,
+    ];
+    scene.add(island, this.options.island.physics);
 
-
-    if( this.options.ocean.active == true ){
+    // WATER PLANE
+    if (this.options.ocean.active == true) {
 
       let planeGeometry = new THREE.BufferGeometry().fromGeometry(
         new THREE.PlaneGeometry(

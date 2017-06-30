@@ -7,7 +7,7 @@ const defaultsDeep = require('lodash.defaultsdeep');
 class Trunk {
   constructor(scene, options = {}) {
     this.options = {
-      parentName: 'PalmTree_',
+      parentName: 'Palmtree_',
       name: 'Trunk_',
       scale: {
         x: 1,
