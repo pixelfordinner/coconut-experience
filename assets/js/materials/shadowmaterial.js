@@ -11,7 +11,7 @@ let ShadowMaterial = function () {
   let uniforms = THREE.UniformsUtils.merge([{
       opacity: { type: 'f', value: 1.0 },
       diffuse: { type: 'c', value: new THREE.Color(0xcdcaec) },
-      diffshadow: { type: 'c', value: new THREE.Color(0x106cc1) },
+      diffshadow: { type: 'c', value: new THREE.Color(0x6331FF) },
       iGlobalTime: { type: 'f', value: 0.0 },
     },
         THREE.UniformsLib.fog,

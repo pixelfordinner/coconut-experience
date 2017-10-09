@@ -15,6 +15,7 @@ import IceCream from './objects/icecream';
 import Cristal from './objects/cristal';
 import Tester from './objects/tester';
 import Sky from './objects/sky';
+import Wolf from './objects/wolf';
 
 // MATERIALS
 import ShaderMaterial from './materials/shadermaterial.js';
@@ -83,9 +84,11 @@ class App {
         },
       },
       colors: {
-        background: 0x106cc1,
-        fog: 0x106cc1,
+        background: 0x6331FF,
+        fog: 0x6331FF,
         ground: 0xcdcaec,
+        white: 0xffffff,
+        black: 0x000000,
         sleep: 0x4d7edd,
         coco: 0x106cc1,
         trunk: 0x106cc1,
@@ -112,6 +115,22 @@ class App {
     // Ground material
     MaterialManager.set('ground', new THREE.MeshPhongMaterial(
       { color: this.options.colors.ground, shading: THREE.FlatShading }
+    ));
+
+    MaterialManager.set('white', new THREE.MeshPhongMaterial(
+      { color: this.options.colors.white,
+        emissive: this.options.colors.white,
+        specular: this.options.colors.white,
+        shading: THREE.FlatShading,
+      }
+    ));
+
+    MaterialManager.set('black', new THREE.MeshPhongMaterial(
+      { color: this.options.colors.black,
+        emissive: this.options.colors.black,
+        specular: this.options.colors.black,
+        shading: THREE.FlatShading,
+      }
     ));
 
     // Shadow Material
@@ -167,7 +186,7 @@ class App {
           fogNear: { type: 'f', value: this.scene.scene.fog.near },
           fogFar: { type: 'f', value: this.scene.scene.fog.far },
           fogDensity: { type: 'f', value: this.scene.scene.fog.density },
-          fogFactor: { type: 'f', value: 0.008 },
+          fogFactor: { type: 'f', value: 0.009 },
         };
 
     MaterialManager.set('basic',
@@ -296,7 +315,7 @@ class App {
     new Base(this.scene);
 
     // test for multiples Palmtrees
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 1; i++) {
 
       let myName = 'Palmtree_';
       let index = i;
@@ -321,28 +340,43 @@ class App {
     }
 
     // TEST    IceCream
-    let icecream = new IceCream(this.scene, {
-      index: 0,
-      position: {
-        x: 0,
-        y: 1,
-        z: 0,
-      },
-    });
-    let tester = new Tester(this.scene, {
-      radius: 3,
-      position: {
-        x: -6,
-        y: 3,
-        z: 0,
-      },
-      physics: {
-        move: false,
-      },
-    });
-    let sky = new Sky(this.scene, {
-      radius: 110,
-    });
+
+    for (var i = 0; i < 2; i++) {
+
+      let rd = Math.random();
+      let randX = THREE.Math.mapLinear(rd, 0, 1, -10, 10);
+      rd = Math.random();
+      let randY = THREE.Math.mapLinear(rd, 0, 1, 3, 5);
+      rd = Math.random();
+      let randZ = THREE.Math.mapLinear(rd, 0, 1, -10, 10);
+
+      let icecream = new IceCream(this.scene, {
+        index: i,
+        position: {
+          x: randX,
+          y: randY,
+          z: randZ,
+        },
+      });
+    }
+
+    new Wolf(this.scene);
+
+    // let blob = new Tester(this.scene, {
+    //   radius: 3,
+    //   position: {
+    //     x: -6,
+    //     y: 3,
+    //     z: 0,
+    //   },
+    //   physics: {
+    //     move: true,
+    //   },
+    // });
+
+    // let sky = new Sky(this.scene, {
+    //   radius: 110,
+    // });
 
   }
 }

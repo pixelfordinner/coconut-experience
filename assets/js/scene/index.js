@@ -69,7 +69,26 @@ class Scene {
   updatePositions() {
 
     this.world.step();
+
     this.objects.forEach(function (object) {
+
+      ///////////////////////////////
+      // if (object.body.position.y > 10) {
+      //   object.body.position.y = -10;
+      //   object.mesh.position.y = -10;
+      // }
+      //
+      // if (object.body.position.x > 10) {
+      //   object.body.position.x = -10;
+      //   object.mesh.position.x = -10;
+      // }
+      //
+      // if (object.body.position.x < -10) {
+      //   object.body.position.x = 10;
+      //   object.mesh.position.x = -10;
+      // }
+
+      ///////////////////////////////////
       if (object.hasOwnProperty('body') === true) {
         object.mesh.position.copy(object.body.getPosition());
         object.mesh.quaternion.copy(object.body.getQuaternion());
@@ -133,6 +152,8 @@ class Scene {
           'Cristal',
           'Cone',
           'Ball',
+          'Eye',
+          'Hole',
           'Tester',
         ];
 
@@ -161,6 +182,8 @@ class Scene {
             Cristal: 'cristal',
             Cone: 'cel_stripes_H',
             Ball: 'cel_stripes_H',
+            Eye: 'white',
+            Hole: 'black',
             Tester: 'displacement',
           };
 

@@ -5,18 +5,18 @@ class Lights {
     this.lights = [];
 
     // Default Ambient Light
-    let defaultAmbientLight = new THREE.AmbientLight(0xcdcaec, 1);
+    let defaultAmbientLight = new THREE.AmbientLight(0xcdcaec, 0.1);
     this.lights.push(defaultAmbientLight);
 
     // Default Directional Light
-    let defaultDirectionalLight = new THREE.DirectionalLight(0xf937be, 2.5);
+    let defaultDirectionalLight = new THREE.DirectionalLight(0xf937be, 0.1);
 
     defaultDirectionalLight.position.set(
-      options.camera.distance,
-      options.camera.distance,
-      options.camera.distance
+      options.camera.distance * 10,
+      options.camera.distance * 10,
+      options.camera.distance * 10
     );
-
+    //defaultDirectionalLight.shadowDarkness = 0.2;
     defaultDirectionalLight.castShadow = true;
     defaultDirectionalLight.shadow.mapSize.width = options.dimensions.width * 3;
     defaultDirectionalLight.shadow.mapSize.height = options.dimensions.height * 3;
@@ -27,7 +27,8 @@ class Lights {
     defaultDirectionalLight.shadow.camera.far = camera.far;
     defaultDirectionalLight.shadow.camera.near = camera.near;
     defaultDirectionalLight.shadow.camera.fov = 10.;
-
+    defaultDirectionalLight.shadow.Bias = 0.0001;
+  //  defaultDirectionalLight.shadowDarkness = 0.2;
     this.lights.push(defaultDirectionalLight);
 
     return this.lights;

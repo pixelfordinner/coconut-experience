@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 //import Sphere from '../../../geometry/sphere';
 import Cylinder from '../../../geometry/cylinder';
+import Sphere from '../../../geometry/sphere';
+
 import { MaterialManager } from '../../../materials/manager';
 
 const defaultsDeep = require('lodash.defaultsdeep');
@@ -10,16 +12,22 @@ class Cone {
   constructor(scene, options = {}) {
     this.options = {
       radius: 1,
-      scale: {
+      name: 'Cone_',
+      castShadow: true,
+      receiveShadow: false,
+      scale:
+      {
         radius: 1,
         height: 1,
       },
-      position: {
+      position:
+      {
         x: 0,
         y: 0,
         z: 0,
       },
-      cylinder: {
+      cylinder:
+      {
         radiusTop: 0.5,
         radiusBottom: 0.025,
         height: 1,
@@ -27,13 +35,11 @@ class Cone {
         heightSegments: 1,
         openEnded: false,
       },
-      name: 'Cone_',
-      castShadow: true,
-      receiveShadow: false,
-      physics: {
+      physics:
+      {
         type: 'cylinder',
         move: true,
-        density: 1.0,
+        density: 0.5,
         friction: 0.01,
         restitution: 0.1,
         belongsTo: 1,
@@ -44,7 +50,7 @@ class Cone {
     this.options = defaultsDeep(options, this.options);
     let shape = new Cylinder(this.options.cylinder);
 
-    // MAP cylinder UVs
+    // REMAP cylinder UVs
     let Uv = shape.attributes.uv;
     for (var i = 0; i < shape.attributes.uv.count; i++) {
       let UVx = Uv.getX(i);
@@ -58,7 +64,7 @@ class Cone {
       }
     }
 
-    let material = MaterialManager.get('palmtree_coco');
+    let material = MaterialManager.get('cel_stripes_H');
 
     // CONFIGURATION
     var mesh = new THREE.Mesh(shape, material);
@@ -78,9 +84,9 @@ class Cone {
     mesh.castShadow = this.options.castShadow;
 
     this.options.physics.size = [
-      this.options.cylinder.radiusTop * this.options.scale.radius,
+      this.options.cylinder.radiusTop * this.options.scale.radius * 2,
       this.options.cylinder.height * this.options.scale.height,
-      this.options.cylinder.radiusBottom * this.options.scale.radius,
+      this.options.cylinder.radiusBottom * this.options.scale.radius * 2,
     ];
 
     return scene.add(mesh, this.options.physics);

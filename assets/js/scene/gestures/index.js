@@ -59,7 +59,7 @@ class Gestures {
 
     this.dragPointBody = scene.world.add({
       type: 'sphere',
-      size: [0.25],
+      size: [0.20],
       pos: [0, 0, 0],
       move: true,
       noSleep: true,
@@ -121,7 +121,7 @@ class Gestures {
     this.ray.setFromCamera(this.mouse, this.scene.camera);
     intersects = this.ray.intersectObjects(this.meshes, true);
 
-    const excluded = ['Ground', 'Sky', 'Fake_Water'];
+    const excluded = ['Ground', 'Sky', 'Fake_Water', 'Eye', 'Hole'];
     let draggable =  intersects.length > 0 && excluded.indexOf(intersects[0].object.name) === -1;
 
     if (draggable) {

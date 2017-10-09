@@ -1,70 +1,43 @@
 import * as THREE from 'three';
+import Cylinder from '../../../geometry/cylinder';
 import Sphere from '../../../geometry/sphere';
+
 import { MaterialManager } from '../../../materials/manager';
 
 const defaultsDeep = require('lodash.defaultsdeep');
 
-class Ball {
+class Eyehole {
   constructor(scene, options = {}) {
     this.options = {
+      name: '_Hole_',
       radius: 1,
-      scale: {
-        x: 1,
-        y: 1,
-        z: 1,
-      },
+      castShadow: true,
+      receiveShadow: false,
       position: {
         x: 0,
         y: 0,
         z: 0,
       },
-      name: '_Ball_',
-      index: 0,
-      castShadow: true,
-      receiveShadow: false,
+      scale: {
+        x: 0.2,
+        y: 0.2,
+        z: 0.2,
+      },
       physics: {
         type: 'sphere',
         move: true,
-        collision: false,
-        density: 0.25,
+        density: 0.1,
         friction: 0.01,
-        restitution: 0.01,
+        restitution: 0.1,
         belongsTo: 1,
         collidesWith: 0xffffffff,
       },
     };
-
     this.options = defaultsDeep(options, this.options);
 
     let shape = new Sphere();
-    let material = MaterialManager.get('cel_stripes_H');
-
-    // MAP cylinder UVs
-    let Uv = shape.attributes.uv;
-    for (var i = 0; i < shape.attributes.uv.count; i++) {
-
-      let UVx = Uv.getX(i);
-      let UVy = Uv.getY(i);
-      let UVw = Uv.getW(i);
-
-      switch (this.options.index) {
-        case 0:
-          shape.attributes.uv.setX(i, 0.0);
-          break;
-        case 1:
-          shape.attributes.uv.setX(i, UVy / 0.5);
-          break;
-        case 2:
-          shape.attributes.uv.setY(i, UVx / 0.1);
-          break;
-        case 3:
-          shape.attributes.uv.setX(i,  UVy + UVx / 2.0);
-          break;
-        default:
-      }
-    }
-
-    var mesh = new THREE.Mesh(shape, material);
+    let material = MaterialManager.get('black');
+    let mesh = new THREE.Mesh(shape, material);
     mesh.scale.set(
       this.options.radius * this.options.scale.x,
       this.options.radius * this.options.scale.y,
@@ -73,7 +46,7 @@ class Ball {
     mesh.position.set(
       this.options.position.x,
       this.options.position.y,
-      this.options.position.z
+      this.options.position.z,
     );
 
     mesh.name = this.options.name;
@@ -84,4 +57,4 @@ class Ball {
   }
 }
 
-export default Ball;
+export default Eyehole;
