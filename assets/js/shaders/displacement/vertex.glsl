@@ -1,5 +1,5 @@
 varying vec3 vNormal;
-//varying vec4 vWorldPosition;
+//varying vec3 vWorldPosition;
 varying float displacement;
 uniform float iGlobalTime;
 
@@ -119,7 +119,9 @@ void main() {
   //vNormal = normal;
   gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
   vNormal = normalize( normalMatrix * normal );
-
+  //vec4 worldPosition = modelMatrix * vec4(vPosition, 1.0);
+  // store the world position as varying for lighting
+  //vWorldPosition = worldPosition.xyz;
   //chunk(fog_vertex);
 
 }

@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import Sphere from '../../geometry/sphere';
-import { MaterialManager } from '../../materials/manager';
+import {
+  MaterialManager
+} from '../../materials/manager';
 import Clock from '../../scene/clock';
 import shaderParse from '../../shaders/shaderparse';
 const glslify = require('glslify');
@@ -14,7 +16,7 @@ const VERTEX = shaderParse(require('../../shaders/depth/vertex.glsl'));
 // console.log('------ VERTEX -----');
 // console.log(VERTEX);
 
-class Tester {
+class Blob {
   constructor(scene, options = {}) {
     this.options = {
       radius: 1,
@@ -28,11 +30,11 @@ class Tester {
         y: 0,
         z: 0,
       },
-      name: 'Tester',
-      widthSegments: 40,
-      heightSegments: 40,
+      name: 'Blob',
+      widthSegments: 10,
+      heightSegments: 10,
       castShadow: true,
-      receiveShadow: false,
+      receiveShadow: true,
       physics: {
         type: 'sphere',
         move: true,
@@ -45,29 +47,65 @@ class Tester {
     };
 
     this.options = defaultsDeep(options, this.options);
-    let sphere = new Sphere(this.options.radius,
-                            this.options.widthSegments,
-                            this.options.heightSegments);
 
+    //console.log('blob_segments :' + this.options.widthSegments);
+    let sphere = new Sphere(scene, {
+      radius: this.options.radius,
+      widthSegments: this.options.widthSegments,
+      heightSegments: this.options.heightSegments,
+    });
+
+    //let geo = new THREE.IcosahedronGeometry(1, 3);
     let material = MaterialManager.get('displacement');
-    var mesh = new THREE.Mesh(sphere, material);
 
-    let uniforms = {
-      opacity: { type: 'f', value: 1.0 },
-      iGlobalTime: { type: 'f', value: new Clock().getDelta(), hidden: 1 },
-      lightPos:	{ type: 'v3', value: scene.lights[1].position },
-    };
+
+
+    let uniforms = THREE.UniformsUtils.merge([{
+
+        opacity: {
+          type: 'f',
+          value: 1.0,
+        },
+        iGlobalTime: {
+          type: 'f',
+          value: new Clock().getDelta(),
+          hidden: 1,
+        },
+        lightPos: {
+          type: 'v3',
+          value: scene.lights[1].position,
+        },
+      },
+      THREE.UniformsLib.lights,
+    ]);
 
     let defines = {
       DEPTH_PACKING: 3200,
     };
 
-    mesh.customDepthMaterial = new THREE.ShaderMaterial({
+    material.customDepthMaterial = new THREE.ShaderMaterial({
       defines: defines,
       uniforms: material.uniforms,
       vertexShader: VERTEX,
       fragmentShader: FRAGMENT,
     });
+
+    var mesh = new THREE.Mesh(sphere, material);
+    mesh.receiveShadow = this.options.receiveShadow;
+    mesh.castShadow = this.options.castShadow;
+
+    // material.customDepthMaterial = new THREE.ShaderMaterial({
+    //   //defines: defines,
+    //   uniforms: material.uniforms,
+    //   vertexShader: VERTEX,
+    //   fragmentShader: FRAGMENT,
+    // });
+    // mesh.customDepthMaterial = new THREE.ShaderMaterial({
+    //   //defines: defines,
+    //   uniforms: material.uniforms,
+    //   vertexShader: VERTEX,
+    //   fragmentShader: FRAGMENT,
+    // });
 
     mesh.scale.set(
       this.options.radius * this.options.scale.x,
@@ -86,4 +124,4 @@ class Tester {
   }
 }
 
-export default Tester;
+export default Blob;

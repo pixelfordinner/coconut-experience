@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import Ball from './ball';
 import Cone from './cone';
 import Eye from './eye';
+import Arm from './arm';
 
 // import Trunk from './trunk';
 import {
@@ -28,7 +29,13 @@ class IceCream {
     };
     this.options = defaultsDeep(options, this.options);
 
-
+    // let arm = new Arm(scene, {
+    //   position: {
+    //     x: this.options.position.x + 1,
+    //     y: this.options.position.y,
+    //     z: this.options.position.z,
+    //   },
+    // });
 
     // Cone section ////////////////////////////////////////////////////////////////////////////////
     let cone = new Cone(scene, {

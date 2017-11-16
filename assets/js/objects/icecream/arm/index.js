@@ -1,18 +1,20 @@
 import * as THREE from 'three';
-import { MaterialManager } from '../../../materials/manager';
+import {
+  MaterialManager
+} from '../../../materials/manager';
 import TrunkSegment from './segment';
 
 const defaultsDeep = require('lodash.defaultsdeep');
 
-class Trunk {
+class Arm {
   constructor(scene, options = {}) {
     this.options = {
-      parentName: 'Palmtree_',
-      name: 'Trunk_',
+      parentName: 'IceCream_',
+      name: 'Arm_',
       scale: {
-        x: 1,
-        y: 1,
-        z: 1,
+        x: 0.1,
+        y: 0.2,
+        z: 0.1,
       },
       position: {
         x: 0,
@@ -20,19 +22,12 @@ class Trunk {
         z: 0,
       },
       segments: {
-        quantity: 8,
+        quantity: 5,
         radius: {
-          min: 0.4,
+          min: 0.3,
           max: 1,
         },
-        density: {
-          min: 0.2,
-          max: 0.8,
-        },
-        height: {
-          min: 1,
-          max: 2,
-        },
+        density: 0.2,
       },
     };
 
@@ -40,34 +35,15 @@ class Trunk {
 
     this.segments = [];
 
-    let currentHeight = this.options.scale.y / 2;
+    let currentHeight = this.options.scale.y;
+    let radius = this.options.segments.radius.min;
     let lastSegmentsHeight = 0;
     let height = this.options.scale.y;
     let lastHeight = height;
 
     for (var i = 0; i < this.options.segments.quantity; i++, currentHeight += height) {
-      let height = THREE.Math.mapLinear(
-        i,
-        0,
-        this.options.segments.quantity,
-        this.options.segments.height.min,
-        this.options.segments.height.max,
-      );
-      let radius = THREE.Math.mapLinear(
-        i,
-        0,
-        this.options.segments.quantity,
-        this.options.segments.radius.max,
-        this.options.segments.radius.min
-      );
-      let density = THREE.Math.mapLinear(
-        i,
-        0,
-        this.options.segments.quantity,
-        this.options.segments.density.max,
-        this.options.segments.density.min
-      );
-      let myName = this.options.name + '_TrunkSegment_' + i;
+
+      let myName = this.options.name + '_ArmSegment_' + i;
 
       //console.log(myName);
       let move = true;
@@ -86,7 +62,7 @@ class Trunk {
         name: myName,
         physics: {
           move: move,
-          density: density,
+          density: this.options.segments.density,
         },
       };
 
@@ -96,18 +72,18 @@ class Trunk {
 
         let previousObject = this.segments[i - 1];
         let link = scene.world.add({
-            type: 'joint',
-            name: this.options.name + 'TrunkLink_' + i,
-            body1: currentObject.body,
-            body2: previousObject.body,
-            pos1: [0, -height / 2, 0],
-            pos2: [0, lastHeight / 2, 0],
-            rot1: [0, 0, 0],
-            rot2: [0, 0, 0],
-            min: -height / 2,
-            max: 0,
-            collision: true,
-          });
+          type: 'joint',
+          name: this.options.name + 'ArmLink_' + i,
+          body1: currentObject.body,
+          body2: previousObject.body,
+          pos1: [0, -height / 2, 0],
+          pos2: [0, lastHeight / 2, 0],
+          rot1: [0, 0, 0],
+          rot2: [0, 0, 0],
+          min: -height / 2,
+          max: 0,
+          collision: true,
+        });
       }
 
       lastHeight = height;
@@ -118,4 +94,4 @@ class Trunk {
   }
 }
 
-export default Trunk;
+export default Arm;

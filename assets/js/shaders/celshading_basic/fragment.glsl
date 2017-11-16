@@ -1,19 +1,15 @@
-varying vec3 vNormal;
-varying float displacement;
-uniform float iGloblalTime;
-uniform vec3 lightPos;
 uniform vec3 diffuse;
-uniform vec3 diffuse2;
+uniform vec3 lightPos;
 uniform vec3 lightColor;
-uniform float opacity;
-uniform float uKd;
+varying vec3 vNormal;
+uniform float iGlobalTime;
+//uniform float uKd;
+//uniform float uBorder;
 //chunk(common);
 //chunk(packing);
 //chunk(bsdfs);
-//chunk(lights_pars);
-//chunk(shadowmap_pars_fragment);
-//chunk(shadowmask_pars_fragment);
 //chunk(fog_pars_fragment);
+
 
 //==========================================================//
 //                 NOISE 3D
@@ -48,19 +44,20 @@ float noise( in vec3 x )
 }
 //==========================================================//
 
-void main() {
+void main(void) {
 
   // compute direction to light
   vec4 lDirection = viewMatrix * vec4( lightPos, 0.0 );
   vec3 lVector = normalize( lDirection.xyz );
   vec3 normal = normalize( vNormal );
 
-  // Material ligthning
+  // ceiling light intensity
   float diff = max(0.0, dot(normal, lVector));
   float o_diff = diff;
   diff = 0.5 + ceil(diff * 10.0) * 0.1;
   vec3 matColor = 1.5 * diffuse * (lightColor * 3.5) * diff;
 
+  // do some additive lightning and fake shinny sand texture
   if (diff > 0.7){
     matColor += pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.1;
     float n = 1.0 - noise(vNormal.xyz * 100.0);
@@ -68,16 +65,9 @@ void main() {
       matColor += n * pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.5 ;
     }
   }
+  
 
-  // material Shadowing
-  float shdw = smoothstep(0.0, 1.0, getShadowMask());
-  shdw = ceil(shdw * 10.0) * 0.1;
-  vec3 shdwColor =  1.5 * diffuse2 * (lightColor * 3.5) * shdw;
-
-  // Mixing Value between ligthning and shadows
-  float grad = .5*(max(0.0, dot( normal, lVector )) *  getShadowMask());
-
-  // return final color and apply fog
-  gl_FragColor = mix(vec4(matColor, 1.0), vec4(shdwColor, 1.0), grad);
+  // output color fragment
+  gl_FragColor = vec4(matColor, 1.0);
   //chunk(fog_fragment);
 }

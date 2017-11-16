@@ -9,9 +9,9 @@ class Coco {
     this.options = {
       radius: 1,
       scale: {
-        x: 1,
-        y: 1,
-        z: 1,
+        x: 1.5,
+        y: 1.5,
+        z: 1.5,
       },
       position: {
         x: 0,
@@ -24,9 +24,9 @@ class Coco {
       physics: {
         type: 'sphere',
         move: true,
-        density: 0.015,
-        friction: 2,
-        restitution: 0.1,
+        density: 0.01,
+        friction: 0.0,
+        restitution: 0.0,
         belongsTo: 1,
         collidesWith: 0xffffffff,
       },
@@ -35,7 +35,7 @@ class Coco {
     this.options = defaultsDeep(options, this.options);
 
     let sphere = new Sphere();
-    let material = MaterialManager.get('palmtree_coco');
+    let material = MaterialManager.get('ground');
 
     var mesh = new THREE.Mesh(sphere, material);
     mesh.scale.set(

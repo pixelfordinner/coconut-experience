@@ -22,6 +22,7 @@ class Palmtree {
 
     let rand = Math.random();
     let randHeight = THREE.Math.mapLinear(rand, 0, 1, 2, 3);
+    let randRadius = THREE.Math.mapLinear(rand, 0, 1, 1, 1.5);
 
     this.options = defaultsDeep(options, this.options);
 
@@ -33,6 +34,9 @@ class Palmtree {
         z: this.options.position.z,
       },
       segments: {
+        radius: {
+          max: randRadius,
+        },
         height: {
           max: randHeight,
         },
@@ -74,8 +78,8 @@ class Palmtree {
     for (var i = 0; i < this.options.cocoMax; i++) {
 
       let angl = THREE.Math.mapLinear(i, 0, this.options.cocoMax, 0, Math.PI * 2);
-      let xPos = this.options.position.x + (2 * minRadius * Math.cos(angl));
-      let ypos = this.options.position.z + (2 * minRadius * Math.sin(angl));
+      let xPos = this.options.position.x + (2.2 * minRadius * Math.cos(angl));
+      let ypos = this.options.position.z + (2.2 * minRadius * Math.sin(angl));
 
       let coco = new Coco(scene, {
         position: {
@@ -84,9 +88,9 @@ class Palmtree {
           z: ypos,
         },
         scale: {
-          x: 0.25,
-          y: 0.30,
-          z: 0.25,
+          x: 0.4,
+          y: 0.6,
+          z: 0.4,
         },
         name: this.options.name + this.options.index + '_Cocos_' + i,
       });

@@ -1,12 +1,16 @@
 import * as THREE from 'three';
 import Renderer from './renderer';
+
+//import Postprod from './postprocess';
 import Camera from './camera';
 import Lights from './lights';
 import Clock from './clock';
 import World from './world';
 import Gestures from './gestures';
 import Controls from './controls';
-import { MaterialManager } from '../materials/manager';
+import {
+  MaterialManager
+} from '../materials/manager';
 
 const $ = require('jquery');
 
@@ -16,9 +20,9 @@ class Scene {
     this.objects = [];
 
     this.options.dimensions = {
-        width: $(this.options.renderer.canvas).width(),
-        height: $(this.options.renderer.canvas).height(),
-      };
+      width: $(this.options.renderer.canvas).width(),
+      height: $(this.options.renderer.canvas).height(),
+    };
 
     this.renderer = new Renderer(options);
     this.camera = new Camera(options);
@@ -42,7 +46,9 @@ class Scene {
     }).bind(this));
 
     // Event Listeners
-    let updateSize = function () { this.updateSize(); }.bind(this);
+    let updateSize = function () {
+      this.updateSize();
+    }.bind(this);
     window.addEventListener('resize', updateSize, false);
 
     this.gestures = new Gestures(this);
@@ -51,9 +57,9 @@ class Scene {
 
   updateSize() {
     this.options.dimensions = {
-        width: $(this.options.renderer.canvas).width(),
-        height: $(this.options.renderer.canvas).height(),
-      };
+      width: $(this.options.renderer.canvas).width(),
+      height: $(this.options.renderer.canvas).height(),
+    };
 
     this.camera.aspect =
       this.options.dimensions.width / this.options.dimensions.height;
@@ -72,23 +78,6 @@ class Scene {
 
     this.objects.forEach(function (object) {
 
-      ///////////////////////////////
-      // if (object.body.position.y > 10) {
-      //   object.body.position.y = -10;
-      //   object.mesh.position.y = -10;
-      // }
-      //
-      // if (object.body.position.x > 10) {
-      //   object.body.position.x = -10;
-      //   object.mesh.position.x = -10;
-      // }
-      //
-      // if (object.body.position.x < -10) {
-      //   object.body.position.x = 10;
-      //   object.mesh.position.x = -10;
-      // }
-
-      ///////////////////////////////////
       if (object.hasOwnProperty('body') === true) {
         object.mesh.position.copy(object.body.getPosition());
         object.mesh.quaternion.copy(object.body.getQuaternion());
@@ -102,28 +91,13 @@ class Scene {
 
   updateShaders() {
 
-    if (MaterialManager.get('cel_stripes_H') != null) {
-      let material = MaterialManager.get('cel_stripes_H');
-      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
-    }
-
-    if (MaterialManager.get('cel_stripes_V') != null) {
-      let material = MaterialManager.get('cel_stripes_V');
-      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
-    }
-
-    if (MaterialManager.get('Fake_Water') != null) {
-      let material = MaterialManager.get('Fake_Water');
+    if (MaterialManager.get('celshading_stripes_material') != null) {
+      let material = MaterialManager.get('celshading_stripes_material');
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
     }
 
     if (MaterialManager.get('displacement') != null) {
       let material = MaterialManager.get('displacement');
-      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
-    }
-
-    if (MaterialManager.get('basic_shadows') != null) {
-      let material = MaterialManager.get('basic_shadows');
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
     }
 
@@ -148,48 +122,36 @@ class Scene {
           'TrunkSegment',
           'Crown',
           'Cocos',
-          'Ground',
-          'Cristal',
-          'Cone',
-          'Ball',
-          'Eye',
-          'Hole',
-          'Tester',
+          'Blob',
         ];
 
         const parts = object.mesh.name.split('_');
         const matches = parts.filter(part => updatables.indexOf(part) > -1 ? true : false);
-        const name = parts.length > 0  && matches.length > 0 ?
-                     matches[0] :
-                     object.mesh.name;
+        const name = parts.length > 0 && matches.length > 0 ?
+          matches[0] :
+          object.mesh.name;
 
         //console.log(parts);
 
         if (object.body.sleeping) {
           const sleepingMaterials = {
             Ground: 'basic_shadows',
-            Tester: 'displacement',
           };
 
           object.mesh.material = sleepingMaterials.hasOwnProperty(name) ?
-                                 MaterialManager.get(sleepingMaterials[name]) :
-                                 MaterialManager.get('basic_shadows');
+            MaterialManager.get(sleepingMaterials[name]) :
+            MaterialManager.get('basic_celshading_material');
         } else {
           const materials = {
-            TrunkSegment: 'cel_stripes_H',
-            Crown: 'cel_basic',
-            Cocos: 'cel_stripes_H',
-            Cristal: 'cristal',
-            Cone: 'cel_stripes_H',
-            Ball: 'cel_stripes_H',
-            Eye: 'white',
-            Hole: 'black',
-            Tester: 'displacement',
+            TrunkSegment: 'celshading_stripes_material',
+            Crown: 'basic_celshading_material',
+            Cocos: 'celshading_stripes_material',
+            Blob: 'displacement',
           };
 
           object.mesh.material = materials.hasOwnProperty(name) ?
-                                 MaterialManager.get(materials[name]) :
-                                 MaterialManager.get('basic_shadows');
+            MaterialManager.get(materials[name]) :
+            MaterialManager.get('basic_shadows');
 
         }
       }
@@ -202,13 +164,16 @@ class Scene {
   }
 
   animate() {
-    this.movelights();
+
     this.updatePositions();
     this.updateGestures();
     this.updateMaterials();
     this.updateShaders();
     this.render();
-    let animate = function () { this.animate(); }.bind(this);
+
+    let animate = function () {
+      this.animate();
+    }.bind(this);
     requestAnimationFrame(animate);
   }
 
@@ -236,39 +201,21 @@ class Scene {
 
       let body = this.world.add(physics);
 
-      object =  { mesh: mesh, body: body };
+      object = {
+        mesh: mesh,
+        body: body,
+      };
     } else {
       // If not, we only push the mesh
-      object = { mesh: mesh };
+      object = {
+        mesh: mesh,
+      };
     }
 
     this.objects.push(object);
     this.gestures.updateMeshes(this.objects);
     return object;
   }
-
-  movelights() {
-    let angle;
-    // console.log('------TARGET--------');
-    // console.log(this.lights[1].target);
-    // console.log('-----POSITION-------');
-    // console.log(this.lights[1].position);
-  }
-
-  //addTerrain(mesh, position, radius) {
-  //   this.scene.add(mesh);
-  //
-  //   for (var i = 0; i < position.length; i++) {
-  //     let pos = position[i];
-  //     let myName = 'terrainSection_' + i;
-  //     let rad = radius;
-  //
-  //     //console.log('index ', i, 'position ', pos);
-  //     console.log([pos[0], pos[1], pos[2]]);
-  //     let body = this.world.add({ type: 'sphere', position:
-  //     [pos[0], pos[1], pos[2]], size: [rad], });
-  //   }
-  // }
 
 }
 

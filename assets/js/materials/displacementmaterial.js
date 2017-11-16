@@ -26,7 +26,8 @@ let DisplacementMaterial = function (scene) {
     fragmentShader: DISPLACEMENT_FRAGMENT,
     fog: true,
     lights: true,
-    transparent: true,
+    receiveShadow: true,
+    transparent: false,
   });
 
   MaterialManager.set('displacement', material);

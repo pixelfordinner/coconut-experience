@@ -19,7 +19,7 @@ class Crown {
       crownGeometry: new THREE.BufferGeometry(), // ok
 
       scale: {
-        radius: 0.5,
+        radius: 0.7,
         height: 0.5,
       },
       position: {
@@ -82,7 +82,7 @@ class Crown {
 
     //this.options.crownGeometry = new THREE.BufferGeometry();
     this.options.crownGeometry.fromGeometry(c);
-    let material = MaterialManager.get('palmtree_crown');
+    let material = MaterialManager.get('ground');
 
     var mesh = new THREE.Mesh(this.options.crownGeometry, material);
 

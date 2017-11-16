@@ -1,45 +1,17 @@
 
-//varying float displacement;
 uniform float iGlobalTime;
-
-
 varying vec4 vWorldPosition;
-
 //chunk(common);
 //chunk(uv_pars_vertex);
+//chunk(shadowmap_pars_vertex);
+//chunk(fog_pars_vertex);
 
-//////////////////////////// 2D NOISE //////////////////////////////////////////
-float hash( float n ) {
-    return fract(sin(n)*43758.5453123);
-}
 
-float noise( in vec2 x ){
-    vec2 p = floor(x);
-    vec2 f = fract(x);
-    f = f * f * (3.0 - 2.0 * f);
-    float n = p.x + p.y * 57.0;
-    return mix(mix( hash(n + 0.0), hash(n + 1.0), f.x), mix(hash(n + 57.0), hash(n + 58.0), f.x), f.y);
-}
-//////////////////////////// FBM ///////////////////////////////////////////////
-// 	<https://www.shadertoy.com/view/MdX3Rr>
-//	by inigo quilez
-//
-const mat2 mtrx = mat2(0.8,-0.6,0.6,0.8);
-float fbm(vec2 p){
 
-    float f = 0.0;
-    f += 0.5000 * noise(p); p = mtrx * p * 2.01;
-    f += 0.2500 * noise(p); p = mtrx * p * 2.02;
-    f += 0.1250 * noise(p); p = mtrx * p * 2.03;
-    f += 0.0625 * noise(p); p = mtrx * p * 2.04;
-    f /= 0.9375;
-    return f;
-}
 ///////////////////////////// 4D NOISE /////////////////////////////////////////
 
 //	Simplex 4D Noise
 //	by Ian McEwan, Ashima Arts
-//
 vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
 float permute(float x){return floor(mod(((x*34.0)+1.0)*x, 289.0));}
 vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
@@ -65,17 +37,13 @@ float snoise(vec4 v){
   vec4 x0 = v -   i + dot(i, C.xxxx);
 
 // Other corners
-
 // Rank sorting originally contributed by Bill Licea-Kane, AMD (formerly ATI)
   vec4 i0;
-
   vec3 isX = step( x0.yzw, x0.xxx );
   vec3 isYZ = step( x0.zww, x0.yyz );
-//  i0.x = dot( isX, vec3( 1.0 ) );
+
   i0.x = isX.x + isX.y + isX.z;
   i0.yzw = 1.0 - isX;
-
-//  i0.y += dot( isYZ.xy, vec2( 1.0 ) );
   i0.y += isYZ.x + isYZ.y;
   i0.zw += 1.0 - isYZ.xy;
 
@@ -134,15 +102,13 @@ float snoise(vec4 v){
 
 void main() {
 
-
   //chunk(begin_vertex);
   //chunk(project_vertex);
   //chunk(worldpos_vertex);
+  //chunk(shadowmap_vertex);
 
   float displacement = snoise(vec4(position * 0.5, iGlobalTime));
   vec3 vPosition = vec3(position + normal * displacement * 0.35);
-
   gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
-
 
 }
