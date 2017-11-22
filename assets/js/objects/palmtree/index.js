@@ -17,7 +17,7 @@ class Palmtree {
       name: 'Palmtree_',
       index: 0,
       maxHeight: 1,
-      cocoMax: 4,
+      cocoMax: 18,
     };
 
     let rand = Math.random();
@@ -50,7 +50,7 @@ class Palmtree {
     let crown = new Crown(scene, {
       position: {
         x: this.options.position.x,
-        y: lastsegmentYpos + 1,
+        y: lastsegmentYpos + 10,
         z: this.options.position.z,
       },
       name: this.options.name + this.options.index + '_Crown',
@@ -79,13 +79,13 @@ class Palmtree {
 
       let angl = THREE.Math.mapLinear(i, 0, this.options.cocoMax, 0, Math.PI * 2);
       let xPos = this.options.position.x + (2.2 * minRadius * Math.cos(angl));
-      let ypos = this.options.position.z + (2.2 * minRadius * Math.sin(angl));
+      let zpos = this.options.position.z + (2.2 * minRadius * Math.sin(angl));
 
       let coco = new Coco(scene, {
         position: {
           x: xPos,
           y: lastsegmentYpos + 1,
-          z: ypos,
+          z: zpos,
         },
         scale: {
           x: 0.4,

@@ -50,7 +50,7 @@ class Crown {
       rad = THREE.Math.mapLinear(i, 0, this.options.steps, rad, 0.5);
       let ang = THREE.Math.mapLinear(i, 0, this.options.steps, -0.3, 0.3);
       let yPos  = Math.sin(rad * ang);
-      let f = new THREE.CylinderGeometry(rad, rad, rad /4, 20);
+      let f = new THREE.CylinderGeometry(rad, rad, rad / 4, 20);
       p.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI / 50));
       let mtxF = new THREE.Matrix4().makeTranslation(0, yPos, -dist);
       p.merge(f, mtxF);

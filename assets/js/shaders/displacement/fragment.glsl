@@ -70,14 +70,15 @@ void main() {
   }
 
   // material Shadowing
-  float shdw = smoothstep(0.0, 1.0, getShadowMask());
+  float shdw = smoothstep(-1.0, 1.0, getShadowMask());
   shdw = ceil(shdw * 10.0) * 0.1;
   vec3 shdwColor =  1.5 * diffuse2 * (lightColor * 3.5) * shdw;
 
   // Mixing Value between ligthning and shadows
-  float grad = .5*(max(0.0, dot( normal, lVector )) *  getShadowMask());
+  float grad = .5*(max(0.0, dot( normal, lVector )) *  shdw);
 
   // return final color and apply fog
-  gl_FragColor = mix(vec4(matColor, 1.0), vec4(shdwColor, 1.0), grad);
+  gl_FragColor = mix(vec4(matColor, 1), vec4(shdwColor, 1), grad);
+  //gl_FragColor = vec4(lVector * shdwColor, 1);
   //chunk(fog_fragment);
 }

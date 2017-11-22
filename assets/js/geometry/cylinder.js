@@ -8,6 +8,7 @@ class Cylinder {
       radiusBottom: 0.5,
       height: 1,
       radiusSegments: 8,
+      heightSegments: 10,
     };
 
     this.options = defaultsDeep(options, this.options);
@@ -17,7 +18,8 @@ class Cylinder {
         this.options.radiusTop,
         this.options.radiusBottom,
         this.options.height,
-        this.options.radiusSegments
+        this.options.radiusSegments,
+        this.options.heightSegments,
       )
     );
 

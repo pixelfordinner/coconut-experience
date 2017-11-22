@@ -1,17 +1,13 @@
-
+varying vec3 vViewPosition;
 uniform float iGlobalTime;
-varying vec4 vWorldPosition;
-//chunk(common);
-//chunk(uv_pars_vertex);
 //chunk(shadowmap_pars_vertex);
 //chunk(fog_pars_vertex);
-
-
 
 ///////////////////////////// 4D NOISE /////////////////////////////////////////
 
 //	Simplex 4D Noise
 //	by Ian McEwan, Ashima Arts
+//
 vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
 float permute(float x){return floor(mod(((x*34.0)+1.0)*x, 289.0));}
 vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
@@ -37,13 +33,17 @@ float snoise(vec4 v){
   vec4 x0 = v -   i + dot(i, C.xxxx);
 
 // Other corners
+
 // Rank sorting originally contributed by Bill Licea-Kane, AMD (formerly ATI)
   vec4 i0;
+
   vec3 isX = step( x0.yzw, x0.xxx );
   vec3 isYZ = step( x0.zww, x0.yyz );
-
+//  i0.x = dot( isX, vec3( 1.0 ) );
   i0.x = isX.x + isX.y + isX.z;
   i0.yzw = 1.0 - isX;
+
+//  i0.y += dot( isYZ.xy, vec2( 1.0 ) );
   i0.y += isYZ.x + isYZ.y;
   i0.zw += 1.0 - isYZ.xy;
 
@@ -104,11 +104,15 @@ void main() {
 
   //chunk(begin_vertex);
   //chunk(project_vertex);
-  //chunk(worldpos_vertex);
-  //chunk(shadowmap_vertex);
 
-  float displacement = snoise(vec4(position * 0.5, iGlobalTime));
+  float displacement = snoise(vec4(position * 1.0, iGlobalTime));
   vec3 vPosition = vec3(position + normal * displacement * 0.35);
+
   gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
 
+  vViewPosition = - vPosition.xyz;
+
+  //chunk(worldpos_vertex);
+  //chunk(shadowmap_vertex);
+  //chunk(fog_vertex);
 }

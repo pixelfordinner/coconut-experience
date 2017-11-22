@@ -9,29 +9,21 @@ const FRAGMENT = shaderParse(require('../shaders/celshading_stripes/fragment.gls
 let StripeMaterial = function (scene) {
 
   let uniforms = THREE.UniformsUtils.merge([{
-      uDirLightPos: {
+      lightPos: {
         type: 'v3',
-        value: scene.lights[1].position,
+        value: scene.lights[0].position,
       },
-      uDirLightColor: {
+      lightColor: {
         type: 'c',
         value: new THREE.Color(0xf937be),
       },
-      uMaterialColor: {
+      diffuse: {
         type: 'c',
         value: new THREE.Color(0x106cc1),
       },
-      uMaterialColor2: {
+      diffuse2: {
         type: 'c',
         value: new THREE.Color(0xcdcaec),
-      },
-      uKd: {
-        type: 'f',
-        value: 1.5,
-      },
-      uBorder: {
-        type: 'f',
-        value: 2.0,
       },
       iGlobalTime: {
         type: 'f',

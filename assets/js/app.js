@@ -106,20 +106,20 @@ class App {
       name: 'Tree',
       index: 1,
       position: {
-        x: 10,
+        x: 0,
         y: 0,
-        z: 5,
+        z: 0,
       },
     });
     new Blob(this.scene, {
       name: 'Blob',
       radius: 2,
-      widthSegments: 10,
-      heightSegments: 10,
+      widthSegments: 40,
+      heightSegments: 40,
       position: {
-        x: -6,
-        y: 2,
-        z: -8,
+        x: 0,
+        y: 1,
+        z: 10,
       },
       physics: {
         move: true,

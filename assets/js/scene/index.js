@@ -3,6 +3,8 @@ import Renderer from './renderer';
 
 //import Postprod from './postprocess';
 import Camera from './camera';
+import Frustrum from './frustrum';
+import CameraFrustrum from './camerafrustrum';
 import Lights from './lights';
 import Clock from './clock';
 import World from './world';
@@ -23,13 +25,24 @@ class Scene {
       width: $(this.options.renderer.canvas).width(),
       height: $(this.options.renderer.canvas).height(),
     };
+    this.options.camera.distance = 10;
+    this.options.camera.position = {
+      x: 0,
+      y: 3,
+      z: -3,
+    };
+
+    // this.aspectRatio = $(this.options.renderer.canvas).width()
+    //                  / $(this.options.renderer.canvas).height();
+    // this.options.shadowCamera = new THREE.PerspectiveCamera(70, this.aspectRatio, 10, 1000));
 
     this.renderer = new Renderer(options);
     this.camera = new Camera(options);
-    this.lights = new Lights(options, this.camera);
+    this.lightfrustrum = new CameraFrustrum(options);
+    this.lights = new Lights(options, this.camera, this.lightfrustrum);
     this.world = new World();
     this.clock = new Clock();
-
+    this.frustrum = new Frustrum(this.lightfrustrum);
     return this;
   }
 
@@ -44,7 +57,8 @@ class Scene {
     this.lights.forEach((function (light) {
       this.scene.add(light);
     }).bind(this));
-
+    // Frustrum
+    this.scene.add(this.frustrum);
     // Event Listeners
     let updateSize = function () {
       this.updateSize();
@@ -136,6 +150,7 @@ class Scene {
         if (object.body.sleeping) {
           const sleepingMaterials = {
             Ground: 'basic_shadows',
+            Blob: 'displacement',
           };
 
           object.mesh.material = sleepingMaterials.hasOwnProperty(name) ?

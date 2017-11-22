@@ -13,7 +13,7 @@ let DisplacementMaterial = function (scene) {
     diffuse: { type: 'c', value: new THREE.Color(0x106cc1) },
     diffuse2: { type: 'c', value: new THREE.Color(0xcdcaec) },
     lightColor:	{ type: 'c', value: new THREE.Color(0xf937be) },
-    lightPos:	{ type: 'v3', value: scene.lights[1].position },
+    lightPos:	{ type: 'v3', value: scene.lights[0].position },
   },
     THREE.UniformsLib.fog,
     THREE.UniformsLib.lights,
@@ -26,8 +26,7 @@ let DisplacementMaterial = function (scene) {
     fragmentShader: DISPLACEMENT_FRAGMENT,
     fog: true,
     lights: true,
-    receiveShadow: true,
-    transparent: false,
+    transparent: true,
   });
 
   MaterialManager.set('displacement', material);

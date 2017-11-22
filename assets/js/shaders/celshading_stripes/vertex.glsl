@@ -10,5 +10,6 @@ void main(void) {
   vUv = uv;
   gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
   vNormal = normalize( normalMatrix * normal );
+  //vNormal = normal(modelViewMatrix * normal);
   //chunk(fog_vertex);
 }

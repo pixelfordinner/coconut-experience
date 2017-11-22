@@ -12,7 +12,7 @@ let StripeMaterial = function (scene) {
   let uniforms = THREE.UniformsUtils.merge([{
       lightPos: {
         type: 'v3',
-        value: scene.lights[1].position,
+        value: scene.lights[0].position,
       },
       lightColor: {
         type: 'c',
