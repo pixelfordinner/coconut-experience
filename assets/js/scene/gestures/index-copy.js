@@ -69,14 +69,13 @@ class Gestures {
       config: [0.5, 0.4, 0.2, 1 << 2, 1 << 2],
     });
 
-
-    let mouseMove = function(e) {
+    let mouseMove = function (e) {
       this.mouseMove(e);
     }.bind(this);
-    let mouseUp = function(e) {
+    let mouseUp = function (e) {
       this.mouseUp(e);
     }.bind(this);
-    let mouseDown = function(e) {
+    let mouseDown = function (e) {
       this.mouseDown(e);
     }.bind(this);
 
@@ -111,7 +110,11 @@ class Gestures {
       this.dragPointView.visible = false;
       this.dragPlaneView.visible = false;
       this.dragLineView.visible = false;
-      this.dragLineModel.remove();
+      //this.dragLineModel.remove();
+      //this.scene.world.remove(this.dragLineModel);
+      //this.scene.world.remove(this.dragPoint);
+
+      //this.dragPoint.remode();
     }
   }
 
@@ -130,34 +133,20 @@ class Gestures {
     this.ray.setFromCamera(this.mouse, this.scene.camera);
     intersects = this.ray.intersectObjects(this.meshes, true);
 
-    const excluded = ['Ground', 'Sky', 'Eye', 'Hole', 'Tile', 'Coco'];
+    const excluded = ['Ground', 'Sky', 'Fake_Water', 'Eye', 'Hole', 'Tile'];
 
     //let draggable = intersects.length > 0 && excluded.indexOf(intersects[0].object.name) === -1;
 
     let draggable = true;
     if (intersects.length > 0) {
-      draggable = true;
-      let name = intersects[0].object.name;
-      name = intersects[0].object.name;
-      if (name.includes('_')) {
-        name = name.split('_');
-        for (let i = 0; i < name.length; i++) {
-          for (let j = 0; j < excluded.length; j++) {
-            if (name[i] == excluded[j]) {
-              draggable = false;
-              this.dragStatus = DRAG_STATUS_NONE;
-            }
+      let name = intersects[0].object.name.split('_');
+      for (let i = 0; i < excluded.length; i++) {
+        for (let j = 0; j < name.length; j++) {
+          if (name[j] == excluded[i]) {
+            draggable = false;
           }
         }
-      } else if (excluded.indexOf(intersects[0].object.name) === -1) {
-        draggable = false;
-        this.dragStatus = DRAG_STATUS_NONE;
       }
-
-      console.log(name + ' ' + draggable);
-    } else {
-      draggable = false;
-      console.log('noCastedObject' + ' ' + draggable);
     }
 
     if (draggable) {
@@ -188,7 +177,6 @@ class Gestures {
       world: this.scene.world,
       type: 'jointBall',
       body1: 'dragPointBody',
-      name: 'dragJoint',
       body2: this.dragBlockName,
       collision: false,
       pos1: [0, 0, 0],

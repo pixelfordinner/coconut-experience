@@ -5,8 +5,8 @@ class Sphere {
   constructor(scene, options = {}) {
     this.options = {
       radius: 1,
-      widthSegments: 100,
-      heightSegments: 100,
+      widthSegments: 10,
+      heightSegments: 10,
     };
 
     this.options = defaultsDeep(options, this.options);

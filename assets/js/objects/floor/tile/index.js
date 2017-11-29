@@ -1,47 +1,45 @@
 import * as THREE from 'three';
-import Sphere from '../../../geometry/sphere';
+import Box from '../../../geometry/box';
 import { MaterialManager } from '../../../materials/manager';
 
 const defaultsDeep = require('lodash.defaultsdeep');
 
-class Coco {
+class Tile {
   constructor(scene, options = {}) {
     this.options = {
-      radius: 1,
       scale: {
-        x: 1.5,
-        y: 1.5,
-        z: 1.5,
+        x: 1,
+        y: 0.2,
+        z: 1,
       },
       position: {
         x: 0,
         y: 0,
         z: 0,
       },
-      name: 'Coco_',
+      name: 'Tile_',
       castShadow: true,
-      receiveShadow: false,
+      receiveShadow: true,
       physics: {
-        type: 'sphere',
+        type: 'box',
         move: true,
-        density: 0.1,
-        friction: 0.1,
-        restitution: 0.3,
-        belongsTo: 1,
+        density: 100,
+        friction: 0.0,
+        restitution: 0.5,
+        belongsTo: 2,
         collidesWith: 0xffffffff,
       },
     };
 
     this.options = defaultsDeep(options, this.options);
-
-    let sphere = new Sphere();
+    let box = new Box();
     let material = MaterialManager.get('ground');
 
-    var mesh = new THREE.Mesh(sphere, material);
+    var mesh = new THREE.Mesh(box, material);
     mesh.scale.set(
-      this.options.radius * this.options.scale.x,
-      this.options.radius * this.options.scale.y,
-      this.options.radius * this.options.scale.z
+      this.options.scale.x,
+      this.options.scale.y,
+      this.options.scale.z
     );
     mesh.position.set(
       this.options.position.x,
@@ -53,10 +51,8 @@ class Coco {
     mesh.receiveShadow = this.options.receiveShadow;
     mesh.castShadow = this.options.castShadow;
 
-    //scene.add(mesh, this.options.physics);
-
     return scene.add(mesh, this.options.physics);
   }
 }
 
-export default Coco;
+export default Tile;

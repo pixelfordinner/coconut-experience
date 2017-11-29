@@ -19,6 +19,7 @@ class Blob {
   constructor(scene, options = {}) {
     this.options = {
       radius: 1,
+      index: 1,
       scale: {
         x: 1,
         y: 1,
@@ -29,9 +30,9 @@ class Blob {
         y: 0,
         z: 0,
       },
-      name: 'Blob',
-      widthSegments: 100,
-      heightSegments: 100,
+      name: 'Blob_',
+      widthSegments: 1000,
+      heightSegments: 1000,
       castShadow: true,
       receiveShadow: true,
       physics: {
@@ -80,7 +81,7 @@ class Blob {
     };
 
     var mesh = new THREE.Mesh(sphere, material);
-    mesh.name = this.options.name;
+    mesh.name = this.options.name + this.options.index;
     mesh.receiveShadow = true;
     mesh.castShadow = true;
     mesh.scale.set(
@@ -93,8 +94,6 @@ class Blob {
       this.options.position.y,
       this.options.position.z
     );
-
-    let ghostmesh = mesh.clone();
 
     let customDepthMaterial = new THREE.ShaderMaterial({
       defines: defines,

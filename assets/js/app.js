@@ -6,21 +6,23 @@ import Cylinder from './geometry/cylinder';
 import Box from './geometry/box';
 
 // OBJECTS
+//import SimpleBase from './objects/simplebase';
+//import IceCream from './objects/icecream';
+
 import Scene from './scene';
-import SimpleBase from './objects/simplebase';
-import Archi from './objects/architecture';
+import Floor from './objects/floor';
 import Palmtree from './objects/palmtree';
-import IceCream from './objects/icecream';
 import Blob from './objects/blob';
 
 // MATERIALS
-import ShaderMaterial from './materials/shadermaterial.js';
+//import ShaderMaterial from './materials/shadermaterial.js';
+//import CloudShaderMaterial from './materials/cloudmaterial.js';
+//import SmoothCloudShaderMaterial from './materials/smoothcloudmaterial.js';
+
 import StripesMaterial from './materials/stripesmaterial.js';
 import CelShadingMaterial from './materials/celshadingmaterial.js';
 import ShadowShaderMaterial from './materials/shadowmaterial.js';
 import DisplacementShaderMaterial from './materials/displacementmaterial.js';
-import CloudShaderMaterial from './materials/cloudmaterial.js';
-import SmoothCloudShaderMaterial from './materials/smoothcloudmaterial.js';
 import MakeMaterial from './materials/makematerial.js';
 import shaderParse from './shaders/shaderparse.js';
 
@@ -90,8 +92,6 @@ class App {
     }));
 
     new ShadowShaderMaterial();
-    new CloudShaderMaterial();
-    new SmoothCloudShaderMaterial();
     new DisplacementShaderMaterial(this.scene);
     new StripesMaterial(this.scene);
     new CelShadingMaterial(this.scene);
@@ -100,11 +100,12 @@ class App {
 
   populateScene() {
 
-    new SimpleBase(this.scene);
+    //new SimpleBase(this.scene);
+    new Floor(this.scene);
     new Sphere(this.base);
     new Palmtree(this.scene, {
-      name: 'Tree',
-      index: 1,
+      name: 'Palmtree_',
+      index: 0,
       position: {
         x: 0,
         y: 0,
@@ -112,7 +113,8 @@ class App {
       },
     });
     new Blob(this.scene, {
-      name: 'Blob',
+      name: 'Blob_',
+      index: 0,
       radius: 2,
       widthSegments: 40,
       heightSegments: 40,

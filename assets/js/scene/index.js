@@ -20,6 +20,8 @@ class Scene {
   constructor(options) {
     this.options = options;
     this.objects = [];
+    this.Joints = [];
+    this.lastJointPos = [];
 
     this.options.dimensions = {
       width: $(this.options.renderer.canvas).width(),
@@ -35,7 +37,7 @@ class Scene {
     // this.aspectRatio = $(this.options.renderer.canvas).width()
     //                  / $(this.options.renderer.canvas).height();
     // this.options.shadowCamera = new THREE.PerspectiveCamera(70, this.aspectRatio, 10, 1000));
-
+    this.count = true;
     this.renderer = new Renderer(options);
     this.camera = new Camera(options);
     this.lightfrustrum = new CameraFrustrum(options);
@@ -54,13 +56,13 @@ class Scene {
     );
 
     // Lights
-    this.lights.forEach((function (light) {
+    this.lights.forEach((function(light) {
       this.scene.add(light);
     }).bind(this));
     // Frustrum
     this.scene.add(this.frustrum);
     // Event Listeners
-    let updateSize = function () {
+    let updateSize = function() {
       this.updateSize();
     }.bind(this);
     window.addEventListener('resize', updateSize, false);
@@ -86,11 +88,38 @@ class Scene {
     );
   }
 
+  updateCocos() {
+    var cocoJoint = [];
+    if (this.world.numJoints != null && this.count == true) {
+      //console.log(this.objects);
+      console.log(this.Joints);
+      for (let i = 0; i < this.Joints.length; i++) {
+        console.log(this.Joints[i].body1.position);
+        // if (this.lastJointPos != null) {
+        //   let pos1 = new THREE.Vector3(this.Joints[i].body1.position.x,
+        //     this.Joints[i].body1.position.y,
+        //     this.Joints[i].body1.position.z);
+        //   let pos2 = new THREE.Vector3(this.lastJointPos[i].x,
+        //     this.lastJointPos[i].y,
+        //     this.lastJointPos[i].z);
+        //
+        // } else {
+        //   lastJointPos[i] = new THREE.Vector3(this.Joints[i].body1.position.x,
+        //     this.Joints[i].body1.position.y,
+        //     this.Joints[i].body1.position.z);
+        // }
+
+      }
+
+      this.count = false;
+    }
+  }
+
   updatePositions() {
 
     this.world.step();
 
-    this.objects.forEach(function (object) {
+    this.objects.forEach(function(object) {
 
       if (object.hasOwnProperty('body') === true) {
         object.mesh.position.copy(object.body.getPosition());
@@ -129,14 +158,15 @@ class Scene {
 
   updateMaterials() {
 
-    this.objects.forEach(function (object) {
+    this.objects.forEach(function(object) {
       if (object.hasOwnProperty('body') === true) {
 
         const updatables = [
           'TrunkSegment',
           'Crown',
-          'Cocos',
+          'Coco',
           'Blob',
+          'Tile',
         ];
 
         const parts = object.mesh.name.split('_');
@@ -160,8 +190,9 @@ class Scene {
           const materials = {
             TrunkSegment: 'celshading_stripes_material',
             Crown: 'basic_celshading_material',
-            Cocos: 'celshading_stripes_material',
+            Coco: 'celshading_stripes_material',
             Blob: 'displacement',
+            Tile: 'celshading_stripes_material',
           };
 
           object.mesh.material = materials.hasOwnProperty(name) ?
@@ -184,9 +215,10 @@ class Scene {
     this.updateGestures();
     this.updateMaterials();
     this.updateShaders();
+    this.updateCocos();
     this.render();
 
-    let animate = function () {
+    let animate = function() {
       this.animate();
     }.bind(this);
     requestAnimationFrame(animate);
