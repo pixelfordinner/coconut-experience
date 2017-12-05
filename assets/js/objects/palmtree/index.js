@@ -17,11 +17,11 @@ class Palmtree {
       name: 'Palmtree_',
       index: 0,
       maxHeight: 1,
-      cocoMax: 18,
+      cocoMax: 14,
     };
 
     let rand = Math.random();
-    let randHeight = THREE.Math.mapLinear(rand, 0, 1, 2, 3);
+    let randHeight = THREE.Math.mapLinear(rand, 0, 1, 1, 2);
     let randRadius = THREE.Math.mapLinear(rand, 0, 1, 1, 1.5);
 
     this.options = defaultsDeep(options, this.options);
@@ -45,12 +45,13 @@ class Palmtree {
 
     let lastSegment = trunk.segments[trunk.segments.length - 1];
     let lastBody = lastSegment.body;
-    let lastsegmentYpos = lastSegment.body.position.y;
+    let lastMesh = lastSegment.mesh;
+    let lastsegmentYpos = lastMesh.position.y;
 
     let crown = new Crown(scene, {
       position: {
         x: this.options.position.x,
-        y: lastsegmentYpos + 10,
+        y: lastsegmentYpos * 1.1,
         z: this.options.position.z,
       },
       name: this.options.name + this.options.index + '_Crown',
@@ -84,19 +85,19 @@ class Palmtree {
       let coco = new Coco(scene, {
         position: {
           x: xPos,
-          y: lastsegmentYpos + 1,
+          y: lastsegmentYpos,
           z: zpos,
         },
         scale: {
-          x: 0.4,
-          y: 0.6,
-          z: 0.4,
+          x: 0.5,
+          y: 0.5,
+          z: 0.5,
         },
         name: this.options.name + this.options.index + '_Coco_' + i,
       });
 
       let cocoBody = coco.body;
-
+      //
       // let link = scene.world.add({
       //   type: 'jointHinge',
       //   name: this.options.name + this.options.index + '_CocoLink_' + (i - 1),

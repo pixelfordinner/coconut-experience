@@ -11,9 +11,9 @@ class TrunkSegment {
         radiusTop: 0.5,
         radiusBottom: 0.48,
         height: 1,
-        radiusSegments: 22,
+        radiusSegments: 21,
         heightSegments: 1,
-        openEnded: true,
+        openEnded: false,
       },
       scale: {
         radius: 1,
@@ -26,7 +26,7 @@ class TrunkSegment {
       },
       name: 'TrunkSegment',
       castShadow: true,
-      receiveShadow: false,
+      receiveShadow: true,
       physics: {
         type: 'cylinder',
         move: true,
@@ -41,7 +41,7 @@ class TrunkSegment {
     this.options = defaultsDeep(options, this.options);
 
     let cylinder = new Cylinder(this.options.cylinder);
-    let material = MaterialManager.get('palmtree_trunk');
+    let material = MaterialManager.get('basic_shadows');
     let Uv = cylinder.attributes.uv;
 
     for (var i = 0; i < cylinder.attributes.uv.count; i++) {

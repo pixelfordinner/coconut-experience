@@ -172,9 +172,9 @@ class Scene {
           'TrunkSegment',
           'Crown',
           'Coco',
+          'Blob',
           'Tile',
           'Land',
-          'Blob',
         ];
 
         const parts = object.mesh.name.split('_');
@@ -187,25 +187,27 @@ class Scene {
 
         if (object.body.sleeping) {
           const sleepingMaterials = {
+            Ground: 'transparence_basic',
+            Blob: 'displacement',
             Land: 'displacement_box',
           };
 
           object.mesh.material = sleepingMaterials.hasOwnProperty(name) ?
             MaterialManager.get(sleepingMaterials[name]) :
-            MaterialManager.get('basic_shadows');
+            MaterialManager.get('transparence_basic');
         } else {
           const materials = {
             TrunkSegment: 'celshading_stripes_material',
             Crown: 'basic_celshading_material',
             Coco: 'celshading_stripes_material',
-            Tile: 'celshadow_material',
-            Land: 'displacement_box',
             Blob: 'displacement',
+            Tile: 'celshading_stripes_material',
+            Land: 'displacement_box',
           };
 
           object.mesh.material = materials.hasOwnProperty(name) ?
             MaterialManager.get(materials[name]) :
-            MaterialManager.get('transparence_basic');
+            MaterialManager.get('basic_shadows');
 
         }
       }

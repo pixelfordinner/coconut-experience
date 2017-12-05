@@ -1,4 +1,5 @@
 uniform vec3 diffuse;
+uniform vec3 diffuse2;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 varying vec3 vNormal;
@@ -8,6 +9,9 @@ uniform float iGlobalTime;
 //chunk(common);
 //chunk(packing);
 //chunk(bsdfs);
+//chunk(lights_pars);
+//chunk(shadowmap_pars_fragment);
+//chunk(shadowmask_pars_fragment);
 //chunk(fog_pars_fragment);
 
 
@@ -67,7 +71,16 @@ void main(void) {
   }
 
 
-  // output color fragment
-  gl_FragColor = vec4(matColor, 1.0);
+  // material Shadowing
+  float shdw = smoothstep(-1.0, 1.0, getShadowMask());
+  shdw = ceil(shdw * 5.0) * 0.2;
+  vec3 shdwColor =  2.5 * diffuse2 * (lightColor * 3.5);
+  // Mixing Value between ligthning and shadows
+  //float grad = .5 * (max(0.0, dot(normal, lVector)) *  shdw);
+
+  // return final color and apply fog
+  gl_FragColor = mix(vec4(matColor, 1), vec4(shdwColor, 1), shdw);
+  // COLORIZE
+  //vec4 finalcolor = mix(vec4(diffshadow, 1.0), vec4(diffuse, opacity), shdw);
   //chunk(fog_fragment);
 }

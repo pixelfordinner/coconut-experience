@@ -60,14 +60,9 @@ void main(void) {
   // do some additive lightning and fake shinny sand texture
   if (diff > 0.7){
     matColor += pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.1;
-    // float n = 1.0 - noise(vNormal.xyz * 100.0);
-    // if(n > 0.3 ){
-    //   matColor += n * pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.5 ;
-    // }
   }
 
-
   // output color fragment
-  gl_FragColor = vec4(matColor, 1.0);
+  gl_FragColor = vec4(matColor, 0.4);
   //chunk(fog_fragment);
 }

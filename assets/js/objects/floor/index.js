@@ -13,13 +13,13 @@ class Floor {
       name: 'Floor_',
       index: 0,
       size: {
-        w: 30,
-        h: 30,
+        w: 13,
+        h: 13,
       },
       scale: {
-        x: 3,
+        x: 4,
         y: 1,
-        z: 3,
+        z: 4,
       },
       position: {
         x: 0,
@@ -38,21 +38,31 @@ class Floor {
     };
     this.options = defaultsDeep(options, this.options);
     let tIndex = 0;
+    let up = 0;
     for (let i = 0; i < this.options.size.w; i++) {
       for (let j = 0; j < this.options.size.h; j++) {
 
-        let px = (i * this.options.scale.x) - (this.options.scale.x * this.options.size.w / 2);
-        let pz = (j * this.options.scale.z) - (this.options.scale.z * this.options.size.h / 2);
+        let px = (0.5 + i * this.options.scale.x) - (this.options.scale.x * this.options.size.w / 2);
+        let pz = (0.5 + j * this.options.scale.z) - (this.options.scale.z * this.options.size.h / 2);
+        //let py = this.options.position.y - this.options.scale.y;
 
+        let  x = (0.5 + i - this.options.size.w / 2);
+        let  z = (0.5 + j - this.options.size.h / 2);
+        //console.log(`X : ` + x + ` Z : ` + z + ` TT ` + Math.abs(this.options.size.w * i));
+        let py = this.options.scale.y * (1 / Math.sqrt(1 + (x * x) + (z * z)));
+        let height = py * 2;
+
+        //py += Math.
+        //console.log(`PPPP : ` + py);
         let tile = new Tile(scene, {
           position: {
             x: px + (this.options.scale.x * 0.5),
-            y: this.options.position.y - this.options.scale.y,
+            y: py,
             z: pz + (this.options.scale.z * 0.5),
           },
           scale: {
             x: this.options.scale.x * 0.999,
-            y: this.options.scale.y,
+            y: height,
             z: this.options.scale.z * 0.999,
           },
           name: this.options.name + this.options.index + '_Tile_' + tIndex,
@@ -62,8 +72,8 @@ class Floor {
     }
 
     let box = new Box();
-    let groundMaterial = MaterialManager.get('basic_shadows');
-    let mesh = new THREE.Mesh(box, groundMaterial);
+    let material = MaterialManager.get('basic_shadows');
+    let mesh = new THREE.Mesh(box, material);
 
     mesh.scale.set(
       this.options.scale.x * this.options.size.w,
@@ -72,12 +82,12 @@ class Floor {
     );
 
     mesh.position.set(
-      0,
-      -this.options.position.y - this.options.scale.y * 2,
-      0,
+      0.5,
+      this.options.position.y - (this.options.scale.y / 2),
+      0.5,
     );
 
-    mesh.name = this.options.name + 'bis';
+    mesh.name = this.options.name + 'base';
     mesh.receiveShadow = false;
     mesh.castShadow = false;
     scene.add(mesh, this.options.physics);

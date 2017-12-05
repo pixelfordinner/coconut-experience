@@ -20,7 +20,7 @@ class Trunk {
         z: 0,
       },
       segments: {
-        quantity: 11,
+        quantity: 9,
         radius: {
           min: 0.6,
           max: 1,
@@ -40,12 +40,14 @@ class Trunk {
 
     this.segments = [];
 
-    let currentHeight = this.options.scale.y / 2;
+    let currentHeight = this.options.position.y + (this.options.scale.y / 2);
+
     let lastSegmentsHeight = 0;
     let height = this.options.scale.y;
     let lastHeight = height;
 
-    for (var i = 0; i < this.options.segments.quantity; i++, currentHeight += height) {
+    for (var i = 0; i < this.options.segments.quantity; i++) {
+
       let height = THREE.Math.mapLinear(
         i,
         0,
@@ -53,6 +55,8 @@ class Trunk {
         this.options.segments.height.min,
         this.options.segments.height.max,
       );
+      currentHeight += height * 0.7;
+
       let radius = THREE.Math.mapLinear(
         i,
         0,
@@ -68,8 +72,6 @@ class Trunk {
         this.options.segments.density.min
       );
       let myName = this.options.name + '_TrunkSegment_' + i;
-
-      //console.log(myName);
       let move = true;
       if (i === 0) move = false;
 
@@ -80,7 +82,7 @@ class Trunk {
         },
         position: {
           x: this.options.position.x,
-          y: this.options.position.y + currentHeight,
+          y: currentHeight,
           z: this.options.position.z,
         },
         name: myName,

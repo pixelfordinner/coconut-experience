@@ -20,13 +20,13 @@ class Coco {
       },
       name: 'Coco_',
       castShadow: true,
-      receiveShadow: false,
+      receiveShadow: true,
       physics: {
         type: 'sphere',
         move: true,
         density: 0.1,
-        friction: 0.1,
-        restitution: 0.3,
+        friction: 0.3,
+        restitution: 0.1,
         belongsTo: 1,
         collidesWith: 0xffffffff,
       },
@@ -35,7 +35,7 @@ class Coco {
     this.options = defaultsDeep(options, this.options);
 
     let sphere = new Sphere();
-    let material = MaterialManager.get('ground');
+    let material = MaterialManager.get('basic_shadows');
 
     var mesh = new THREE.Mesh(sphere, material);
     mesh.scale.set(

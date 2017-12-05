@@ -24,7 +24,6 @@ let ShadowMaterial = function () {
     fragmentShader: B_S_FRAGMENT,
     fog: true,
     lights: true,
-    receiveShadow: true,
     transparent: false,
 
   });

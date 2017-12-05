@@ -6,13 +6,14 @@ import Cylinder from './geometry/cylinder';
 import Box from './geometry/box';
 
 // OBJECTS
-//import SimpleBase from './objects/simplebase';
+import SimpleBase from './objects/simplebase';
 //import IceCream from './objects/icecream';
 
 import Scene from './scene';
 import Floor from './objects/floor';
 import Palmtree from './objects/palmtree';
 import Blob from './objects/blob';
+import Landscape from './objects/landscape';
 
 // MATERIALS
 //import ShaderMaterial from './materials/shadermaterial.js';
@@ -21,8 +22,11 @@ import Blob from './objects/blob';
 
 import StripesMaterial from './materials/stripesmaterial.js';
 import CelShadingMaterial from './materials/celshadingmaterial.js';
+import CelShadowMaterial from './materials/celshadingshadowmaterial.js';
+import TransparenceMaterial from './materials/transparence_basic.js';
 import ShadowShaderMaterial from './materials/shadowmaterial.js';
 import DisplacementShaderMaterial from './materials/displacementmaterial.js';
+import DisplacementBoxShaderMaterial from './materials/displacementbox.js';
 import MakeMaterial from './materials/makematerial.js';
 import shaderParse from './shaders/shaderparse.js';
 
@@ -47,7 +51,7 @@ class App {
         far: 1000,
         lookAt: {
           x: 0,
-          y: 7,
+          y: 20,
           z: 0,
         },
         position: {
@@ -95,36 +99,70 @@ class App {
     new DisplacementShaderMaterial(this.scene);
     new StripesMaterial(this.scene);
     new CelShadingMaterial(this.scene);
+    new DisplacementBoxShaderMaterial(this.scene);
+    new TransparenceMaterial(this.scene);
+    new CelShadowMaterial(this.scene);
 
   }
 
   populateScene() {
 
-    //new SimpleBase(this.scene);
-    new Floor(this.scene);
-    new Sphere(this.base);
-    new Palmtree(this.scene, {
-      name: 'Palmtree_',
-      index: 0,
+
+    new Floor(this.scene, {
+      size: {
+        w: 21,
+        h: 21,
+      },
       position: {
         x: 0,
         y: 0,
         z: 0,
+      },
+      scale: {
+        x: 10,
+        y: 5,
+        z: 10,
+      },
+    });
+
+    new SimpleBase(this.scene);
+    // new Landscape(this.scene, {
+    //   widthSegments: 200,
+    //   heightSegments: 200,
+    //   size: {
+    //     w: 240,
+    //     h: 240,
+    //   },
+    //   position: {
+    //     x: 0,
+    //     y: 2,
+    //     z: 0,
+    //   },
+    // });
+
+
+    new Palmtree(this.scene, {
+      name: 'Palmtree_',
+      index: 0,
+      position: {
+        x: 0.5,
+        y: 9.3,
+        z: 0.5,
       },
     });
     new Blob(this.scene, {
       name: 'Blob_',
       index: 0,
       radius: 2,
-      widthSegments: 40,
-      heightSegments: 40,
+      widthSegments: 400,
+      heightSegments: 400,
       position: {
         x: 0,
-        y: 1,
-        z: 10,
+        y: 30,
+        z: 30,
       },
       physics: {
-        move: true,
+        move: false,
       },
     });
   }

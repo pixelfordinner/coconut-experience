@@ -14,7 +14,7 @@ uniform vec3 diffshadow;
 void main(void) {
 
   // SHADOWS
-  float shdw = smoothstep(-1., 1.5, getShadowMask());
+  float shdw = smoothstep(-1.0, 1.0, getShadowMask());
 
   // COLORIZE
   vec4 color2 = mix(vec4(diffshadow, 1.0), vec4(diffuse, opacity), shdw);

@@ -41,7 +41,7 @@ let StripeMaterial = function (scene) {
     fragmentShader: FRAGMENT,
     fog: true,
     lights: true,
-    transparent: true,
+    transparent: false,
 
   });
   MaterialManager.set('celshading_stripes_material', material);

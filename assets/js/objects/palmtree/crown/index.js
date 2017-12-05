@@ -15,12 +15,12 @@ class Crown {
       density: 1,
       height: 1,
       castShadow: true,
-      receiveShadow: false,
+      receiveShadow: true,
       crownGeometry: new THREE.BufferGeometry(), // ok
 
       scale: {
-        radius: 0.7,
-        height: 0.5,
+        radius: 0.5,
+        height: 0.3,
       },
       position: {
         x: 0,
@@ -82,7 +82,7 @@ class Crown {
 
     //this.options.crownGeometry = new THREE.BufferGeometry();
     this.options.crownGeometry.fromGeometry(c);
-    let material = MaterialManager.get('ground');
+    let material = MaterialManager.get('basic_shadows');
 
     var mesh = new THREE.Mesh(this.options.crownGeometry, material);
 

@@ -3,7 +3,6 @@ import {
   MaterialManager
 } from '../../materials/manager';
 import Box from '../../geometry/box';
-import Cylinder from '../../geometry/cylinder';
 
 class Base {
   constructor(scene, options = {}) {
@@ -11,13 +10,13 @@ class Base {
       ground: {
         name: 'Ground',
         scale: {
-          x: 400,
-          y: 20,
-          z: 400,
+          x: 40,
+          y: 2,
+          z: 40,
         },
         position: {
           x: 0,
-          y: -10,
+          y: -20,
           z: 0,
         },
         receiveShadow: true,
@@ -36,8 +35,8 @@ class Base {
 
     // Ground
     let box = new Box();
-    let groundMaterial = MaterialManager.get('basic_shadows');
-    let mesh = new THREE.Mesh(box, groundMaterial);
+    let material = MaterialManager.get('transparence_basic');
+    let mesh = new THREE.Mesh(box, material);
 
     mesh.scale.set(
       this.options.ground.scale.x,

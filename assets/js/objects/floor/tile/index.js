@@ -26,16 +26,19 @@ class Tile {
         density: 100,
         friction: 0.0,
         restitution: 0.5,
-        belongsTo: 2,
+        belongsTo: 1,
         collidesWith: 0xffffffff,
       },
     };
 
     this.options = defaultsDeep(options, this.options);
     let box = new Box();
-    let material = MaterialManager.get('ground');
+    let material = MaterialManager.get('basic_shadows');
 
     var mesh = new THREE.Mesh(box, material);
+    mesh.name = this.options.name;
+    mesh.receiveShadow = true;
+    mesh.castShadow = this.options.castShadow;
     mesh.scale.set(
       this.options.scale.x,
       this.options.scale.y,
@@ -47,9 +50,7 @@ class Tile {
       this.options.position.z
     );
 
-    mesh.name = this.options.name;
-    mesh.receiveShadow = this.options.receiveShadow;
-    mesh.castShadow = this.options.castShadow;
+
 
     return scene.add(mesh, this.options.physics);
   }
