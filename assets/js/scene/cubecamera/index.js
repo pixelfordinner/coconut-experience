@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 class Camera {
   constructor(options) {
-    this.camera = new THREE.CubeCamera(1, 1000, 256);
+    this.camera = new THREE.CubeCamera(1, 1000, 1024);
 
     this.camera.position.set(
       0,

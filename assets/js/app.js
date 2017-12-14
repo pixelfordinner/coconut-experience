@@ -12,6 +12,7 @@ import Palmtree from './objects/palmtree';
 import Blob from './objects/blob';
 import Landscape from './objects/landscape';
 import Wolf from './objects/loader';
+import Moon from './objects/moon';
 
 
 // MATERIALS
@@ -103,6 +104,23 @@ class App {
 
   populateScene() {
 
+
+
+    new Moon(this.scene, {
+      widthSegments: 100,
+      heightSegments: 100,
+      scale: {
+        x: 100,
+        y: 100,
+        z: 100,
+      },
+      position: {
+        x: -900,
+        y: 15,
+        z: -200,
+      },
+    });
+
     new Floor(this.scene, {
       size: {
         w: 9,
@@ -129,81 +147,77 @@ class App {
     //     z: 0.5,
     //   },
     // });
-    //let WolfModelPath = require('./objects/models/index.json');
+
     new Wolf(this.scene);
-
-
-
 
     new Palmtree(this.scene, {
       name: 'Palmtree_',
       index: 1,
       position: {
-        x: 7.5,
+        x: 14.5,
         y: 4.3,
-        z: 7.5,
+        z: 14.5,
       },
     });
     new Palmtree(this.scene, {
       name: 'Palmtree_',
       index: 2,
       position: {
-        x: 7.5,
+        x: 14.5,
         y: 4.3,
-        z: -7.5,
+        z: -14.5,
       },
     });
     new Palmtree(this.scene, {
       name: 'Palmtree_',
       index: 3,
       position: {
-        x: -7.5,
+        x: -14.5,
         y: 4.3,
-        z: -7.5,
+        z: -14.5,
       },
     });
     new Palmtree(this.scene, {
       name: 'Palmtree_',
       index: 4,
       position: {
-        x: -7.5,
+        x: -14.5,
         y: 4.3,
-        z: 7.5,
+        z: 14.5,
       },
     });
 
+    // new Landscape(this.scene, {
+    //   widthSegments: 100,
+    //   heightSegments: 100,
+    //   size: {
+    //     w: 200,
+    //     h: 200,
+    //   },
+    //   position: {
+    //     x: 0,
+    //     y: -15,
+    //     z: 0,
+    //   },
+    // });
 
 
-    new Landscape(this.scene, {
-      widthSegments: 100,
-      heightSegments: 100,
-      size: {
-        w: 200,
-        h: 200,
-      },
-      position: {
-        x: 0,
-        y: -15,
-        z: 0,
-      },
-    });
+    // new Blob(this.scene, {
+    //   name: 'Blob_',
+    //   index: 0,
+    //   radius: 2,
+    //   widthSegments: 400,
+    //   heightSegments: 400,
+    //   position: {
+    //     x: -20,
+    //     y: 20,
+    //     z: 5,
+    //   },
+    //   physics: {
+    //     move: false,
+    //   },
+    // });
 
-
-    new Blob(this.scene, {
-      name: 'Blob_',
-      index: 0,
-      radius: 2,
-      widthSegments: 400,
-      heightSegments: 400,
-      position: {
-        x: -20,
-        y: 20,
-        z: 5,
-      },
-      physics: {
-        move: false,
-      },
-    });
   }
 }
 

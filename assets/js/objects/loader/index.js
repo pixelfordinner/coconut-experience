@@ -26,7 +26,7 @@ class Loader {
     };
 
     let model;
-    let material = MaterialManager.get('toon_cyan');
+    let material = MaterialManager.get('phong');
     this.loader = new THREE.JSONLoader(this.manager);
     this.loader.load('assets/js/objects/models/wolf.json', addShape);
 
@@ -39,7 +39,7 @@ class Loader {
       model.traverse(function (node) {
         if (node instanceof THREE.Mesh) {
           node.castShadow = true;
-          node.receiveShadow = true;
+          node.receiveShadow = false;
         }
       });
 

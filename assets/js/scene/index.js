@@ -56,7 +56,8 @@ class Scene {
     this.lights = new Lights(options, this.camera, this.lightfrustrum);
     this.world = new World();
     this.clock = new Clock();
-    this.frustrum = new Frustrum(this.lightfrustrum);
+    // debugg
+    //this.frustrum = new Frustrum(this.lightfrustrum);
     return this;
   }
 
@@ -67,6 +68,7 @@ class Scene {
     //   new THREE.Color(this.options.colors.fog),
     //   this.options.scene.fog.factor
     // );
+
     this.scene.fog = new THREE.Fog(new THREE.Color(this.options.colors.fog), 30, 200);
 
     // Lights
@@ -75,7 +77,7 @@ class Scene {
     }).bind(this));
 
     // Frustrum
-    this.scene.add(this.frustrum);
+    //this.scene.add(this.frustrum);
 
 
     // Event Listeners
@@ -170,7 +172,7 @@ class Scene {
         object.mesh.quaternion.copy(object.body.getQuaternion());
       } else {
         if (object.mesh.name === 'Wolf') {
-          object.mesh.rotation.set(0, this.clock.getElapsedTime() * 0.5, 0);
+          object.mesh.rotation.set(0, this.clock.getElapsedTime() * 0.1, 0);
         }
       }
     }.bind(this));
