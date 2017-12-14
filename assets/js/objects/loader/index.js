@@ -18,7 +18,7 @@ class Loader {
     };
 
     this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
-      console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+      console.log('.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
     };
 
     this.manager.onError = function (url) {
@@ -26,7 +26,7 @@ class Loader {
     };
 
     let model;
-    let material = MaterialManager.get('transparence_basic');
+    let material = MaterialManager.get('toon_blue');
     this.loader = new THREE.JSONLoader(this.manager);
     this.loader.load('assets/js/objects/models/wolf.json', addShape);
 
@@ -36,8 +36,13 @@ class Loader {
       model.scale.set(2, 2, 2);
       model.position.set(0, 15, 0);
       model.name = 'Wolf';
-      model.recieveShadows = true;
-      model.castShadows = true;
+      model.traverse(function (node) {
+        if (node instanceof THREE.Mesh) {
+          node.castShadow = true;
+          node.receiveShadow = true;
+        }
+      });
+
       scene.add(model);
     }
 

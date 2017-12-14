@@ -59,8 +59,8 @@ class App {
       },
       colors: {
         purple: 0x6331FF,
-        fog: 0x2b1354,
-        background: 0x2b1354,
+        fog: 0x6331FF,
+        background: 0x6331FF,
         blue: 0x106cc1,
         cyan: 0x74fbff,
         pink: 0xf937be,
@@ -194,7 +194,7 @@ class App {
       widthSegments: 400,
       heightSegments: 400,
       position: {
-        x: 20,
+        x: -20,
         y: 20,
         z: 5,
       },

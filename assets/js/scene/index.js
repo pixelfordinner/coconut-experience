@@ -131,7 +131,7 @@ class Scene {
         //console.log(this.jointStrenth[i]);
         if (dist > 0.15) {
 
-          if ( this.jointStrenth[i] > 0) {
+          if (this.jointStrenth[i] > 0) {
             this.jointStrenth[i] -= 0.5;
 
           }
@@ -145,11 +145,11 @@ class Scene {
         this.lastJointPos[i] = pos;
       }
     }
-    for(let i = 0; i < this.cocos.length; i++ ){
+    for (let i = 0; i < this.cocos.length; i++) {
       //console.log(this.cocos[i].body.position);
       let cocoPos = this.cocos[i].body.position;
       //console.log(cocoPos);
-      if(cocoPos.y < -50 && cocoPos.y > -51){
+      if (cocoPos.y < -50 && cocoPos.y > -51) {
         //console.log(this.cocos[i].mesh.name);
         let palmIndex = this.cocos[i].mesh.name.split('_')[1];
         console.log('palmtree : ' + palmIndex);
@@ -166,6 +166,10 @@ class Scene {
       if (object.hasOwnProperty('body') === true) {
         object.mesh.position.copy(object.body.getPosition());
         object.mesh.quaternion.copy(object.body.getQuaternion());
+      } else {
+        if (object.mesh.name === 'Wolf') {
+          object.mesh.rotation.set(0, this.clock.getElapsedTime() * 0.5, 0);
+        }
       }
     }.bind(this));
   }
@@ -277,8 +281,6 @@ class Scene {
           matches[0] :
           object.mesh.name;
 
-        //console.log(parts);
-
         if (object.body.sleeping) {
           const sleepingMaterials = {
             Tile: 'absolute_black',
@@ -309,6 +311,7 @@ class Scene {
   animate() {
 
     this.updatePositions();
+  //  this.updateWolf();
     this.updateGestures();
     this.updateMaterials();
     //this.oclMaterials();
@@ -321,7 +324,7 @@ class Scene {
 
     this.render();
 
-    let animate = function () {
+    let animate = function() {
       this.animate();
     }.bind(this);
     requestAnimationFrame(animate);
