@@ -3,8 +3,8 @@ import shaderParse from '../shaders/shaderparse.js';
 import { MaterialManager } from './manager';
 //import Clock from '../scene/clock';
 
-const VERTEX = shaderParse(require('../shaders/celshading_stripes/vertex.glsl'));
-const FRAGMENT = shaderParse(require('../shaders/celshading_stripes/fragment.glsl'));
+const VERTEX = shaderParse(require('../shaders/celshading_stripes2/vertex.glsl'));
+const FRAGMENT = shaderParse(require('../shaders/celshading_stripes2/fragment.glsl'));
 
 let StripeMaterial = function (scene) {
 
@@ -19,7 +19,7 @@ let StripeMaterial = function (scene) {
       },
       diffuse: {
         type: 'c',
-        value: new THREE.Color(0x106cc1),
+        value: new THREE.Color(scene.options.colors.blue),
       },
       diffuse2: {
         type: 'c',

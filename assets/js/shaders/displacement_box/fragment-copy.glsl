@@ -1,5 +1,4 @@
 varying vec3 vNormal;
-varying vec3 vPosition;
 varying float displacement;
 uniform float iGloblalTime;
 uniform vec3 lightPos;
@@ -54,39 +53,31 @@ void main() {
   // compute direction to light
   vec4 lDirection = viewMatrix * vec4( lightPos, 0.0 );
   vec3 lVector = normalize( lDirection.xyz );
-
-  vec4 uPosition = viewMatrix * vec4( vPosition, 0.0 );
-  vec3 uVector = normalize( uPosition.xyz );
-
   vec3 normal = normalize( vNormal );
 
   // Material ligthning
-  // float diff = max(0.0, dot(normal, lVector));
-  // float o_diff = diff;
-  // diff = 0.5 + ceil(diff * 10.0) * 0.1;
-  // vec3 matColor = 1.5 * diffuse * (lightColor * 3.5) * diff;
+  float diff = max(0.0, dot(normal, lVector));
+  float o_diff = diff;
+  diff = 0.5 + ceil(diff * 10.0) * 0.1;
+  vec3 matColor = 1.5 * diffuse * (lightColor * 3.5) * diff;
 
-  // if (diff > 0.7){
-  //   matColor += pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.1;
-  //   float n = 1.0 - noise(vNormal.xyz * 100.0);
-  //   if(n > 0.3 ){
-  //     matColor += n * pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.5 ;
-  //   }
-  // }
-
-  float depth = smoothstep(0.0, 1.0,  displacement)*3.;
-  depth = ceil(depth * 5.0) * 0.2;
-  vec3 matColor = diffuse * depth;
+  if (diff > 0.7){
+    matColor += pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.1;
+    float n = 1.0 - noise(vNormal.xyz * 100.0);
+    if(n > 0.3 ){
+      matColor += n * pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.5 ;
+    }
+  }
 
   // material Shadowing
   float shdw = smoothstep(-1.0, 1.0, getShadowMask());
   shdw = ceil(shdw * 10.0) * 0.1;
-  vec3 shdwColor =  1.5 * diffuse2 * (lightColor * 3.5) ;
+  vec3 shdwColor =  1.5 * diffuse2 * (lightColor * 3.5) * shdw;
   // Mixing Value between ligthning and shadows
   float grad = .5 * (max(0.0, dot(normal, lVector)) *  shdw);
 
   // return final color and apply fog
-  gl_FragColor = mix(vec4(matColor, 1.0), vec4(shdwColor, 1.0), grad);
+  gl_FragColor = mix(vec4(matColor, 1), vec4(shdwColor, 1), grad);
   //gl_FragColor = vec4(shdwColor, 1);
   //chunk(fog_fragment);
 }

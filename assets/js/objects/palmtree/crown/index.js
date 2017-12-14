@@ -20,7 +20,7 @@ class Crown {
 
       scale: {
         radius: 0.5,
-        height: 0.3,
+        height: 0.4,
       },
       position: {
         x: 0,
@@ -30,7 +30,7 @@ class Crown {
       physics: {
         type: 'cylinder',
         move: true,
-        density: 0.1,
+        density: 2,
         friction: 10,
         restitution: 0,
         collision: true,

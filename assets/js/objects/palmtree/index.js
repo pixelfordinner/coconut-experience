@@ -17,7 +17,7 @@ class Palmtree {
       name: 'Palmtree_',
       index: 0,
       maxHeight: 1,
-      cocoMax: 14,
+      cocoMax: 18,
     };
 
     let rand = Math.random();
@@ -65,11 +65,11 @@ class Palmtree {
         name: this.options.name + this.options.index + '_CrownLink_' + this.options.index,
         body1: crownBody,
         body2: lastBody,
-        pos1: [0, -heightmax / 2, 0],
+        pos1: [0, -heightmax / 1.8, 0],
         pos2: [0, 0, 0],
         axe1: [0, 1, 0],
         axe2: [0, 1, 0],
-        min: -1,
+        min: -3,
         max: 0,
         collision: false,
       });
@@ -89,30 +89,32 @@ class Palmtree {
           z: zpos,
         },
         scale: {
-          x: 0.5,
-          y: 0.5,
-          z: 0.5,
+          x: 0.25,
+          y: 0.35,
+          z: 0.25,
         },
         name: this.options.name + this.options.index + '_Coco_' + i,
       });
 
       let cocoBody = coco.body;
       //
-      // let link = scene.world.add({
-      //   type: 'jointHinge',
-      //   name: this.options.name + this.options.index + '_CocoLink_' + (i - 1),
-      //   body1: cocoBody,
-      //   body2: lastBody,
-      //   pos1: [0, -heightmax / 3, 0],
-      //   pos2: [0, 0, 0],
-      //   axe1: [0, 1, 0],
-      //   axe2: [0, 1, 0],
-      //   min: -1,
-      //   max: 0,
-      //   collision: true,
-      // });
-      //
-      // scene.Joints.push(link);
+      let link = scene.world.add({
+        type: 'jointHinge',
+        name: this.options.name + this.options.index + '_CocoLink_' + (i - 1),
+        body1: cocoBody,
+        body2: lastBody,
+        pos1: [0, -heightmax / 2.5, 0],
+        pos2: [0, 0, 0],
+        axe1: [0, 1, 0],
+        axe2: [0, 1, 0],
+        min: 0,
+        max: 0,
+        collision: false,
+      });
+
+      scene.Joints.push(link);
+      scene.cocos.push(coco);
+
 
     }
 

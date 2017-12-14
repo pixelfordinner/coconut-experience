@@ -24,9 +24,9 @@ class Coco {
       physics: {
         type: 'sphere',
         move: true,
-        density: 0.1,
-        friction: 0.3,
-        restitution: 0.1,
+        density: 1.1,
+        friction: 0.1,
+        restitution: 0.01,
         belongsTo: 1,
         collidesWith: 0xffffffff,
       },

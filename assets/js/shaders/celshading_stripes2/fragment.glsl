@@ -1,15 +1,15 @@
 uniform vec3 diffuse;
+uniform vec3 diffuse2;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 varying vec3 vNormal;
+varying vec3 vPosition;
+varying vec2 vUv;
 uniform float iGlobalTime;
-//uniform float uKd;
-//uniform float uBorder;
 //chunk(common);
 //chunk(packing);
 //chunk(bsdfs);
 //chunk(fog_pars_fragment);
-
 
 //==========================================================//
 //                 NOISE 3D
@@ -51,18 +51,32 @@ void main(void) {
   vec3 lVector = normalize( lDirection.xyz );
   vec3 normal = normalize( vNormal );
 
-  // ceiling light intensity
-  float diff = max(0.0, dot(normal, lVector));
+  vec3 color;
+  //float f = floor(cos( vUv.x * 6.3 * 2.0 - (iGlobalTime * 4.0))) + 1.0;
+  float f = floor(cos( vPosition.y * 6.3 * 2.0 - (iGlobalTime * 4.0))) + 1.0;
+  if( f > 0.0 ){
+    color = diffuse;
+  } else {
+    color = diffuse2;
+  }
+
+  float diff = max(0.0, dot( normal, lVector ));
   float o_diff = diff;
   diff = 0.5 + ceil(diff * 10.0) * 0.1;
-  vec3 matColor = 1.5 * diffuse * (lightColor * 3.5) * diff;
+
+  vec3 matColor = 1.5 * color * (lightColor * 3.5) * diff;
 
   // do some additive lightning and fake shinny sand texture
   if (diff > 0.7){
     matColor += pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.1;
+    float n = 1.0 - noise(vNormal.xyz * 100.0);
+    if(n > 0.3 ){
+      matColor += n * pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.5 ;
+    }
   }
 
-  // output color fragment
-  gl_FragColor = vec4(matColor, 0.4);
+  gl_FragColor = vec4(matColor , 1.0 );
+
   //chunk(fog_fragment);
+
 }

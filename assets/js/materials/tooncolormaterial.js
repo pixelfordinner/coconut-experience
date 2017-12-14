@@ -4,10 +4,10 @@ import {
   MaterialManager
 } from './manager';
 
-const VERTEX = shaderParse(require('../shaders/transparence_basic/vertex.glsl'));
-const FRAGMENT = shaderParse(require('../shaders/transparence_basic/fragment.glsl'));
+const VERTEX = shaderParse(require('../shaders/toon_color/vertex.glsl'));
+const FRAGMENT = shaderParse(require('../shaders/toon_color/fragment.glsl'));
 
-let StripeMaterial = function (scene) {
+let Material = function (scene, color, name) {
 
   let uniforms = THREE.UniformsUtils.merge([{
       lightPos: {
@@ -19,6 +19,10 @@ let StripeMaterial = function (scene) {
         value: new THREE.Color(0xf937be),
       },
       diffuse: {
+        type: 'c',
+        value: color,
+      },
+      diffuse2: {
         type: 'c',
         value: new THREE.Color(0x106cc1),
       },
@@ -32,23 +36,16 @@ let StripeMaterial = function (scene) {
     THREE.UniformsLib.lights,
   ]);
 
-  // let mat2 = new THREE.MeshLambertMaterial({
-  //   transparent: true,
-  //   opacity: 0.5,
-  // });
-  // mat2.depthWrite = false;
-
   let material = new THREE.ShaderMaterial({
     uniforms: uniforms,
     vertexShader: VERTEX,
     fragmentShader: FRAGMENT,
     fog: true,
     lights: true,
-    transparent: true,
-
+    transparent: false,
   });
-  MaterialManager.set('transparence_basic', material);
+  MaterialManager.set('toon_' + name, material);
   return material;
 };
 
-export default StripeMaterial;
+export default Material;

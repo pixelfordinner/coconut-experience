@@ -57,24 +57,6 @@ class Blob {
     // let geo = new THREE.IcosahedronGeometry(1, 3);
 
     let material = MaterialManager.get('displacement');
-    let uniforms = THREE.UniformsUtils.merge([{
-
-        opacity: {
-          type: 'f',
-          value: 0.5,
-        },
-        iGlobalTime: {
-          type: 'f',
-          value: new Clock().getDelta(),
-          hidden: 1,
-        },
-        lightPos: {
-          type: 'v3',
-          value: scene.lights[0].position,
-        },
-      },
-      THREE.UniformsLib.lights,
-    ]);
 
     let defines = {
       DEPTH_PACKING: THREE.RGBADepthPacking,
@@ -102,7 +84,7 @@ class Blob {
       fragmentShader: FRAGMENT,
     });
 
-    console.log(customDepthMaterial);
+    //console.log(customDepthMaterial);
     mesh.customDepthMaterial = customDepthMaterial;
 
     this.options.physics.size = [

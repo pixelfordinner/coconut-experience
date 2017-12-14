@@ -22,12 +22,12 @@ class Trunk {
       segments: {
         quantity: 9,
         radius: {
-          min: 0.6,
+          min: 0.4,
           max: 1,
         },
         density: {
-          min: 1,
-          max: 3,
+          min: 7,
+          max: 30,
         },
         height: {
           min: 1,

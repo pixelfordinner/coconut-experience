@@ -3,6 +3,7 @@ import Renderer from './renderer';
 
 //import Postprod from './postprocess';
 import Camera from './camera';
+import Composer from './effectcomposer';
 import Frustrum from './frustrum';
 import CameraFrustrum from './camerafrustrum';
 import Lights from './lights';
@@ -20,8 +21,10 @@ class Scene {
   constructor(options) {
     this.options = options;
     this.objects = [];
+    this.cocos = [];
     this.Joints = [];
     this.lastJointPos = [];
+    this.jointStrenth = [];
 
     this.options.dimensions = {
       width: $(this.options.renderer.canvas).width(),
@@ -29,17 +32,24 @@ class Scene {
     };
     this.options.camera.distance = 10;
     this.options.camera.position = {
+      x: 66,
+      y: 24,
+      z: 20,
+    };
+    this.options.camera.lookAt = {
       x: 0,
-      y: 3,
-      z: 3,
+      y: 15,
+      z: 0,
     };
 
-    // this.aspectRatio = $(this.options.renderer.canvas).width()
-    //                  / $(this.options.renderer.canvas).height();
-    // this.options.shadowCamera = new THREE.PerspectiveCamera(70, this.aspectRatio, 10, 1000));
+
+
     this.count = true;
     this.renderer = new Renderer(options);
     this.camera = new Camera(options);
+    this.occlusionRenderTarget = new THREE.WebGLRenderTarget(options.dimensions.width * 0.5,
+      options.dimensions.height * 0.5);
+    this.composer = new Composer(this.renderer, this.occlusionRenderTarget);
     this.lightfrustrum = new CameraFrustrum(options);
     this.lights = new Lights(options, this.camera, this.lightfrustrum);
     this.world = new World();
@@ -50,26 +60,32 @@ class Scene {
 
   init() {
     this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.FogExp2(
-      new THREE.Color(this.options.colors.fog),
-      this.options.scene.fog.factor
-    );
+
+    // this.scene.fog = new THREE.FogExp2(
+    //   new THREE.Color(this.options.colors.fog),
+    //   this.options.scene.fog.factor
+    // );
+    this.scene.fog = new THREE.Fog(new THREE.Color(this.options.colors.fog), 30, 200);
 
     // Lights
-    this.lights.forEach((function (light) {
+    this.lights.forEach((function(light) {
       this.scene.add(light);
     }).bind(this));
 
     // Frustrum
     this.scene.add(this.frustrum);
 
+
     // Event Listeners
-    let updateSize = function () {
+    let updateSize = function() {
       this.updateSize();
     }.bind(this);
     window.addEventListener('resize', updateSize, false);
     this.gestures = new Gestures(this);
     this.controls = new Controls(this.options, this.camera);
+    this.occlusionRenderTarget = new THREE.WebGLRenderTarget(this.options.dimensions.width * 0.5,
+      this.options.dimensions.height * 0.5);
+    this.composer = new Composer(this.renderer, this.occlusionRenderTarget);
   }
 
   updateSize() {
@@ -89,38 +105,62 @@ class Scene {
     );
   }
 
-  updateCocos() {
-    var cocoJoint = [];
-    if (this.world.numJoints != null && this.count == true) {
-      //console.log(this.objects);
-      console.log(this.Joints);
-      for (let i = 0; i < this.Joints.length; i++) {
-        console.log(this.Joints[i].body1.position);
+  initCocos() {
 
-        // if (this.lastJointPos != null) {
-        //   let pos1 = new THREE.Vector3(this.Joints[i].body1.position.x,
-        //     this.Joints[i].body1.position.y,
-        //     this.Joints[i].body1.position.z);
-        //   let pos2 = new THREE.Vector3(this.lastJointPos[i].x,
-        //     this.lastJointPos[i].y,
-        //     this.lastJointPos[i].z);
-        //
-        // } else {
-        //   lastJointPos[i] = new THREE.Vector3(this.Joints[i].body1.position.x,
-        //     this.Joints[i].body1.position.y,
-        //     this.Joints[i].body1.position.z);
-        // }
+    if (this.world.numJoints != null) {
+      for (let i = 0; i < this.Joints.length; i++) {
+        let pos = new THREE.Vector3(this.Joints[i].body1.position.x,
+          this.Joints[i].body1.position.y,
+          this.Joints[i].body1.position.z);
+        this.lastJointPos.push(pos);
+        this.jointStrenth.push(1);
+      }
+      this.count = false;
+    }
+  }
+
+  updateCocos() {
+
+    if (this.world.numJoints != null) {
+      for (let i = 0; i < this.Joints.length; i++) {
+        let pos = new THREE.Vector3(this.Joints[i].body1.position.x,
+          this.Joints[i].body1.position.y,
+          this.Joints[i].body1.position.z);
+        let pos2 = this.lastJointPos[i];
+        let dist = pos.distanceTo(pos2);
+        //console.log(this.jointStrenth[i]);
+        if (dist > 0.15) {
+
+          if ( this.jointStrenth[i] > 0) {
+            this.jointStrenth[i] -= 0.5;
+
+          }
+          //  console.log(dist);
+          //  console.log(this.Joints[i]);
+
+        } else if (dist <= 0.03 && this.jointStrenth[i] <= 0) {
+          this.world.removeJoint(this.Joints[i]);
+          //console.log('pppppp');
+        }
+        this.lastJointPos[i] = pos;
+      }
+    }
+    for(let i = 0; i < this.cocos.length; i++ ){
+      //console.log(this.cocos[i].body.position);
+      let cocoPos = this.cocos[i].body.position;
+      //console.log(cocoPos);
+      if(cocoPos.y < -50 && cocoPos.y > -51){
+        //console.log(this.cocos[i].mesh.name);
+        let palmIndex = this.cocos[i].mesh.name.split('_')[1];
+        console.log('palmtree : ' + palmIndex);
 
       }
-
-      this.count = false;
     }
   }
 
   updatePositions() {
 
     this.world.step();
-
     this.objects.forEach(function (object) {
 
       if (object.hasOwnProperty('body') === true) {
@@ -151,21 +191,21 @@ class Scene {
     //   material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
     // }
 
-    if (MaterialManager.get('cloud') != null) {
-      let material = MaterialManager.get('cloud');
-      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
-    }
-
-    if (MaterialManager.get('smooth_cloud') != null) {
-      let material = MaterialManager.get('smooth_cloud');
-      material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
-    }
+    // if (MaterialManager.get('cloud') != null) {
+    //   let material = MaterialManager.get('cloud');
+    //   material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+    // }
+    //
+    // if (MaterialManager.get('smooth_cloud') != null) {
+    //   let material = MaterialManager.get('smooth_cloud');
+    //   material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+    // }
 
   }
 
   updateMaterials() {
 
-    this.objects.forEach(function (object) {
+    this.objects.forEach(function(object) {
       if (object.hasOwnProperty('body') === true) {
 
         const updatables = [
@@ -175,6 +215,7 @@ class Scene {
           'Tile',
           'Land',
           'Blob',
+          'Base',
         ];
 
         const parts = object.mesh.name.split('_');
@@ -187,25 +228,73 @@ class Scene {
 
         if (object.body.sleeping) {
           const sleepingMaterials = {
-            Land: 'displacement_box',
+            Tile: 'toon_grey',
+            Crown: 'toon_blue',
+            Coco: 'absolute_white',
+            TrunkSegment: 'celshading_stripes_material',
+            Blob: 'displacement',
+            Base: 'toon_grey',
           };
 
           object.mesh.material = sleepingMaterials.hasOwnProperty(name) ?
             MaterialManager.get(sleepingMaterials[name]) :
-            MaterialManager.get('basic_shadows');
+            MaterialManager.get('toon_grey');
         } else {
           const materials = {
             TrunkSegment: 'celshading_stripes_material',
-            Crown: 'basic_celshading_material',
-            Coco: 'celshading_stripes_material',
-            Tile: 'celshadow_material',
-            Land: 'displacement_box',
+            Crown: 'toon_blue',
+            Coco: 'absolute_white',
+            Tile: 'toon_cyan',
+            Base: 'toon_cyan',
+            Montain: 'displacement_box',
             Blob: 'displacement',
           };
 
           object.mesh.material = materials.hasOwnProperty(name) ?
             MaterialManager.get(materials[name]) :
-            MaterialManager.get('transparence_basic');
+            MaterialManager.get('basic_shadows');
+        }
+      }
+    }.bind(this));
+  }
+
+  oclMaterials() {
+
+    this.objects.forEach(function(object) {
+      if (object.hasOwnProperty('body') === true) {
+
+        const updatables = [
+          'TrunkSegment',
+          'Crown',
+          'Coco',
+          'Tile',
+          'Montain',
+        ];
+
+        const parts = object.mesh.name.split('_');
+        const matches = parts.filter(part => updatables.indexOf(part) > -1 ? true : false);
+        const name = parts.length > 0 && matches.length > 0 ?
+          matches[0] :
+          object.mesh.name;
+
+        //console.log(parts);
+
+        if (object.body.sleeping) {
+          const sleepingMaterials = {
+            Tile: 'absolute_black',
+          };
+
+          object.mesh.material = sleepingMaterials.hasOwnProperty(name) ?
+            MaterialManager.get(sleepingMaterials[name]) :
+            MaterialManager.get('absolute_black');
+        } else {
+          const materials = {
+            Tile: 'absolute_white',
+          };
+
+          object.mesh.material = materials.hasOwnProperty(name) ?
+            MaterialManager.get(materials[name]) :
+            MaterialManager.get('absolute_black');
 
         }
       }
@@ -222,8 +311,14 @@ class Scene {
     this.updatePositions();
     this.updateGestures();
     this.updateMaterials();
+    //this.oclMaterials();
     this.updateShaders();
-    this.updateCocos();
+    if (this.count === true) {
+      this.initCocos();
+    } else {
+      this.updateCocos();
+    }
+
     this.render();
 
     let animate = function () {

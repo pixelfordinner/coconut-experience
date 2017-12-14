@@ -11,7 +11,7 @@ class TrunkSegment {
         radiusTop: 0.5,
         radiusBottom: 0.48,
         height: 1,
-        radiusSegments: 21,
+        radiusSegments: 6,
         heightSegments: 1,
         openEnded: false,
       },

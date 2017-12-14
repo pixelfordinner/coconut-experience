@@ -29,6 +29,8 @@ let DisplacementMaterial = function (scene) {
     transparent: true,
   });
 
+  material.side = THREE.DoubleSide;
+
   MaterialManager.set('displacement', material);
   return material;
 };

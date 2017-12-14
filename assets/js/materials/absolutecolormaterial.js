@@ -4,27 +4,16 @@ import {
   MaterialManager
 } from './manager';
 
-const VERTEX = shaderParse(require('../shaders/celshading_shadow/vertex.glsl'));
-const FRAGMENT = shaderParse(require('../shaders/celshading_shadow/fragment.glsl'));
+const VERTEX = shaderParse(require('../shaders/absolute_color/vertex.glsl'));
+const FRAGMENT = shaderParse(require('../shaders/absolute_color/fragment.glsl'));
 
-let CelShadingMaterial = function (scene) {
+let CelShadingMaterial = function (scene, color, name) {
 
   let uniforms = THREE.UniformsUtils.merge([{
-      lightPos: {
-        type: 'v3',
-        value: scene.lights[0].position,
-      },
-      lightColor: {
-        type: 'c',
-        value: new THREE.Color(0xf937be),
-      },
+
       diffuse: {
         type: 'c',
-        value: new THREE.Color(0x106cc1),
-      },
-      diffuse2: {
-        type: 'c',
-        value: new THREE.Color(0xcdcaec),
+        value: color,
       },
       iGlobalTime: {
         type: 'f',
@@ -33,7 +22,6 @@ let CelShadingMaterial = function (scene) {
       },
     },
     THREE.UniformsLib.fog,
-    THREE.UniformsLib.lights,
   ]);
 
   let material = new THREE.ShaderMaterial({
@@ -41,13 +29,14 @@ let CelShadingMaterial = function (scene) {
     vertexShader: VERTEX,
     fragmentShader: FRAGMENT,
     fog: true,
-    lights: true,
+    lights: false,
     transparent: false,
 
   });
   //material.depthWrite = false;
   //material.side = THREE.DoubleSide;
-  MaterialManager.set('celshadow_material', material);
+  MaterialManager.set('absolute_' + name, material);
+
   return material;
 };
 

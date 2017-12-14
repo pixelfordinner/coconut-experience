@@ -23,10 +23,10 @@ class Tile {
       physics: {
         type: 'box',
         move: true,
-        density: 100,
+        density: 1000,
         friction: 0.0,
-        restitution: 0.5,
-        belongsTo: 1,
+        restitution: 0.0,
+        belongsTo: 2,
         collidesWith: 0xffffffff,
       },
     };

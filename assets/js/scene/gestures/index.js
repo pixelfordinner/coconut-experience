@@ -131,7 +131,7 @@ class Gestures {
     intersects = this.ray.intersectObjects(this.meshes, true);
 
     const excluded = ['Ground', 'Sky', 'Eye', 'Hole', 'Tile', 'Coco', 'Crown',
-      'Floor', 'Land',
+      'Floor', 'Land', 'Montain', 'Wolf',
     ];
 
     //let draggable = intersects.length > 0 && excluded.indexOf(intersects[0].object.name) === -1;

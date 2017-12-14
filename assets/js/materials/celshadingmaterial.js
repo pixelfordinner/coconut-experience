@@ -47,7 +47,8 @@ let CelShadingMaterial = function (scene) {
   });
   //material.depthWrite = false;
   //material.side = THREE.DoubleSide;
-  MaterialManager.set('basic_celshading_material', material);
+  MaterialManager.set('celshadow_' + name + '_material', material);
+
   return material;
 };
 
