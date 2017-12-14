@@ -26,7 +26,7 @@ class Loader {
     };
 
     let model;
-    let material = MaterialManager.get('toon_blue');
+    let material = MaterialManager.get('toon_cyan');
     this.loader = new THREE.JSONLoader(this.manager);
     this.loader.load('assets/js/objects/models/wolf.json', addShape);
 

@@ -15,6 +15,7 @@ import Wolf from './objects/loader';
 
 
 // MATERIALS
+import PhongMaterial from './materials/phong.js';
 import AbsoluteColorMaterial from './materials/absolutecolormaterial.js';
 import ToonColorMaterial from './materials/tooncolormaterial.js';
 import StripesMaterial from './materials/stripesmaterial.js';
@@ -83,6 +84,7 @@ class App {
   }
 
   registerMaterials() {
+    new PhongMaterial(this.scene.cubecamera);
     new ShadowShaderMaterial();
     new DisplacementShaderMaterial(this.scene);
     new StripesMaterial(this.scene);
@@ -103,8 +105,8 @@ class App {
 
     new Floor(this.scene, {
       size: {
-        w: 11,
-        h: 11,
+        w: 9,
+        h: 9,
       },
       position: {
         x: 0,

@@ -3,6 +3,7 @@ import Renderer from './renderer';
 
 //import Postprod from './postprocess';
 import Camera from './camera';
+import cubeCamera from './cubecamera';
 import Composer from './effectcomposer';
 import Frustrum from './frustrum';
 import CameraFrustrum from './camerafrustrum';
@@ -47,6 +48,7 @@ class Scene {
     this.count = true;
     this.renderer = new Renderer(options);
     this.camera = new Camera(options);
+    this.cubecamera = new cubeCamera();
     this.occlusionRenderTarget = new THREE.WebGLRenderTarget(options.dimensions.width * 0.5,
       options.dimensions.height * 0.5);
     this.composer = new Composer(this.renderer, this.occlusionRenderTarget);
@@ -306,6 +308,9 @@ class Scene {
   render() {
 
     this.renderer.render(this.scene, this.camera);
+    this.cubecamera.updateCubeMap(this.renderer, this.scene);
+    //this.renderer.render(this.scene, this.cubecamera);
+
   }
 
   animate() {

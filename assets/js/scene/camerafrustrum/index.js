@@ -11,7 +11,7 @@ class CameraFrustrum {
 
     this.camera.position.set(
       -options.camera.distance * 4,
-      options.camera.distance * 5,
+      options.camera.distance * 3,
       -options.camera.distance * 1.5,
     );
 
