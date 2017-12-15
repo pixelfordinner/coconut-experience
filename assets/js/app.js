@@ -13,6 +13,7 @@ import Blob from './objects/blob';
 import Landscape from './objects/landscape';
 import Wolf from './objects/loader';
 import Moon from './objects/moon';
+import Sky from './objects/sky';
 
 
 // MATERIALS
@@ -26,6 +27,7 @@ import TransparenceMaterial from './materials/transparence_basic.js';
 import ShadowShaderMaterial from './materials/shadowmaterial.js';
 import DisplacementShaderMaterial from './materials/displacementmaterial.js';
 import DisplacementBoxShaderMaterial from './materials/displacementbox.js';
+import SmoothCloudMaterial from './materials/smoothcloudmaterial.js';
 import MakeMaterial from './materials/makematerial.js';
 import shaderParse from './shaders/shaderparse.js';
 
@@ -87,6 +89,7 @@ class App {
   registerMaterials() {
     new PhongMaterial(this.scene.cubecamera);
     new ShadowShaderMaterial();
+    new SmoothCloudMaterial();
     new DisplacementShaderMaterial(this.scene);
     new StripesMaterial(this.scene);
     new CelShadingMaterial(this.scene);
@@ -104,11 +107,9 @@ class App {
 
   populateScene() {
 
-
-
     new Moon(this.scene, {
-      widthSegments: 100,
-      heightSegments: 100,
+      widthSegments: 30,
+      heightSegments: 30,
       scale: {
         x: 100,
         y: 100,
@@ -120,11 +121,11 @@ class App {
         z: -200,
       },
     });
-
+    new Sky(this.scene);
     new Floor(this.scene, {
       size: {
-        w: 9,
-        h: 9,
+        w: 7,
+        h: 7,
       },
       position: {
         x: 0,
@@ -154,7 +155,7 @@ class App {
       name: 'Palmtree_',
       index: 1,
       position: {
-        x: 14.5,
+        x: 0,
         y: 4.3,
         z: 14.5,
       },
@@ -163,7 +164,7 @@ class App {
       name: 'Palmtree_',
       index: 2,
       position: {
-        x: 14.5,
+        x: 0,
         y: 4.3,
         z: -14.5,
       },
@@ -172,9 +173,9 @@ class App {
       name: 'Palmtree_',
       index: 3,
       position: {
-        x: -14.5,
+        x: 14.5,
         y: 4.3,
-        z: -14.5,
+        z: 0,
       },
     });
     new Palmtree(this.scene, {
@@ -183,7 +184,7 @@ class App {
       position: {
         x: -14.5,
         y: 4.3,
-        z: 14.5,
+        z: 0,
       },
     });
 

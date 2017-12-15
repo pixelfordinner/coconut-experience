@@ -13,7 +13,6 @@ class Gestures {
     this.dragStatus = DRAG_STATUS_NONE;
     this.ray = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
-
     this.scene = scene;
     this.meshes = [];
 
@@ -66,7 +65,7 @@ class Gestures {
       move: true,
       noSleep: true,
       name: 'dragPointBody',
-      config: [0.5, 0.4, 0.2, 1 << 2, 1 << 2],
+      config: [4, 0.4, 0.2, 1 << 2, 1 << 2],
     });
 
 
@@ -153,12 +152,10 @@ class Gestures {
           }
         }
       } else {
-        console.log('hello');
         for (let i = 0; i < excluded.length; i++) {
           if (name == excluded[i]) {
             draggable = false;
             this.dragStatus = DRAG_STATUS_NONE;
-            console.log('chao');
           }
         }
       }
@@ -187,16 +184,17 @@ class Gestures {
   }
 
   localAnchorPoint(blockName, anchorPointInThree) {
-    let mesh = this.scene.world.getByName(blockName);
+    //let mesh = this.scene.world.getByName(blockName);
     let anchorPoint = new OIMO.Vec3().copy(anchorPointInThree).multiplyScalar(OIMO.INV_SCALE);
     return anchorPoint;
   }
 
   dragLineConnect() {
+    //console.log(this.dragBlockName);
     this.dragLineModel = this.scene.world.add({
       world: this.scene.world,
       type: 'jointBall',
-      body1: 'dragPointBody',
+      body1: this.dragPointBody,
       name: 'dragJoint',
       body2: this.dragBlockName,
       collision: false,
@@ -225,8 +223,10 @@ class Gestures {
   update() {
     if (this.dragStatus == DRAG_STATUS_START) {
 
-      this.dragLineConnect();
+
       this.dragStatus = DRAG_STATUS_DRAGGING;
+      this.dragPointBody.setPosition(this.dragPoint);
+      this.dragLineConnect();
       this.dragPointView.visible = true;
       this.dragPlaneView.visible = true;
       this.dragLineView.visible = true;
@@ -242,7 +242,7 @@ class Gestures {
       this.dragLineView.geometry.verticesNeedUpdate = true;
     }
 
-    if (this.dragPoint) {
+    if (this.dragPoint != null) {
       this.dragPointBody.setPosition(this.dragPoint);
     }
   }

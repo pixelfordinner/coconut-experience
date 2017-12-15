@@ -14,7 +14,7 @@ class Sphere {
       new THREE.SphereGeometry(
         this.options.radius,
         this.options.widthSegments,
-        this.options.heightSegments
+        this.options.heightSegments,
       )
     );
 

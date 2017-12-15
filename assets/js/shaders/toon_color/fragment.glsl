@@ -56,7 +56,7 @@ void main(void) {
   // ceiling light intensity
   float diff = max(0.0, dot(normal, lVector));
   float o_diff = diff;
-  float shdw = smoothstep(-2.0, 2.0, getShadowMask());
+  float shdw = smoothstep(-0.5, 1.0, getShadowMask());
   diff = 0.5 + ceil(diff * 10.0) * 0.1;
   vec3 matColor =  vec3(max(0.0, diff + shdw - max(diff - shdw, shdw)));
 

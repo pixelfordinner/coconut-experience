@@ -64,7 +64,7 @@ class Floor {
         py *= THREE.Math.clamp(Math.cos(nx + nz), 0.1, 1);
         let height = py * 2;
 
-        if (height < 2 && rand > 0.8) {
+        if (height < 1.5 && rand > 0.7) {
           kill = true;
         }
 

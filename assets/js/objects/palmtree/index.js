@@ -51,7 +51,7 @@ class Palmtree {
     let crown = new Crown(scene, {
       position: {
         x: this.options.position.x,
-        y: lastsegmentYpos * 1.1,
+        y: lastsegmentYpos * 1.0,
         z: this.options.position.z,
       },
       name: this.options.name + this.options.index + '_Crown',
@@ -65,7 +65,7 @@ class Palmtree {
         name: this.options.name + this.options.index + '_CrownLink_' + this.options.index,
         body1: crownBody,
         body2: lastBody,
-        pos1: [0, -heightmax / 1.8, 0],
+        pos1: [0, -heightmax / 2, 0],
         pos2: [0, 0, 0],
         axe1: [0, 1, 0],
         axe2: [0, 1, 0],
