@@ -1,6 +1,6 @@
 
 varying vec3 vNormal;
-varying vec2 vUv;
+//varying vec2 vUv;
 //chunk(fog_pars_vertex);
 
 void main(void) {

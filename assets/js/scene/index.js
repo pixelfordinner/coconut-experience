@@ -21,6 +21,7 @@ const $ = require('jquery');
 class Scene {
   constructor(options) {
     this.options = options;
+    this.Mirrors = [];
     this.objects = [];
     this.cocos = [];
     this.Joints = [];
@@ -43,10 +44,9 @@ class Scene {
       z: 0,
     };
 
-
-
     this.count = true;
     this.renderer = new Renderer(options);
+    this.textureRenderer = new Renderer(options);
     this.camera = new Camera(options);
     this.cubecamera = new cubeCamera();
     this.occlusionRenderTarget = new THREE.WebGLRenderTarget(options.dimensions.width * 0.5,
@@ -132,32 +132,23 @@ class Scene {
           this.Joints[i].body1.position.z);
         let pos2 = this.lastJointPos[i];
         let dist = pos.distanceTo(pos2);
-        //console.log(this.jointStrenth[i]);
         if (dist > 0.15) {
 
           if (this.jointStrenth[i] > 0) {
             this.jointStrenth[i] -= 0.5;
 
           }
-          //  console.log(dist);
-          //  console.log(this.Joints[i]);
 
         } else if (dist <= 0.03 && this.jointStrenth[i] <= 0) {
           this.world.removeJoint(this.Joints[i]);
-          //console.log('pppppp');
         }
         this.lastJointPos[i] = pos;
       }
     }
     for (let i = 0; i < this.cocos.length; i++) {
-      //console.log(this.cocos[i].body.position);
       let cocoPos = this.cocos[i].body.position;
-      //console.log(cocoPos);
       if (cocoPos.y < -50 && cocoPos.y > -51) {
-        //console.log(this.cocos[i].mesh.name);
         let palmIndex = this.cocos[i].mesh.name.split('_')[1];
-        console.log('palmtree : ' + palmIndex);
-
       }
     }
   }
@@ -232,14 +223,13 @@ class Scene {
           matches[0] :
           object.mesh.name;
 
-        //console.log(parts);
-
         if (object.body.sleeping) {
           const sleepingMaterials = {
             Tile: 'toon_grey',
             Crown: 'toon_blue',
             Coco: 'absolute_white',
-            TrunkSegment: 'celshading_stripes_material',
+            //TrunkSegment: 'celshading_stripes_material',
+            TrunkSegment: 'toon_grey',
             Blob: 'displacement',
             Base: 'toon_grey',
           };
@@ -308,17 +298,21 @@ class Scene {
   }
 
   render() {
-
-    this.renderer.render(this.scene, this.camera);
+    //let mesh = this.scene.world.getByName('Wolf');
+    for (let i = 0; i < this.Mirrors.length; i++) {
+      this.Mirrors[i].visible = false;
+    }
     this.cubecamera.updateCubeMap(this.renderer, this.scene);
-    //this.renderer.render(this.scene, this.cubecamera);
+    for (let i = 0; i < this.Mirrors.length; i++) {
+      this.Mirrors[i].visible = true;
+    }
+    this.renderer.render(this.scene, this.camera);
 
   }
 
   animate() {
 
     this.updatePositions();
-  //  this.updateWolf();
     this.updateGestures();
     this.updateMaterials();
     //this.oclMaterials();

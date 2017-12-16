@@ -4,7 +4,7 @@ uniform vec3 lightPos;
 uniform vec3 lightColor;
 varying vec3 vNormal;
 varying vec3 vPosition;
-varying vec2 vUv;
+//varying vec2 vUv;
 uniform float iGlobalTime;
 //chunk(common);
 //chunk(packing);

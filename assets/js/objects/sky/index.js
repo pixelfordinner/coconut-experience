@@ -3,8 +3,6 @@ import Sphere from '../../geometry/sphere';
 import * as THREE from 'three';
 const defaultsDeep = require('lodash.defaultsdeep');
 
-//const OIMO = require('oimo');
-
 class Sky {
   constructor(scene, options = {}) {
     this.options = {
@@ -21,24 +19,16 @@ class Sky {
       castShadow: false,
     };
 
-    // SKY DOME
     this.options = defaultsDeep(options, this.options);
-    // let sphereoptions = {
-    //   radius: 50,
-    //   widthSegments: 300,
-    //   heightSegments: 300,
-    //
-    // };
-    let sphere = new Sphere();
+    let sphere = new Sphere(scene, {
+      radius: this.options.radius,
+      widthSegments: this.options.widthSegments,
+      heightSegments: this.options.heightSegments,
+    });
     let material = MaterialManager.get('smooth_cloud');
     material.side = THREE.BackSide;
     let mesh = new THREE.Mesh(sphere, material);
     mesh.name = this.options.name;
-    mesh.scale.set(
-      this.options.radius,
-      this.options.radius,
-      this.options.radius,
-    );
     mesh.position.set(
       this.options.position.x,
       this.options.position.y,

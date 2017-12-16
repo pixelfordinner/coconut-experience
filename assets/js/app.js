@@ -15,7 +15,6 @@ import Wolf from './objects/loader';
 import Moon from './objects/moon';
 import Sky from './objects/sky';
 
-
 // MATERIALS
 import PhongMaterial from './materials/phong.js';
 import AbsoluteColorMaterial from './materials/absolutecolormaterial.js';
@@ -121,7 +120,7 @@ class App {
         z: -200,
       },
     });
-    new Sky(this.scene);
+    //new Sky(this.scene);
     new Floor(this.scene, {
       size: {
         w: 7,
@@ -133,21 +132,11 @@ class App {
         z: 0,
       },
       scale: {
-        x: 7,
-        y: 8,
-        z: 7,
+        x: 6,
+        y: 16,
+        z: 6,
       },
     });
-
-    // new Palmtree(this.scene, {
-    //   name: 'Palmtree_',
-    //   index: 0,
-    //   position: {
-    //     x: 0.5,
-    //     y: 7.45,
-    //     z: 0.5,
-    //   },
-    // });
 
     new Wolf(this.scene);
 
@@ -156,35 +145,17 @@ class App {
       index: 1,
       position: {
         x: 0,
-        y: 4.3,
-        z: 14.5,
+        y: 11,
+        z: 6,
       },
     });
     new Palmtree(this.scene, {
       name: 'Palmtree_',
       index: 2,
       position: {
-        x: 0,
-        y: 4.3,
-        z: -14.5,
-      },
-    });
-    new Palmtree(this.scene, {
-      name: 'Palmtree_',
-      index: 3,
-      position: {
-        x: 14.5,
-        y: 4.3,
-        z: 0,
-      },
-    });
-    new Palmtree(this.scene, {
-      name: 'Palmtree_',
-      index: 4,
-      position: {
-        x: -14.5,
-        y: 4.3,
-        z: 0,
+        x: 6,
+        y: 9,
+        z: -6,
       },
     });
 

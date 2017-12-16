@@ -2,11 +2,21 @@ import * as THREE from 'three';
 import {
   MaterialManager
 } from '../../materials/manager';
+const defaultsDeep = require('lodash.defaultsdeep');
 const $ = require('jquery');
 
 class Loader {
-  constructor(scene) {
-    let loadedGeometry = false;
+  constructor(scene, options = {}) {
+    this.options = {
+      name: 'Wolf',
+      path: 'assets/js/objects/models/wolf.json',
+      position: {
+        x: 0,
+        y: 19.5,
+        z: 0,
+      },
+    };
+    this.options = defaultsDeep(options, this.options);
     this.manager = new THREE.LoadingManager();
     this.manager.onStart = function (url, itemsLoaded, itemsTotal) {
       console.log('Started loading file: ' + url);
@@ -14,7 +24,6 @@ class Loader {
 
     this.manager.onLoad = function () {
       console.log('success');
-      loadedGeometry = true;
     };
 
     this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
@@ -28,13 +37,20 @@ class Loader {
     let model;
     let material = MaterialManager.get('phong');
     this.loader = new THREE.JSONLoader(this.manager);
-    this.loader.load('assets/js/objects/models/wolf.json', addShape);
-
+    this.loader.load(this.options.path, addShape);
+    let pos = new THREE.Vector3(
+      this.options.position.x,
+      this.options.position.y,
+      this.options.position.z,
+    );
     function addShape(geometry) {
-      console.log(geometry);
       model = new THREE.Mesh(geometry, material);
-      model.scale.set(2, 2, 2);
-      model.position.set(0, 15, 0);
+      model.scale.set(1.5, 1.5, 1.5);
+      model.position.set(
+        pos.x,
+        pos.y,
+        pos.z,
+      );
       model.name = 'Wolf';
       model.traverse(function (node) {
         if (node instanceof THREE.Mesh) {
@@ -43,7 +59,10 @@ class Loader {
         }
       });
 
+      scene.Mirrors.push(model);
+
       scene.add(model);
+
     }
 
     return this.loader;

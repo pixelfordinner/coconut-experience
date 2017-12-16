@@ -30,11 +30,11 @@ class TrunkSegment {
       physics: {
         type: 'cylinder',
         move: true,
-        density: 1,
-        friction: 2,
-        restitution: 0.1,
+        density: 5,
+        friction: 5.3,
+        restitution: 0.0,
         belongsTo: 1,
-        collidesWith: 0xffffffff,
+        collidesWith: 0x000000,
       },
     };
 
