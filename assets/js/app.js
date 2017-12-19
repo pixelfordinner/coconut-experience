@@ -27,6 +27,7 @@ import ShadowShaderMaterial from './materials/shadowmaterial.js';
 import DisplacementShaderMaterial from './materials/displacementmaterial.js';
 import DisplacementBoxShaderMaterial from './materials/displacementbox.js';
 import SmoothCloudMaterial from './materials/smoothcloudmaterial.js';
+import MoonMaterial from './materials/moonmaterial.js';
 import MakeMaterial from './materials/makematerial.js';
 import shaderParse from './shaders/shaderparse.js';
 
@@ -67,11 +68,13 @@ class App {
         blue: 0x106cc1,
         cyan: 0x74fbff,
         pink: 0xf937be,
-        grey: 0x2b1354,
-        dark_blue: 0x140030,
+        mediumgrey: 0x6e6e6e,
+        lightgrey: 0xc7c7c7,
+        darkpurple: 0x2b1354,
+        darkblue: 0x330c91,
         white: 0xffffff,
         black: 0x000000,
-        light_blue: '0xcdcaec',
+        light_blue: 0xcdcaec,
       },
       scene: {
         fog: {
@@ -91,22 +94,29 @@ class App {
     new PhongMaterial(this.scene.cubecamera);
     new ShadowShaderMaterial();
     new SmoothCloudMaterial();
+    new MoonMaterial(this.scene);
     new DisplacementShaderMaterial(this.scene);
     new StripesMaterial(this.scene);
-    new CelShadingMaterial(this.scene);
     new DisplacementBoxShaderMaterial(this.scene);
     new TransparenceMaterial(this.scene);
+
+
+    new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.darkblue), 'darkblue');
+    new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
+    new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.light_blue), 'lightblue');
+
     new CelShadowMaterial(this.scene, new THREE.Color(0x2b2b2b), 'grey');
     new CelShadowMaterial(this.scene, new THREE.Color(0x61ffd9), 'blue');
     new CelShadowMaterial(this.scene, new THREE.Color(0xff5be0), 'pink');
-    new CelShadowMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
-    new CelShadowMaterial(this.scene, new THREE.Color(this.options.colors.light_blue), 'light_blue');
-    new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.grey), 'grey');
+    new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.darkpurple), 'darkpurple');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.cyan), 'cyan');
-    new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.pink), 'pink');
+
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.white), 'white');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.black), 'black');
+    new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.mediumgrey), 'mediumgrey');
+    new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.lightgrey), 'lightgrey');
+
   }
 
   populateScene() {
@@ -126,7 +136,7 @@ class App {
         z: -200,
       },
     });
-    new Sky(this.scene);
+  // new Sky(this.scene);
     new Floor(this.scene, {
       size: {
         w: 7,

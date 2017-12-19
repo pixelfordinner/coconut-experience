@@ -4,8 +4,8 @@ import {
   MaterialManager
 } from './manager';
 
-const VERTEX = shaderParse(require('../shaders/celshading_basic/vertex.glsl'));
-const FRAGMENT = shaderParse(require('../shaders/celshading_basic/fragment.glsl'));
+const VERTEX = shaderParse(require('../shaders/celshading_shadow/vertex.glsl'));
+const FRAGMENT = shaderParse(require('../shaders/celshading_shadow/fragment.glsl'));
 
 let CelShadingMaterial = function (scene, color, name) {
 
@@ -22,10 +22,7 @@ let CelShadingMaterial = function (scene, color, name) {
         type: 'c',
         value: color,
       },
-      diffuse2: {
-        type: 'c',
-        value: new THREE.Color(0x106cc1),
-      },
+
       iGlobalTime: {
         type: 'f',
         value: scene.clock.getDelta(),

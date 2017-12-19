@@ -31,6 +31,15 @@ class Moon {
       heightSegments: 20,
       castShadow: false,
       receiveShadow: false,
+      physics: {
+        type: 'sphere',
+        move: false,
+        density: 1,
+        friction: 0.0,
+        restitution: 0.0,
+        belongsTo: 3,
+        collidesWith: 0x111111,
+      },
     };
 
     this.options = defaultsDeep(options, this.options);
@@ -61,7 +70,7 @@ class Moon {
       this.options.position.z
     );
 
-    return scene.add(mesh);
+    return scene.add(mesh, this.options.physics);
   }
 }
 
