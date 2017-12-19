@@ -18,10 +18,7 @@ import {
 
 const $ = require('jquery');
 
-import shaderParse from '../shaders/shaderparse.js';
 
-const PASS_FRAG = shaderParse(require('../shaders/passthrough/fragment.glsl'));
-const PASS_VERT = shaderParse(require('../shaders/passthrough/vertex.glsl'));
 
 class Scene {
   constructor(options) {
@@ -54,38 +51,30 @@ class Scene {
     this.textureRenderer = new Renderer(options);
     this.camera = new Camera(options);
     this.cubecamera = new cubeCamera();
-    // this.occlusionRenderTarget = new THREE.WebGLRenderTarget(options.dimensions.width,
-    //   options.dimensions.height);
-    //  console.log('RENDERER ' + this.renderer);
-    //  this.blendingRenderTarget = new THREE.WebGLRenderTarget(options.dimensions.width,
-    //    options.dimensions.height);
-      console.log('RENDERER ' + this.renderer);
     this.composer = new Composer(this.scene, this.camera, this.renderer, this.options.dimensions.width, this.options.dimensions.height);
     this.lightfrustrum = new CameraFrustrum(options);
     this.lights = new Lights(options, this.camera, this.lightfrustrum);
     this.world = new World();
     this.clock = new Clock();
-    // debugg
+
+    // Debugg shadows camera >> Frustrum ;-)
     //this.frustrum = new Frustrum(this.lightfrustrum);
     return this;
   }
 
   init() {
 
+    // this.scene.fog = new THREE.FogExp2(new THREE.Color(this.options.colors.fog),
+    // this.options.scene.fog.factor);
 
-    // this.scene.fog = new THREE.FogExp2(
-    //   new THREE.Color(this.options.colors.fog),
-    //   this.options.scene.fog.factor
-    // );
-
-    this.scene.fog = new THREE.Fog(new THREE.Color(this.options.colors.fog), 30, 200);
+    this.scene.fog = new THREE.Fog(new THREE.Color(this.options.colors.fog), 30, 120);
 
     // Lights
     this.lights.forEach((function(light) {
       this.scene.add(light);
     }).bind(this));
-    //this.addRenderTargetImage();
-    // Frustrum
+
+    // Debugg shadows camera >> Frustrum ;-)
     //this.scene.add(this.frustrum);
 
 
@@ -96,12 +85,7 @@ class Scene {
     window.addEventListener('resize', updateSize, false);
     this.gestures = new Gestures(this);
     this.controls = new Controls(this.options, this.camera);
-    //this.occlusionRenderTarget = new THREE.WebGLRenderTarget(this.options.dimensions.width * 0.5,
-    //  this.options.dimensions.height * 0.5);
-    //  this.composer = new Composer(this.renderer, this.occlusionRenderTarget);
   }
-
-
 
   updateSize() {
     this.options.dimensions = {
@@ -130,6 +114,7 @@ class Scene {
         this.lastJointPos.push(pos);
         this.jointStrenth.push(1);
       }
+
       this.count = false;
     }
   }
@@ -143,8 +128,8 @@ class Scene {
           this.Joints[i].body1.position.z);
         let pos2 = this.lastJointPos[i];
         let dist = pos.distanceTo(pos2);
-        if (dist > 0.15) {
 
+        if (dist > 0.15) {
           if (this.jointStrenth[i] > 0) {
             this.jointStrenth[i] -= 0.5;
 
@@ -153,9 +138,11 @@ class Scene {
         } else if (dist <= 0.03 && this.jointStrenth[i] <= 0) {
           this.world.removeJoint(this.Joints[i]);
         }
+
         this.lastJointPos[i] = pos;
       }
     }
+
     for (let i = 0; i < this.cocos.length; i++) {
       let cocoPos = this.cocos[i].body.position;
       if (cocoPos.y < -50 && cocoPos.y > -51) {
@@ -167,7 +154,7 @@ class Scene {
   updatePositions() {
 
     this.world.step();
-    this.objects.forEach(function(object) {
+    this.objects.forEach(function (object) {
 
       if (object.hasOwnProperty('body') === true) {
         object.mesh.position.copy(object.body.getPosition());
@@ -203,16 +190,13 @@ class Scene {
 
     if (MaterialManager.get('additive_shader') != null) {
       let material = MaterialManager.get('additive_shader');
-      //console.log('hellllllo');
-
-      //console.log(this.composer.occlusionComposer);
       material.uniforms.tAdd.value = this.composer.occlusionComposer.renderTarget2.texture;
     }
   }
 
   updateMaterials() {
 
-    this.objects.forEach(function(object) {
+    this.objects.forEach(function (object) {
       if (object.hasOwnProperty('body') === true) {
 
         const updatables = [
@@ -223,6 +207,7 @@ class Scene {
           'Land',
           'Blob',
           'Base',
+          'Wolf',
         ];
 
         const parts = object.mesh.name.split('_');
@@ -234,12 +219,13 @@ class Scene {
         if (object.body.sleeping) {
           const sleepingMaterials = {
             Tile: 'toon_grey',
-            Crown: 'toon_blue',
-            Coco: 'absolute_white',
+            Crown: 'celshader_blue',
+            Coco: 'celshader_light_blue',
             TrunkSegment: 'toon_grey',
             Blob: 'displacement',
             Base: 'toon_grey',
             sky: 'smooth_cloud',
+            Wolf: 'phong',
           };
 
           object.mesh.material = sleepingMaterials.hasOwnProperty(name) ?
@@ -248,13 +234,14 @@ class Scene {
         } else {
           const materials = {
             TrunkSegment: 'celshading_stripes_material',
-            Crown: 'toon_blue',
-            Coco: 'absolute_white',
+            Crown: 'celshader_blue',
+            Coco: 'celshader_light_blue',
             Tile: 'toon_cyan',
             Base: 'toon_cyan',
             Montain: 'displacement_box',
             Blob: 'displacement',
             sky: 'smooth_cloud',
+            Wolf: 'phong',
           };
 
           object.mesh.material = materials.hasOwnProperty(name) ?
@@ -267,7 +254,7 @@ class Scene {
 
   oclMaterials() {
 
-    this.objects.forEach(function(object) {
+    this.objects.forEach(function (object) {
       if (object.hasOwnProperty('body') === true) {
 
         const updatables = [
@@ -300,54 +287,24 @@ class Scene {
           object.mesh.material = materials.hasOwnProperty(name) ?
             MaterialManager.get(materials[name]) :
             MaterialManager.get('absolute_black');
-
         }
       }
     }.bind(this));
   }
-
-  //
-  // addRenderTargetImage() {
-  //
-  //   let material;
-  //   let mesh;
-  //   let folder;
-  //
-  //   let uniforms = {
-  //     tDiffuse: {
-  //       type: 't',
-  //       value: null,
-  //     },
-  //   };
-  //
-  //   let passThroughShaders = new THREE.ShaderMaterial({
-  //     uniforms: uniforms,
-  //     vertexShader: PASS_VERT,
-  //     fragmentShader: PASS_FRAG,
-  //   });
-  //
-  //   passThroughShaders.uniforms.tDiffuse.value = this.composer.occlusionTarget.texture;
-    //mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 2), material);
-    //console.log(' passes ');
-  //  console.log( this.composer.blendingComposer.passes[1]);
-    //this.composer.blendingComposer.passes[1].scene.add(mesh);
-  //  mesh.visible = false;
-    //this.scene.add(mesh);
-  //}
-
 
   renderEffect() {
 
     for (let i = 0; i < this.Mirrors.length; i++) {
       this.Mirrors[i].visible = false;
     }
+
     this.cubecamera.updateCubeMap(this.renderer, this.scene);
     for (let i = 0; i < this.Mirrors.length; i++) {
       this.Mirrors[i].visible = true;
     }
+
     this.renderer.setClearColor(0x000000);
     this.composer.occlusionComposer.render();
-
   }
 
   render() {
@@ -355,19 +312,19 @@ class Scene {
     for (let i = 0; i < this.Mirrors.length; i++) {
       this.Mirrors[i].visible = false;
     }
+
     this.cubecamera.updateCubeMap(this.renderer, this.scene);
     for (let i = 0; i < this.Mirrors.length; i++) {
       this.Mirrors[i].visible = true;
     }
-    this.renderer.setClearColor(0x6331FF);
+
+    this.renderer.setClearColor(0x330c91);
     this.composer.blendingComposer.render();
-
   }
-
 
   animate() {
 
-    this.updateGestures();
+
     this.updatePositions();
     this.updateShaders();
 
@@ -377,21 +334,24 @@ class Scene {
       this.updateCocos();
     }
 
+    // render Volumetric Lights
     this.oclMaterials();
     this.renderEffect();
+
+    // blend original scene with effect
     this.updateMaterials();
     this.render();
+    this.updateGestures();
 
-
-    let animate = function() {
+    let animate = function () {
       this.animate();
     }.bind(this);
     requestAnimationFrame(animate);
   }
 
   add(mesh, physics = {}) {
-    this.scene.add(mesh);
 
+    this.scene.add(mesh);
     let object = {};
 
     // If there's physics, let's add the object to OIMO

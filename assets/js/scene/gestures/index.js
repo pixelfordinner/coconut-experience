@@ -61,12 +61,12 @@ class Gestures {
 
     this.dragPointBody = scene.world.add({
       type: 'sphere',
-      size: [1.5],
+      size: [1],
       pos: [0, 0, 0],
       move: true,
       noSleep: true,
       name: 'dragPointBody',
-      config: [0.01, 0.4, 0.2, 1 << 2, 1 << 2],
+      config: [0.02, 0.9, 0.0, 1 << 2, 1 << 2],
     });
 
 
@@ -90,16 +90,15 @@ class Gestures {
   mouseMove(e) {
     let intersects;
     this.updateMouse(e);
-
     this.ray.setFromCamera(this.mouse, this.scene.camera);
 
     if (this.dragStatus === DRAG_STATUS_NONE) {
       intersects = this.ray.intersectObjects(this.meshes, true);
-    } else if (this.dragStatus === DRAG_STATUS_DRAGGING) {
+    } else {
       intersects = this.ray.intersectObjects([this.dragPlaneView], true);
     }
 
-    if (intersects.length > 0) {
+    if (intersects.length >= 1) {
       this.dragPoint = intersects[0].point;
     }
   }
@@ -107,17 +106,17 @@ class Gestures {
 
 
   mouseUp(e) {
-    //this.updateMouse(e);
+
     if (this.dragStatus !== DRAG_STATUS_NONE) {
-      this.dragStatus = DRAG_STATUS_NONE;
-      this.scene.controls.enabled = true;
-      this.dragPointView.visible = false;
-      this.dragPlaneView.visible = false;
-      this.dragLineView.visible = false;
-      //this.dragPoint = null;
+
       if (this.dragLineModel != null) {
         this.dragLineModel.remove();
       }
+      this.scene.controls.enabled = true;
+      this.dragStatus = DRAG_STATUS_NONE;
+      this.dragPointView.visible = false;
+      this.dragPlaneView.visible = false;
+      this.dragLineView.visible = false;
     }
   }
 
@@ -233,7 +232,7 @@ class Gestures {
 
       this.dragLineConnect();
       this.dragStatus = DRAG_STATUS_DRAGGING;
-      this.dragPointView.visible = true;
+      this.dragPointView.visible = false;
       this.dragPlaneView.visible = true;
       this.dragLineView.visible = true;
     }

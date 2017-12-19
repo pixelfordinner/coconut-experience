@@ -4,8 +4,8 @@ import {
   MaterialManager
 } from './manager';
 
-const VERTEX = shaderParse(require('../shaders/celshading_shadow/vertex.glsl'));
-const FRAGMENT = shaderParse(require('../shaders/celshading_shadow/fragment.glsl'));
+const VERTEX = shaderParse(require('../shaders/celshading_basic/vertex.glsl'));
+const FRAGMENT = shaderParse(require('../shaders/celshading_basic/fragment.glsl'));
 
 let CelShadingMaterial = function (scene, color, name) {
 

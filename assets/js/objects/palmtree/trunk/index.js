@@ -20,14 +20,14 @@ class Trunk {
         z: 0,
       },
       segments: {
-        quantity: 9,
+        quantity: 11,
         radius: {
           min: 0.4,
-          max: 1,
+          max: 1.3,
         },
         density: {
           min: 8,
-          max: 20,
+          max: 10,
         },
         height: {
           min: 1,

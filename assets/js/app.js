@@ -62,14 +62,16 @@ class App {
       },
       colors: {
         purple: 0x6331FF,
-        fog: 0x6331FF,
+        fog: 0x330c91,
         background: 0x6331FF,
         blue: 0x106cc1,
         cyan: 0x74fbff,
         pink: 0xf937be,
         grey: 0x2b1354,
+        dark_blue: 0x140030,
         white: 0xffffff,
         black: 0x000000,
+        light_blue: '0xcdcaec',
       },
       scene: {
         fog: {
@@ -97,9 +99,12 @@ class App {
     new CelShadowMaterial(this.scene, new THREE.Color(0x2b2b2b), 'grey');
     new CelShadowMaterial(this.scene, new THREE.Color(0x61ffd9), 'blue');
     new CelShadowMaterial(this.scene, new THREE.Color(0xff5be0), 'pink');
+    new CelShadowMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
+    new CelShadowMaterial(this.scene, new THREE.Color(this.options.colors.light_blue), 'light_blue');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.grey), 'grey');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.cyan), 'cyan');
+    new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.pink), 'pink');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.white), 'white');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.black), 'black');
   }
@@ -111,9 +116,9 @@ class App {
       heightSegments: 30,
       radius: 1,
       scale: {
-        x: 200,
-        y: 200,
-        z: 200,
+        x: 150,
+        y: 150,
+        z: 150,
       },
       position: {
         x: -900,
@@ -121,7 +126,7 @@ class App {
         z: -200,
       },
     });
-  // new Sky(this.scene);
+    new Sky(this.scene);
     new Floor(this.scene, {
       size: {
         w: 7,
@@ -139,7 +144,7 @@ class App {
       },
     });
 
-  //  new Wolf(this.scene);
+    new Wolf(this.scene);
 
     new Palmtree(this.scene, {
       name: 'Palmtree_',

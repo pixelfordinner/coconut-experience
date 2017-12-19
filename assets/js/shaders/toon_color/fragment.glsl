@@ -61,7 +61,7 @@ void main(void) {
   vec3 matColor =  vec3(max(0.0, diff + shdw - max(diff - shdw, shdw)));
 
   //gl_FragColor = vec4(mix(matColor , diffuse, 0.5) , 1.0) ;
-  gl_FragColor = vec4( matColor * diffuse , 1.0);
+  gl_FragColor = vec4( 2.0 * matColor * diffuse , 1.0);
 
   //chunk(fog_fragment);
 }
