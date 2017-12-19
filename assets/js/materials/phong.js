@@ -11,8 +11,8 @@ let Material = function (camera) {
     specular: new THREE.Color(0x555555),
     transparent: false,
     opacity: 1.0,
-    emissive: new THREE.Color(0x555555),
-    shininess: 100,
+    emissive: new THREE.Color(0x6331FF),
+    shininess: 300,
     envMap: camera.renderTarget.texture,
     reflectivity: 1,
   });

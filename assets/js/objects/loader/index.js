@@ -71,7 +71,7 @@ class Loader {
 
       scene.Mirrors.push(model);
 
-      scene.add(model);
+      scene.add(model, params);
 
     }
 
