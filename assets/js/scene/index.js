@@ -219,7 +219,7 @@ class Scene {
           'Land',
           'Blob',
           'Base',
-          'Wolf',
+          //'Wolf',
           'Moon',
         ];
 
@@ -309,6 +309,7 @@ class Scene {
 
 
   renderEffect() {
+
 
     this.renderer.setClearColor(0x000000);
     this.composer.occlusionComposer.render();
