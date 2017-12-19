@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import shaderParse from '../shaders/shaderparse.js';
+const VOLUMETRIC_LIGHT_FRAGMENT = shaderParse(require('../shaders/volumetriclight/fragment.glsl'));
+
 import {
   MaterialManager
 } from './manager';

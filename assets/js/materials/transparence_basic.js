@@ -32,10 +32,10 @@ let StripeMaterial = function (scene) {
     THREE.UniformsLib.lights,
   ]);
 
-  // let mat2 = new THREE.MeshLambertMaterial({
-  //   transparent: true,
-  //   opacity: 0.5,
-  // });
+  let mat2 = new THREE.MeshLambertMaterial({
+    transparent: true,
+    opacity: 0.0,
+  });
   // mat2.depthWrite = false;
 
   let material = new THREE.ShaderMaterial({
@@ -48,7 +48,7 @@ let StripeMaterial = function (scene) {
     wireframe: false,
 
   });
-  MaterialManager.set('transparence_basic', material);
+  MaterialManager.set('transparence_basic', mat2);
   return material;
 };
 

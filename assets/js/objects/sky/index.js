@@ -17,6 +17,15 @@ class Sky {
       heightSegments: 20,
       receiveShadow: false,
       castShadow: false,
+      physics: {
+        type: 'sphere',
+        move: false,
+        density: 100,
+        friction: 0.2,
+        restitution: 0.2,
+        belongsTo: 3,
+        collidesWith: 0x111111,
+      },
     };
 
     this.options = defaultsDeep(options, this.options);

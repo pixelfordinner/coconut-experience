@@ -26,8 +26,8 @@ class Trunk {
           max: 1,
         },
         density: {
-          min: 7,
-          max: 30,
+          min: 8,
+          max: 20,
         },
         height: {
           min: 1,
@@ -106,7 +106,7 @@ class Trunk {
             pos2: [0, lastHeight / 2, 0],
             rot1: [0, 0, 0],
             rot2: [0, 0, 0],
-            min: -height / 2,
+            min: -height / 3,
             max: 0,
             collision: true,
           });

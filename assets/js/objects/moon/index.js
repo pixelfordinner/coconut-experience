@@ -61,7 +61,7 @@ class Moon {
       this.options.position.z
     );
 
-    return scene.add(mesh, this.options.physics);
+    return scene.add(mesh);
   }
 }
 

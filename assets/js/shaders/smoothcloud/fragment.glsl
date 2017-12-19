@@ -6,40 +6,61 @@ varying vec2 vUv;
 //chunk(common);
 //chunk(fog_pars_fragment);
 
-//////////////////////////// 2D NOISE //////////////////////////////////////////
-float hash( float n ) {
-    return fract(sin(n)*43758.5453123);
+// Tiling 2D noise by Dave Hoskin https://www.shadertoy.com/view/4dlGW2
+//----------------------------------------------------------------------------------------
+float Hash(in vec2 p, in float scale)
+{
+	// This is tiling part, adjusts with the scale...
+	p = mod(p, scale);
+	return fract(sin(dot(p, vec2(27.16898, 38.90563))) * 5151.5473453);
 }
 
-float noise( in vec2 x ){
-    vec2 p = floor(x);
-    vec2 f = fract(x);
-    f = f * f * (3.0 - 2.0 * f);
-    float n = p.x + p.y * 57.0;
-    return mix(mix( hash(n + 0.0), hash(n + 1.0), f.x), mix(hash(n + 57.0), hash(n + 58.0), f.x), f.y);
-}
-//////////////////////////// FBM ///////////////////////////////////////////////
-//
-// 	<https://www.shadertoy.com/view/MdX3Rr>
-//	by inigo quilez
-//
-const mat2 mtrx = mat2(0.8,-0.6,0.6,0.8);
-float fbm(vec2 p){
+//----------------------------------------------------------------------------------------
+float Noise(in vec2 p, in float scale )
+{
+	vec2 f;
 
-    float f = 0.0;
-    f += 0.5000 * noise(p); p = mtrx * p * 2.01;
-    f += 0.2500 * noise(p); p = mtrx * p * 2.02;
-    f += 0.1250 * noise(p); p = mtrx * p * 2.03;
-    f += 0.0625 * noise(p); p = mtrx * p * 2.04;
-    f /= 0.9375;
-    return f;
+	p *= scale;
+
+
+	f = fract(p);		// Separate integer from fractional
+    p = floor(p);
+
+    f = f*f*(3.0-2.0*f);	// Cosine interpolation approximation
+
+    float res = mix(mix(Hash(p, 				 scale),
+						Hash(p + vec2(1.0, 0.0), scale), f.x),
+					mix(Hash(p + vec2(0.0, 1.0), scale),
+						Hash(p + vec2(1.0, 1.0), scale), f.x), f.y);
+    return res;
+}
+
+//----------------------------------------------------------------------------------------
+float fBm(in vec2 p)
+{
+  //  p += vec2(iGlobalTime * 0.1, iGlobalTime * 0.01) * vec2(0.01)  ;
+	float f = 0.0;
+	// Change starting scale to any integer value...
+	float scale = 10.;
+    p = mod(p, scale);
+	float amp   = 0.6;
+
+	for (int i = 0; i < 3; i++)
+	{
+		f += Noise(p, scale) * amp;
+		amp *= 0.5;
+		// Scale must be multiplied by an integer value...
+		scale *= 2.0;
+	}
+	// Clamp it just in case....
+	return min(f, 1.0);
 }
 
 void main(void) {
 
-  float alpha = fbm(vec2(vUv * 7.0 ) - vec2(iGlobalTime * 0.05));
-  alpha = clamp(pow(alpha, 3.0), 0.0, 1.0);
-  vec3 color = vec3(fbm(vec2(vUv * 7.0 ) - vec2(iGlobalTime * 0.05)));
+  float alpha = fBm(vec2(vUv  ) - vec2(iGlobalTime * 0.005, 0.0));
+  alpha = clamp(pow(alpha, 3.0), 0.0, 1.0) - 0.15;
+  vec3 color = vec3(fBm(vec2(vUv  ) - vec2(iGlobalTime * 0.005, 0.0)));
   color = vec3(smoothstep(0.5, 1.0, color));
   color = mix(color * 3.5, diffuse, 0.15);
   vec4 col = vec4(color, alpha);

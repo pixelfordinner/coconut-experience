@@ -109,10 +109,11 @@ class App {
     new Moon(this.scene, {
       widthSegments: 30,
       heightSegments: 30,
+      radius: 1,
       scale: {
-        x: 100,
-        y: 100,
-        z: 100,
+        x: 200,
+        y: 200,
+        z: 200,
       },
       position: {
         x: -900,
@@ -120,7 +121,7 @@ class App {
         z: -200,
       },
     });
-    //new Sky(this.scene);
+  // new Sky(this.scene);
     new Floor(this.scene, {
       size: {
         w: 7,
@@ -138,14 +139,14 @@ class App {
       },
     });
 
-    new Wolf(this.scene);
+  //  new Wolf(this.scene);
 
     new Palmtree(this.scene, {
       name: 'Palmtree_',
       index: 1,
       position: {
         x: 0,
-        y: 11,
+        y: 10,
         z: 6,
       },
     });
@@ -154,42 +155,10 @@ class App {
       index: 2,
       position: {
         x: 6,
-        y: 9,
+        y: 8,
         z: -6,
       },
     });
-
-    // new Landscape(this.scene, {
-    //   widthSegments: 100,
-    //   heightSegments: 100,
-    //   size: {
-    //     w: 200,
-    //     h: 200,
-    //   },
-    //   position: {
-    //     x: 0,
-    //     y: -15,
-    //     z: 0,
-    //   },
-    // });
-
-
-    // new Blob(this.scene, {
-    //   name: 'Blob_',
-    //   index: 0,
-    //   radius: 2,
-    //   widthSegments: 400,
-    //   heightSegments: 400,
-    //   position: {
-    //     x: -20,
-    //     y: 20,
-    //     z: 5,
-    //   },
-    //   physics: {
-    //     move: false,
-    //   },
-    // });
-
   }
 }
 

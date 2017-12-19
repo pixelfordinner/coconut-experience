@@ -52,10 +52,8 @@ class Floor {
       for (let j = 0; j < this.options.size.h; j++) {
         let rand = Math.random();
         let kill = false;
-        let px = (0.5 + i * this.options.scale.x)
-        - (this.options.scale.x * this.options.size.w / 2);
-        let pz = (0.5 + j * this.options.scale.z)
-        - (this.options.scale.z * this.options.size.h / 2);
+        let px = (0.5 + i * this.options.scale.x) - (this.options.scale.x * this.options.size.w / 2);
+        let pz = (0.5 + j * this.options.scale.z) - (this.options.scale.z * this.options.size.h / 2);
         let x = (0.5 + i - this.options.size.w / 2);
         let z = (0.5 + j - this.options.size.h / 2);
 
@@ -66,44 +64,45 @@ class Floor {
         py *= THREE.Math.clamp(Math.cos(nx + nz), 0.1, 1);
         let height = py * 2;
 
-        if (height < 10.5 && rand > 0.7) {
+        if (height < 16 && rand > 0.7) {
           kill = true;
         }
 
-        let tile = new Tile(scene, {
-          position: {
-            x: px + (this.options.scale.x * 0.5),
-            y: 0,
-            z: pz + (this.options.scale.z * 0.5),
-          },
-          scale: {
-            x: this.options.scale.x * 0.999,
-            y: height,
-            z: this.options.scale.z * 0.999,
-          },
-          name: this.options.name + this.options.index + '_Tile_' + tIndex,
-        });
-        tIndex++;
-        let box = new Box();
-        let material = MaterialManager.get('transparence_basic');
-        let mesh = new THREE.Mesh(box, material);
-
-        mesh.scale.set(
-          this.options.scale.x * 0.999,
-          0.1,
-          this.options.scale.z * 0.999,
-        );
-        mesh.position.set(
-          px + (this.options.scale.x * 0.5), -py,
-          pz + (this.options.scale.z * 0.5),
-        );
-        mesh.name = this.options.name + this.options.index + '_Base_' + tIndex,
-        mesh.receiveShadow = false;
-        mesh.castShadow = false;
         if (kill == false) {
+          let tile = new Tile(scene, {
+            position: {
+              x: px + (this.options.scale.x * 0.5),
+              y: 0,
+              z: pz + (this.options.scale.z * 0.5),
+            },
+            scale: {
+              x: this.options.scale.x * 0.999,
+              y: height,
+              z: this.options.scale.z * 0.999,
+            },
+            name: this.options.name + this.options.index + '_Tile_' + tIndex,
+          });
+
+          tIndex++;
+
+          let box = new Box();
+          let material = MaterialManager.get('transparence_basic');
+          let mesh = new THREE.Mesh(box, material);
+
+          mesh.scale.set(
+            this.options.scale.x * 0.999,
+            0.1,
+            this.options.scale.z * 0.999,
+          );
+          mesh.position.set(
+            px + (this.options.scale.x * 0.5), -py,
+            pz + (this.options.scale.z * 0.5),
+          );
+
+          mesh.name = this.options.name + this.options.index + '_Base_' + tIndex,
+          mesh.receiveShadow = false;
+          mesh.castShadow = false;
           scene.add(mesh, this.options.physics);
-        } else {
-          scene.add(mesh, this.options.physics2);
         }
       }
     }

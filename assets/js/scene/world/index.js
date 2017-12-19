@@ -4,7 +4,7 @@ const defaultsDeep = require('lodash.defaultsdeep');
 class World {
   constructor(options) {
     this.options = {
-      timestep: 1 / 80,
+      timestep: 1 / 60,
       iterations: 8,
       broadphase: 2, // 1 brute force, 2 sweep and prune, 3 volume tree
       worldscale: 3, // scale full world

@@ -61,12 +61,12 @@ class Gestures {
 
     this.dragPointBody = scene.world.add({
       type: 'sphere',
-      size: [0.3],
+      size: [1.5],
       pos: [0, 0, 0],
       move: true,
       noSleep: true,
       name: 'dragPointBody',
-      config: [5.5, 0.4, 0.2, 1 << 2, 1 << 2],
+      config: [0.01, 0.4, 0.2, 1 << 2, 1 << 2],
     });
 
 
@@ -95,7 +95,7 @@ class Gestures {
 
     if (this.dragStatus === DRAG_STATUS_NONE) {
       intersects = this.ray.intersectObjects(this.meshes, true);
-    } else {
+    } else if (this.dragStatus === DRAG_STATUS_DRAGGING) {
       intersects = this.ray.intersectObjects([this.dragPlaneView], true);
     }
 
@@ -104,20 +104,26 @@ class Gestures {
     }
   }
 
+
+
   mouseUp(e) {
+    //this.updateMouse(e);
     if (this.dragStatus !== DRAG_STATUS_NONE) {
       this.dragStatus = DRAG_STATUS_NONE;
       this.scene.controls.enabled = true;
       this.dragPointView.visible = false;
       this.dragPlaneView.visible = false;
       this.dragLineView.visible = false;
-      if (this.dragLineModel != null) this.dragLineModel.remove();
+      //this.dragPoint = null;
+      if (this.dragLineModel != null) {
+        this.dragLineModel.remove();
+      }
     }
   }
 
   mouseDown(e) {
     let intersects;
-
+    //this.updateMouse(e);
     if (e.button !== 0) {
       return;
     }
@@ -208,7 +214,7 @@ class Gestures {
       ],
       min: 0,
       max: 1,
-      spring: [100, 0.3],
+      spring: [10, 0.5],
     });
   }
 
