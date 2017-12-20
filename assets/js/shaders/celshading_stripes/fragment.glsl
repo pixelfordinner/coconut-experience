@@ -1,8 +1,12 @@
 uniform vec3 diffuse;
+uniform vec3 emissive;
 uniform vec3 diffuse2;
+uniform vec3 emissive2;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 varying vec3 vNormal;
+varying vec3 vPosition;
+uniform float luminosity;
 //varying vec2 vUv;
 uniform float iGlobalTime;
 //chunk(common);
@@ -50,30 +54,25 @@ void main(void) {
   vec3 lVector = normalize( lDirection.xyz );
   vec3 normal = normalize( vNormal );
 
-  vec3 color;
-  float f = floor(cos( vUv.x * 6.3 * 2.0 - (iGlobalTime * 4.0))) + 1.0;
+  // Stripes pattern based on vertex position
+  vec3 col;
+  vec3 emi;
+  float f = floor(cos( vPosition.y * 12.0 - (iGlobalTime * 4.0))) + 1.0;
   if( f > 0.0 ){
-    color = diffuse;
+    col = diffuse;
+    emi = emissive;
   } else {
-    color = diffuse2;
+    col = diffuse2;
+    emi = emissive2;
   }
+  // celshading based on light position
+  float diff = 0.5 * max(-1.0, dot( normal, lVector ));
+  diff =  ceil(diff * 10.0) * 0.1;
+  vec3 light = mix(vec3(0.0), lightColor, luminosity + diff * 0.1);
+  vec3 shade = mix(emi, col, luminosity + diff);
+  shade += light;
 
-  float diff = max(0.0, dot( normal, lVector ));
-  float o_diff = diff;
-  diff = 0.5 + ceil(diff * 10.0) * 0.1;
-
-  vec3 matColor = 1.5 * color * (lightColor * 3.5) * diff;
-
-  // do some additive lightning and fake shinny sand texture
-  if (diff > 0.7){
-    matColor += pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.1;
-    float n = 1.0 - noise(vNormal.xyz * 100.0);
-    if(n > 0.3 ){
-      matColor += n * pow(smoothstep(0.7, 1.0, o_diff), 2.) * 0.5 ;
-    }
-  }
-
-  gl_FragColor = vec4(matColor , 1.0 );
+  gl_FragColor = vec4(shade, 1.0);
 
   //chunk(fog_fragment);
 

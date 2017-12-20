@@ -274,7 +274,8 @@ class Scene {
         const updatables = [
           'Tile',
           'Moon',
-      
+          'TrunkSegment',
+
         ];
 
         const parts = object.mesh.name.split('_');
@@ -296,7 +297,7 @@ class Scene {
         } else {
           const materials = {
             Tile: 'absolute_white',
-
+            TrunkSegment: 'absolute_mediumgrey',
             Moon: 'absolute_lightgrey',
           };
 

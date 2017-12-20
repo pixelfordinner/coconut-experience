@@ -17,7 +17,8 @@ import Sky from './objects/sky';
 
 // MATERIALS
 import MoonMaterial from './materials/moonmaterial.js';
-import PhongMaterial from './materials/phong.js';
+import PhongReflectiveMaterial from './materials/phongreflective.js';
+import PhongColorMaterial from './materials/phongreflective.js';
 import AbsoluteColorMaterial from './materials/absolutecolormaterial.js';
 import ToonColorMaterial from './materials/tooncolormaterial.js';
 import StripesMaterial from './materials/stripesmaterial.js';
@@ -67,11 +68,12 @@ class App {
         background: 0x6331FF,
         blue: 0x106cc1,
         cyan: 0x74fbff,
-        mediumgrey: 0x6e6e6e,
+        mediumgrey: 0x717171,
         lightgrey: 0xc7c7c7,
         darkpurple: 0x2b1354,
         darkblue: 0x330c91,
-        light_blue: 0xcdcaec,
+        lightblue: 0xcdcaec,
+        bluishgrey: 0xbacbdb,
         pink: 0xf937be,
         grey: 0x2b1354,
         white: 0xffffff,
@@ -92,7 +94,7 @@ class App {
   }
 
   registerMaterials() {
-    new PhongMaterial(this.scene.cubecamera);
+    new PhongReflectiveMaterial(this.scene.cubecamera);
     new ShadowShaderMaterial();
     new MoonMaterial(this.scene);
     new SmoothCloudMaterial();
@@ -101,10 +103,10 @@ class App {
     new CelShadingMaterial(this.scene);
     new DisplacementBoxShaderMaterial(this.scene);
     new TransparenceMaterial(this.scene);
-
     new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.darkblue), 'darkblue');
     new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
-    new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.light_blue), 'lightblue');
+    new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.lightblue), 'lightblue');
+    new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.cyan), 'cyan');
     new CelShadowMaterial(this.scene, new THREE.Color(0x2b2b2b), 'grey');
     new CelShadowMaterial(this.scene, new THREE.Color(0x61ffd9), 'blue');
     new CelShadowMaterial(this.scene, new THREE.Color(0xff5be0), 'pink');

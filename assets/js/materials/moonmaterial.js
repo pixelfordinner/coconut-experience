@@ -11,7 +11,7 @@ let Material = function (scene) {
   let uniforms = THREE.UniformsUtils.merge([{
       opacity: { type: 'f', value: 0.75 },
       diffuse: { type: 'c', value: new THREE.Color(scene.options.colors.darkpurple) },
-      diffshadow: { type: 'c', value: new THREE.Color(scene.options.colors.blue) },
+      diffshadow: { type: 'c', value: new THREE.Color(scene.options.colors.cyan) },
       iGlobalTime: { type: 'f', value: 0.0 },
     },
         THREE.UniformsLib.fog,
