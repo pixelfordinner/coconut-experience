@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 import Renderer from './renderer';
-
-//import Postprod from './postprocess';
 import Camera from './camera';
 import cubeCamera from './cubecamera';
 import Composer from './effectcomposer';
@@ -12,12 +10,8 @@ import Clock from './clock';
 import World from './world';
 import Gestures from './gestures';
 import Controls from './controls';
-import {
-  MaterialManager
-} from '../materials/manager';
-
+import { MaterialManager } from '../materials/manager';
 const $ = require('jquery');
-
 
 class Scene {
   constructor(options) {
@@ -50,17 +44,14 @@ class Scene {
     this.textureRenderer = new Renderer(options);
     this.camera = new Camera(options);
     this.cubecamera = new cubeCamera();
-    // this.occlusionRenderTarget = new THREE.WebGLRenderTarget(options.dimensions.width,
-    //   options.dimensions.height);
-    //  console.log('RENDERER ' + this.renderer);
-    //  this.blendingRenderTarget = new THREE.WebGLRenderTarget(options.dimensions.width,
-    //    options.dimensions.height);
     console.log('RENDERER ' + this.renderer);
-    this.composer = new Composer(this.scene, this.camera, this.renderer, this.options.dimensions.width, this.options.dimensions.height);
+    this.composer = new Composer(this.scene, this.camera, this.renderer,
+      this.options.dimensions.width, this.options.dimensions.height);
     this.lightfrustrum = new CameraFrustrum(options);
     this.lights = new Lights(options, this.camera, this.lightfrustrum);
     this.world = new World();
     this.clock = new Clock();
+
     // debugg
     //this.frustrum = new Frustrum(this.lightfrustrum);
     return this;
@@ -68,13 +59,10 @@ class Scene {
 
   init() {
 
-
-    // this.scene.fog = new THREE.FogExp2(
-    //   new THREE.Color(this.options.colors.fog),
-    //   this.options.scene.fog.factor
-    // );
-
-    this.scene.fog = new THREE.Fog(new THREE.Color(this.options.colors.fog), 30, 120);
+    this.scene.fog = new THREE.FogExp2(
+      new THREE.Color(this.options.colors.fog),
+      this.options.scene.fog.factor
+    );
 
     // Lights
     this.lights.forEach((function(light) {
@@ -143,15 +131,16 @@ class Scene {
 
           if (this.jointStrenth[i] > 0) {
             this.jointStrenth[i] -= 0.5;
-
           }
 
         } else if (dist <= 0.03 && this.jointStrenth[i] <= 0) {
           this.world.removeJoint(this.Joints[i]);
         }
+
         this.lastJointPos[i] = pos;
       }
     }
+
     for (let i = 0; i < this.cocos.length; i++) {
       let cocoPos = this.cocos[i].body.position;
       if (cocoPos.y < -50 && cocoPos.y > -51) {
@@ -163,15 +152,17 @@ class Scene {
   updatePositions() {
 
     this.world.step();
-    this.objects.forEach(function(object) {
+    this.objects.forEach(function (object) {
 
       if (object.hasOwnProperty('body') === true) {
         object.mesh.position.copy(object.body.getPosition());
         object.mesh.quaternion.copy(object.body.getQuaternion());
       }
+
       if (object.mesh.name === 'Wolf') {
           object.mesh.rotation.set(0, this.clock.getElapsedTime() * 0.1, 0);
       }
+
     }.bind(this));
   }
 
@@ -198,16 +189,13 @@ class Scene {
 
     if (MaterialManager.get('additive_shader') != null) {
       let material = MaterialManager.get('additive_shader');
-      //console.log('hellllllo');
-
-      //console.log(this.composer.occlusionComposer);
       material.uniforms.tAdd.value = this.composer.occlusionComposer.renderTarget2.texture;
     }
   }
 
   updateMaterials() {
 
-    this.objects.forEach(function(object) {
+    this.objects.forEach(function (object) {
       if (object.hasOwnProperty('body') === true) {
 
         const updatables = [
@@ -274,6 +262,7 @@ class Scene {
         const updatables = [
           'Tile',
           'Moon',
+          'Wolf',
           'TrunkSegment',
           'Coco',
           'Crown',
@@ -313,7 +302,6 @@ class Scene {
     }.bind(this));
   }
 
-
   renderEffect() {
 
     this.renderer.setClearColor(0x000000);
@@ -327,17 +315,19 @@ class Scene {
       for (let i = 0; i < this.Mirrors.length; i++) {
         this.Mirrors[i].visible = false;
       }
+
       if (this.cubecamera !== null) {
         this.cubecamera.updateCubeMap(this.renderer, this.scene);
       }
+
       for (let i = 0; i < this.Mirrors.length; i++) {
         this.Mirrors[i].visible = true;
       }
     }
-    this.renderer.setClearColor(0x330c91);
+
+    this.renderer.setClearColor(this.options.colors.background);
     this.composer.blendingComposer.render();
   }
-
 
   animate() {
 
@@ -356,8 +346,7 @@ class Scene {
     this.updateMaterials();
     this.render();
 
-
-    let animate = function() {
+    let animate = function () {
       this.animate();
     }.bind(this);
     requestAnimationFrame(animate);
@@ -402,7 +391,6 @@ class Scene {
     this.gestures.updateMeshes(this.objects);
     return object;
   }
-
 }
 
 export default Scene;

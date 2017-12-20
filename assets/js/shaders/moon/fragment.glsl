@@ -66,7 +66,7 @@ void main(void) {
 	if(noise >= 0.0){
 		col = smoothstep(mix(vec3(1.0), diffuse, 0.2), diffuse * 1.5, vec3(0.7 * noise));;
 	}
-  gl_FragColor = vec4(col, 0.65);
+  gl_FragColor = vec4(col, 0.5);
 
 
 }

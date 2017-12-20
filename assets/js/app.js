@@ -64,10 +64,11 @@ class App {
       },
       colors: {
         purple: 0x6331FF,
-        fog: 0x330c91,
-        background: 0x6331FF,
+        fog: 0x3d1687,
+        background: 0x3d1687,
         blue: 0x106cc1,
         cyan: 0x74fbff,
+        darkgrey: 0X3b3b3b,
         mediumgrey: 0x717171,
         lightgrey: 0xc7c7c7,
         darkpurple: 0x2b1354,
@@ -94,7 +95,7 @@ class App {
   }
 
   registerMaterials() {
-    new PhongReflectiveMaterial(this.scene.cubecamera);
+    new PhongReflectiveMaterial(this.scene, this.scene.cubecamera);
     new ShadowShaderMaterial();
     new MoonMaterial(this.scene);
     new SmoothCloudMaterial();
@@ -124,6 +125,7 @@ class App {
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.cyan), 'cyan');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.white), 'white');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.black), 'black');
+    new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.darkgrey), 'darkgrey');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.mediumgrey), 'mediumgrey');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.lightgrey), 'lightgrey');
 
@@ -146,7 +148,7 @@ class App {
         z: -200,
       },
     });
-  // new Sky(this.scene);
+    new Sky(this.scene);
     new Floor(this.scene, {
       size: {
         w: 7,
