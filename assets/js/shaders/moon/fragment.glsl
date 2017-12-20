@@ -58,18 +58,13 @@ float fBm(in vec2 p)
 
 void main(void) {
 
-  float alpha = fBm(vec2(vUv  ) + vec2(iGlobalTime * 0.005, 0.0));
-  alpha = clamp(alpha, 0.5, 0.7);
-  float noise = fBm(vec2(vUv ) + vec2(iGlobalTime * 0.005, 0.0));
-	//noise = clamp(noise, 0.5, 0.8);
-  //noise = vec3(smoothstep(0.0, 1.0, noise));
-//  color = mix(color, diffuse, 0.8);
 
-  //vec3 col = smoothstep(vec3(0.0), diffuse, vec3(noise));
-	noise =  clamp(noise, 0.6, 0.7);
+  float noise = fBm(vec2(vUv ) + vec2(iGlobalTime * 0.005, 0.0));
+
+	noise =  clamp(noise, 0.6, 0.8);
 	vec3 col = vec3(1.0);
-	if(noise >= 0.4){
-		col = smoothstep(vec3(1.0), diffuse, vec3(length(vUv) * noise));;
+	if(noise >= 0.6){
+		col = smoothstep(vec3(1.0), diffuse * 1.3, vec3(0.8 * noise));;
 	}
   gl_FragColor = vec4(col, 1.0);
 
