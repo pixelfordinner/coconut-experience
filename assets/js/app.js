@@ -5,7 +5,7 @@ import Sphere from './geometry/sphere';
 import Cylinder from './geometry/cylinder';
 import Box from './geometry/box';
 
-// OBJECTS
+// OBJECTSs
 import Scene from './scene';
 import Floor from './objects/floor';
 import Palmtree from './objects/palmtree';
@@ -16,6 +16,7 @@ import Moon from './objects/moon';
 import Sky from './objects/sky';
 
 // MATERIALS
+import MoonMaterial from './materials/moonmaterial.js';
 import PhongMaterial from './materials/phong.js';
 import AbsoluteColorMaterial from './materials/absolutecolormaterial.js';
 import ToonColorMaterial from './materials/tooncolormaterial.js';
@@ -27,7 +28,6 @@ import ShadowShaderMaterial from './materials/shadowmaterial.js';
 import DisplacementShaderMaterial from './materials/displacementmaterial.js';
 import DisplacementBoxShaderMaterial from './materials/displacementbox.js';
 import SmoothCloudMaterial from './materials/smoothcloudmaterial.js';
-import MoonMaterial from './materials/moonmaterial.js';
 import MakeMaterial from './materials/makematerial.js';
 import shaderParse from './shaders/shaderparse.js';
 
@@ -63,18 +63,19 @@ class App {
       },
       colors: {
         purple: 0x6331FF,
-        fog: 0x330c91,
+        fog: 0x2b1354,
         background: 0x6331FF,
         blue: 0x106cc1,
         cyan: 0x74fbff,
-        pink: 0xf937be,
         mediumgrey: 0x6e6e6e,
         lightgrey: 0xc7c7c7,
         darkpurple: 0x2b1354,
         darkblue: 0x330c91,
+        light_blue: 0xcdcaec,
+        pink: 0xf937be,
+        grey: 0x2b1354,
         white: 0xffffff,
         black: 0x000000,
-        light_blue: 0xcdcaec,
       },
       scene: {
         fog: {
@@ -93,25 +94,24 @@ class App {
   registerMaterials() {
     new PhongMaterial(this.scene.cubecamera);
     new ShadowShaderMaterial();
-    new SmoothCloudMaterial();
     new MoonMaterial(this.scene);
+    new SmoothCloudMaterial();
     new DisplacementShaderMaterial(this.scene);
     new StripesMaterial(this.scene);
+    new CelShadingMaterial(this.scene);
     new DisplacementBoxShaderMaterial(this.scene);
     new TransparenceMaterial(this.scene);
-
 
     new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.darkblue), 'darkblue');
     new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
     new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.light_blue), 'lightblue');
-
     new CelShadowMaterial(this.scene, new THREE.Color(0x2b2b2b), 'grey');
     new CelShadowMaterial(this.scene, new THREE.Color(0x61ffd9), 'blue');
     new CelShadowMaterial(this.scene, new THREE.Color(0xff5be0), 'pink');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.darkpurple), 'darkpurple');
+    new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.grey), 'grey');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.cyan), 'cyan');
-
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.white), 'white');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.black), 'black');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.mediumgrey), 'mediumgrey');

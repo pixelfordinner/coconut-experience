@@ -20,7 +20,7 @@ void main() {
         float p = vUv.x * 1435.345 + vUv.y * 3456.321;
         grain += hash(p);
     }
-    grain = 0.5 * (grain - 0.5);
+    grain = 0.25 * (grain - 0.5);
 
   vec4 shade = clamp(add, .0, .7) + pow(color, vec4(1.2)) ;
   shade = mix(shade, 0.2 - vec4(grain), 0.1);

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import shaderParse from '../../shaders/shaderparse.js';
+
 //import Effect from '../../postprocessing/effect.js';
 import {
   MaterialManager
@@ -61,7 +62,9 @@ class Composer {
     this.occlusionComposer.addPass(new EffectComposer.RenderPass(scene, camera));
     let pass = new EffectComposer.ShaderPass(volumetricLightShaders);
     pass.needsSwap = false;
+
     //pass.renderToScreen = true;
+
     pass.name = 'Volumetric_lights';
     this.occlusionComposer.addPass(pass);
 
