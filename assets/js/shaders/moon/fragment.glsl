@@ -41,7 +41,7 @@ float fBm(in vec2 p)
   //  p += vec2(iGlobalTime * 0.1, iGlobalTime * 0.01) * vec2(0.01)  ;
 	float f = 0.0;
 	// Change starting scale to any integer value...
-	float scale = 25.;
+	float scale = 15.;
     p = mod(p, scale);
 	float amp   = 0.6;
 
@@ -66,10 +66,10 @@ void main(void) {
 //  color = mix(color, diffuse, 0.8);
 
   //vec3 col = smoothstep(vec3(0.0), diffuse, vec3(noise));
-	//noise =  max(noise, 0.5);
+	noise =  clamp(noise, 0.6, 0.7);
 	vec3 col = vec3(1.0);
-	if(noise <= 0.6){
-		col = smoothstep(vec3(1.0), diffuse, vec3(noise));;
+	if(noise >= 0.4){
+		col = smoothstep(vec3(1.0), diffuse, vec3(length(vUv) * noise));;
 	}
   gl_FragColor = vec4(col, 1.0);
 

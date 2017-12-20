@@ -7,14 +7,14 @@ let Material = function (camera) {
 
 
   let material = new THREE.MeshPhongMaterial({
-    color: new THREE.Color(0xffffff),
-    specular: new THREE.Color(0x555555),
+    color: new THREE.Color(0x6331FF),
+    specular: new THREE.Color(0xffffff),
     transparent: false,
     opacity: 1.0,
-    emissive: new THREE.Color(0x6331FF),
-    shininess: 300,
+    emissive: new THREE.Color(0xffffff),
+    shininess: 100,
     envMap: camera.renderTarget.texture,
-    reflectivity: 1,
+    reflectivity: .95,
   });
 
   MaterialManager.set('phong', material);

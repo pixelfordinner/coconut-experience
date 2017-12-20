@@ -22,16 +22,16 @@ class Trunk {
       segments: {
         quantity: 11,
         radius: {
-          min: 0.4,
-          max: 1.3,
+          min: 0.6,
+          max: 1.5,
         },
         density: {
           min: 8,
-          max: 10,
+          max: 16,
         },
         height: {
-          min: 1,
-          max: 2,
+          min: 0.9,
+          max: 1.6,
         },
       },
     };
@@ -55,7 +55,7 @@ class Trunk {
         this.options.segments.height.min,
         this.options.segments.height.max,
       );
-      currentHeight += height * 0.7;
+      currentHeight += height;
 
       let radius = THREE.Math.mapLinear(
         i,

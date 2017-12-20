@@ -63,7 +63,7 @@ class App {
       },
       colors: {
         purple: 0x6331FF,
-        fog: 0x2b1354,
+        fog: 0x330c91,
         background: 0x6331FF,
         blue: 0x106cc1,
         cyan: 0x74fbff,
@@ -154,7 +154,15 @@ class App {
       },
     });
 
-    new Wolf(this.scene);
+    new Wolf(this.scene, {
+      name: 'Wolf_',
+      index: 0,
+      position: {
+        x: 0,
+        y: 20,
+        z: 0,
+      },
+    });
 
     new Palmtree(this.scene, {
       name: 'Palmtree_',

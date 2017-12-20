@@ -17,12 +17,12 @@ class Palmtree {
       name: 'Palmtree_',
       index: 0,
       maxHeight: 1,
-      cocoMax: 18,
+      cocoMax: 15,
     };
 
-    let rand = Math.random();
-    let randHeight = THREE.Math.mapLinear(rand, 0, 1, 1, 2);
-    let randRadius = THREE.Math.mapLinear(rand, 0, 1, 1, 1.5);
+    // let rand = Math.random();
+    // let randHeight = THREE.Math.mapLinear(rand, 0, 1, 1.69 1.7);
+    // let randRadius = THREE.Math.mapLinear(rand, 0, 1, 1.59, 1.6);
 
     this.options = defaultsDeep(options, this.options);
 
@@ -33,14 +33,14 @@ class Palmtree {
         y: this.options.position.y,
         z: this.options.position.z,
       },
-      segments: {
-        radius: {
-          max: randRadius,
-        },
-        height: {
-          max: randHeight,
-        },
-      },
+      // segments: {
+      //   radius: {
+      //     max: randRadius,
+      //   },
+      //   height: {
+      //     max: randHeight,
+      //   },
+      // },
     });
 
     let lastSegment = trunk.segments[trunk.segments.length - 1];
@@ -69,7 +69,7 @@ class Palmtree {
         pos2: [0, 0, 0],
         axe1: [0, 1, 0],
         axe2: [0, 1, 0],
-        min: -3,
+        min: -1,
         max: 0,
         collision: false,
       });
@@ -107,7 +107,7 @@ class Palmtree {
         pos2: [0, 0, 0],
         axe1: [0, 1, 0],
         axe2: [0, 1, 0],
-        min: 0,
+        min: -1,
         max: 0,
         collision: false,
       });

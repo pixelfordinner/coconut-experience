@@ -24,6 +24,12 @@ void main() {
 
   vec4 shade = clamp(add, .0, .7) + pow(color, vec4(1.2)) ;
   shade = mix(shade, 0.2 - vec4(grain), 0.1);
+
+  vec2 px  = 1. - 2. * vUv ;                                     // vigneting
+  float v  = 1. - smoothstep(.7, 1.4, length(px*px));
+
+  shade *= vec4(v);
+
   gl_FragColor = shade;
 
 }

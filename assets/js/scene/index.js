@@ -168,10 +168,9 @@ class Scene {
       if (object.hasOwnProperty('body') === true) {
         object.mesh.position.copy(object.body.getPosition());
         object.mesh.quaternion.copy(object.body.getQuaternion());
-      } else {
-        if (object.mesh.name === 'Wolf') {
+      }
+      if (object.mesh.name === 'Wolf') {
           object.mesh.rotation.set(0, this.clock.getElapsedTime() * 0.1, 0);
-        }
       }
     }.bind(this));
   }
@@ -269,12 +268,13 @@ class Scene {
 
   oclMaterials() {
 
-    this.objects.forEach(function(object) {
+    this.objects.forEach(function (object) {
       if (object.hasOwnProperty('body') === true) {
 
         const updatables = [
           'Tile',
           'Moon',
+      
         ];
 
         const parts = object.mesh.name.split('_');
@@ -286,6 +286,7 @@ class Scene {
         if (object.body.sleeping) {
           const sleepingMaterials = {
             Tile: 'absolute_black',
+
             Moon: 'absolute_lightgrey',
           };
 
@@ -295,6 +296,7 @@ class Scene {
         } else {
           const materials = {
             Tile: 'absolute_white',
+
             Moon: 'absolute_lightgrey',
           };
 

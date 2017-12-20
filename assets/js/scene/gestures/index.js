@@ -61,12 +61,13 @@ class Gestures {
 
     this.dragPointBody = scene.world.add({
       type: 'sphere',
-      size: [1],
+      size: [2.0],
       pos: [0, 0, 0],
       move: true,
       noSleep: true,
+      collision: false,
       name: 'dragPointBody',
-      config: [0.02, 0.9, 0.0, 1 << 2, 1 << 2],
+      config: [0.02, 0.0, 0.0, 1 << 2, 1 << 2],
     });
 
 
@@ -211,9 +212,9 @@ class Gestures {
         this.dragBlockLocalAnchorPoint.y,
         this.dragBlockLocalAnchorPoint.z,
       ],
-      min: 0,
+      min: -1,
       max: 1,
-      spring: [10, 0.5],
+      spring: [3, 0.0005],
     });
   }
 
