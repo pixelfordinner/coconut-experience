@@ -103,10 +103,18 @@ class App {
     new CelShadingMaterial(this.scene);
     new DisplacementBoxShaderMaterial(this.scene);
     new TransparenceMaterial(this.scene);
-    new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.darkblue), 'darkblue');
-    new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
-    new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.lightblue), 'lightblue');
-    new CelShadingMaterial(this.scene, new THREE.Color(this.options.colors.cyan), 'cyan');
+
+    new CelShadingMaterial(this.scene,
+      new THREE.Color(this.options.colors.bluishgrey),
+      new THREE.Color(this.options.colors.purple),
+       'purple'
+     );
+    new CelShadingMaterial(this.scene,
+      new THREE.Color(this.options.colors.white),
+      new THREE.Color(this.options.colors.cyan),
+      'lightblue'
+    );
+
     new CelShadowMaterial(this.scene, new THREE.Color(0x2b2b2b), 'grey');
     new CelShadowMaterial(this.scene, new THREE.Color(0x61ffd9), 'blue');
     new CelShadowMaterial(this.scene, new THREE.Color(0xff5be0), 'pink');

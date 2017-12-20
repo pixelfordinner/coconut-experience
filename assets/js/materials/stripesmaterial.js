@@ -15,7 +15,7 @@ let StripeMaterial = function (scene) {
       },
       luminosity: {
         type: 'f',
-        value: -0.25,
+        value: 0.0,
       },
       lightColor: {
         type: 'c',

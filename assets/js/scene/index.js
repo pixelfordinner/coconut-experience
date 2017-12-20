@@ -231,7 +231,7 @@ class Scene {
         if (object.body.sleeping) {
           const sleepingMaterials = {
             Tile: 'toon_darkpurple',
-            Crown: 'celshading_blue',
+            Crown: 'celshading_purple',
             Coco: 'celshading_lightblue',
             TrunkSegment: 'toon_grey',
             Blob: 'displacement',
@@ -247,7 +247,7 @@ class Scene {
         } else {
           const materials = {
             TrunkSegment: 'celshading_stripes_material',
-            Crown: 'celshading_blue',
+            Crown: 'celshading_purple',
             Coco: 'celshading_lightblue',
             Tile: 'toon_cyan',
             Base: 'toon_cyan',
@@ -275,6 +275,8 @@ class Scene {
           'Tile',
           'Moon',
           'TrunkSegment',
+          'Coco',
+          'Crown',
 
         ];
 
@@ -287,7 +289,6 @@ class Scene {
         if (object.body.sleeping) {
           const sleepingMaterials = {
             Tile: 'absolute_black',
-
             Moon: 'absolute_lightgrey',
           };
 
@@ -298,6 +299,8 @@ class Scene {
           const materials = {
             Tile: 'absolute_white',
             TrunkSegment: 'absolute_mediumgrey',
+            Coco: 'absolute_mediumgrey',
+            Crown: 'absolute_mediumgrey',
             Moon: 'absolute_lightgrey',
           };
 
