@@ -48,7 +48,7 @@ float fBm(in vec2 p)
 	for (int i = 0; i < 4; i++)
 	{
 		f += Noise(p, scale) * amp;
-		amp *= 0.5;
+		amp *= 0.45;
 		// Scale must be multiplied by an integer value...
 		scale *= 2.0;
 	}
@@ -59,14 +59,14 @@ float fBm(in vec2 p)
 void main(void) {
 
 
-  float noise = fBm(vec2(vUv ) + vec2(iGlobalTime * 0.005, 0.0));
+  float noise = fBm(vec2(vUv) + vec2(iGlobalTime * 0.005, 0.0));
 
-	noise =  clamp(noise, 0.6, 0.8);
+	//noise =  clamp(noise, 0.2, 0.95);
 	vec3 col = vec3(1.0);
-	if(noise >= 0.6){
-		col = smoothstep(vec3(1.0), diffuse * 1.3, vec3(0.8 * noise));;
+	if(noise >= 0.0){
+		col = smoothstep(mix(vec3(1.0), diffuse, 0.2), diffuse * 1.5, vec3(0.7 * noise));;
 	}
-  gl_FragColor = vec4(col, 1.0);
+  gl_FragColor = vec4(col, 0.65);
 
 
 }

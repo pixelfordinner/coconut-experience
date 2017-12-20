@@ -24,7 +24,7 @@ let Material = function (scene) {
     fragmentShader: FRAGMENT,
   //fog: true,
   //  lights: true,
-    transparent: false,
+    transparent: true,
 
   });
   MaterialManager.set('moon', material);
