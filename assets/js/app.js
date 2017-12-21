@@ -16,9 +16,11 @@ import Moon from './objects/moon';
 import Sky from './objects/sky';
 
 // MATERIALS
+import BlankMaterial from './materials/blankmaterial.js';
 import MoonMaterial from './materials/moonmaterial.js';
+import MoonCelMaterial from './materials/mooncelmaterial.js';
 import PhongReflectiveMaterial from './materials/phongreflective.js';
-import PhongColorMaterial from './materials/phongreflective.js';
+import PhongColorMaterial from './materials/phongcolormaterial.js';
 import AbsoluteColorMaterial from './materials/absolutecolormaterial.js';
 import ToonColorMaterial from './materials/tooncolormaterial.js';
 import StripesMaterial from './materials/stripesmaterial.js';
@@ -95,15 +97,24 @@ class App {
   }
 
   registerMaterials() {
+
+    new BlankMaterial();
     new PhongReflectiveMaterial(this.scene, this.scene.cubecamera);
     new ShadowShaderMaterial();
+    new MoonCelMaterial(this.scene);
     new MoonMaterial(this.scene);
-    new SmoothCloudMaterial();
+    new SmoothCloudMaterial(this.scene.options.colors);
     new DisplacementShaderMaterial(this.scene);
     new StripesMaterial(this.scene);
     new CelShadingMaterial(this.scene);
     new DisplacementBoxShaderMaterial(this.scene);
     new TransparenceMaterial(this.scene);
+    new PhongColorMaterial(this.scene,
+      new THREE.Color(this.options.colors.bluishgrey),
+      new THREE.Color(this.options.colors.darkpurple),
+      new THREE.Color(this.options.colors.white),
+     'purple'
+   );
 
     new CelShadingMaterial(this.scene,
       new THREE.Color(this.options.colors.bluishgrey),
@@ -115,10 +126,16 @@ class App {
       new THREE.Color(this.options.colors.cyan),
       'lightblue'
     );
+    new CelShadingMaterial(this.scene,
+      new THREE.Color(this.options.colors.cyan),
+      new THREE.Color(this.options.colors.purple),
+      'cyan'
+    );
 
     new CelShadowMaterial(this.scene, new THREE.Color(0x2b2b2b), 'grey');
     new CelShadowMaterial(this.scene, new THREE.Color(0x61ffd9), 'blue');
     new CelShadowMaterial(this.scene, new THREE.Color(0xff5be0), 'pink');
+
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.darkpurple), 'darkpurple');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.grey), 'grey');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
@@ -134,6 +151,7 @@ class App {
   populateScene() {
 
     new Moon(this.scene, {
+      index: 0,
       widthSegments: 30,
       heightSegments: 30,
       radius: 1,
@@ -148,7 +166,26 @@ class App {
         z: -200,
       },
     });
-    new Sky(this.scene);
+    // new Moon(this.scene, {
+    //   index: 1,
+    //   widthSegments: 30,
+    //   heightSegments: 30,
+    //   radius: 1,
+    //   scale: {
+    //     x: 20,
+    //     y: 20,
+    //     z: 20,
+    //   },
+    //   position: {
+    //     x: -800,
+    //     y: 90,
+    //     z: 10,
+    //   },
+    // });
+    new Sky(this.scene, {
+      radius: 70,
+    });
+
     new Floor(this.scene, {
       size: {
         w: 7,

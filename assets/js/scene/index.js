@@ -208,6 +208,7 @@ class Scene {
           'Base',
           'Wolf',
           'Moon',
+          'Sky',
         ];
 
         const parts = object.mesh.name.split('_');
@@ -224,8 +225,8 @@ class Scene {
             TrunkSegment: 'toon_grey',
             Blob: 'displacement',
             Base: 'toon_darkpurple',
-            sky: 'smooth_cloud',
-            Wolf: 'phong',
+            Sky: 'smooth_cloud',
+            Wolf: 'celshading_purple',
             Moon: 'moon',
           };
 
@@ -241,8 +242,8 @@ class Scene {
             Base: 'toon_cyan',
             Montain: 'displacement_box',
             Blob: 'displacement',
-            sky: 'smooth_cloud',
-            Wolf: 'phong',
+            Sky: 'smooth_cloud',
+            Wolf: 'celshading_cyan',
             Moon: 'moon',
           };
 
@@ -266,6 +267,7 @@ class Scene {
           'TrunkSegment',
           'Coco',
           'Crown',
+          'Sky',
 
         ];
 
@@ -287,10 +289,12 @@ class Scene {
         } else {
           const materials = {
             Tile: 'absolute_white',
-            TrunkSegment: 'absolute_mediumgrey',
-            Coco: 'absolute_mediumgrey',
-            Crown: 'absolute_mediumgrey',
-            Moon: 'absolute_lightgrey',
+            //TrunkSegment: 'absolute_mediumgrey',
+            //Coco: 'absolute_mediumgrey',
+            //Crown: 'absolute_mediumgrey',
+            Moon: 'moon_cel',
+            Sky: 'blank_material',
+            Wolf: 'blank_material',
           };
 
           object.mesh.material = materials.hasOwnProperty(name) ?

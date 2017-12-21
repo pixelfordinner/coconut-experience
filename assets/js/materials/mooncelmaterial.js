@@ -3,8 +3,8 @@ import * as THREE from 'three';
 import shaderParse from '../shaders/shaderparse.js';
 import { MaterialManager } from './manager';
 
-const VERTEX = shaderParse(require('../shaders/moon/vertex.glsl'));
-const FRAGMENT = shaderParse(require('../shaders/moon/fragment.glsl'));
+const VERTEX = shaderParse(require('../shaders/moon_cel/vertex.glsl'));
+const FRAGMENT = shaderParse(require('../shaders/moon_cel/fragment.glsl'));
 
 let Material = function (scene) {
 
@@ -29,7 +29,7 @@ let Material = function (scene) {
     transparent: true,
 
   });
-  MaterialManager.set('moon', material);
+  MaterialManager.set('moon_cel', material);
   return material;
 };
 

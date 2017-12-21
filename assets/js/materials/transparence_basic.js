@@ -7,7 +7,7 @@ import {
 const VERTEX = shaderParse(require('../shaders/transparence_basic/vertex.glsl'));
 const FRAGMENT = shaderParse(require('../shaders/transparence_basic/fragment.glsl'));
 
-let StripeMaterial = function (scene) {
+let Material = function (scene) {
 
   let uniforms = THREE.UniformsUtils.merge([{
       lightPos: {
@@ -36,7 +36,6 @@ let StripeMaterial = function (scene) {
     transparent: true,
     opacity: 0.0,
   });
-  // mat2.depthWrite = false;
 
   let material = new THREE.ShaderMaterial({
     uniforms: uniforms,
@@ -52,4 +51,4 @@ let StripeMaterial = function (scene) {
   return material;
 };
 
-export default StripeMaterial;
+export default Material;

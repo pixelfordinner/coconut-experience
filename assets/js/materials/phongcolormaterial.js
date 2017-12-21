@@ -8,9 +8,9 @@ let Material = function (camera, color, emissive, specular, name) {
     emissive: new THREE.Color(emissive),
     specular: new THREE.Color(specular),
     opacity: 1.0,
-    shininess: 100,
-    reflectivity: .75,
-    flatShading: true,
+    shininess: 300,
+    reflectivity: .99,
+    flatShading: false,
     transparent: false,
   });
 

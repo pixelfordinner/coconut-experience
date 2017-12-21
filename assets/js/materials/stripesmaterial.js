@@ -6,7 +6,7 @@ import { MaterialManager } from './manager';
 const VERTEX = shaderParse(require('../shaders/celshading_stripes/vertex.glsl'));
 const FRAGMENT = shaderParse(require('../shaders/celshading_stripes/fragment.glsl'));
 
-let StripeMaterial = function (scene) {
+let Material = function (scene) {
 
   let uniforms = THREE.UniformsUtils.merge([{
       lightPos: {
@@ -60,4 +60,4 @@ let StripeMaterial = function (scene) {
   return material;
 };
 
-export default StripeMaterial;
+export default Material;

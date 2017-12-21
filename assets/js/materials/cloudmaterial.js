@@ -6,7 +6,7 @@ import { MaterialManager } from './manager';
 const VERTEX = shaderParse(require('../shaders/cloud/vertex.glsl'));
 const FRAGMENT = shaderParse(require('../shaders/cloud/fragment.glsl'));
 
-let CloudMaterial = function () {
+let Material = function () {
 
   let uniforms = THREE.UniformsUtils.merge([{
       opacity: { type: 'f', value: 0.75 },
@@ -31,4 +31,4 @@ let CloudMaterial = function () {
   return material;
 };
 
-export default CloudMaterial;
+export default Material;

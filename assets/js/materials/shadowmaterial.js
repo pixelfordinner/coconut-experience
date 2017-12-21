@@ -6,7 +6,7 @@ import { MaterialManager } from './manager';
 const B_S_VERTEX = shaderParse(require('../shaders/basic_shadows/vertex.glsl'));
 const B_S_FRAGMENT = shaderParse(require('../shaders/basic_shadows/fragment.glsl'));
 
-let ShadowMaterial = function () {
+let Material = function () {
 
   let uniforms = THREE.UniformsUtils.merge([{
       opacity: { type: 'f', value: 1.0 },
@@ -31,4 +31,4 @@ let ShadowMaterial = function () {
   return material;
 };
 
-export default ShadowMaterial;
+export default Material;

@@ -23,8 +23,8 @@ class Sky {
         density: 100,
         friction: 0.2,
         restitution: 0.2,
-        belongsTo: 3,
-        collidesWith: 0x111111,
+        belongsTo: 1,
+        collidesWith: 0x454545,
       },
     };
 
@@ -44,7 +44,7 @@ class Sky {
       this.options.position.z,
     );
     mesh.rotateY(-Math.PI);
-    scene.add(mesh);
+    scene.add(mesh, this.options.physics);
 
     return mesh;
 

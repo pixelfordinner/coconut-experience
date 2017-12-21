@@ -2,6 +2,7 @@
 uniform float opacity;
 uniform float iGlobalTime;
 uniform vec3 diffuse;
+uniform vec3 lightColor;
 varying vec2 vUv;
 //chunk(common);
 //chunk(fog_pars_fragment);
@@ -59,11 +60,11 @@ float fBm(in vec2 p)
 void main(void) {
 
   float alpha = fBm(vec2(vUv  ) - vec2(iGlobalTime * 0.005, 0.0));
-  alpha = clamp(pow(alpha, 3.0), 0.0, 1.0) - 0.15;
-  vec3 color = vec3(fBm(vec2(vUv  ) - vec2(iGlobalTime * 0.005, 0.0)));
-  color = vec3(smoothstep(0.5, 1.0, color));
-  color = mix(color * 3.5, diffuse, 0.15);
-  vec4 col = vec4(color, alpha);
+  alpha = clamp(pow(alpha, 4.0), 0.0, 1.0) - 0.15;
+  vec3 bright = vec3(fBm(vec2(vUv  ) - vec2(iGlobalTime * 0.005, 0.0)));
+  bright = vec3(smoothstep(0.5, 1.0, bright));
+  bright = mix(bright * 3.5, lightColor, 0.5);
+  vec4 col = vec4(bright, alpha);
 
   gl_FragColor = col;
   // ADD FOG

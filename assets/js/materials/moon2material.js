@@ -3,8 +3,8 @@ import * as THREE from 'three';
 import shaderParse from '../shaders/shaderparse.js';
 import { MaterialManager } from './manager';
 
-const VERTEX = shaderParse(require('../shaders/moon/vertex.glsl'));
-const FRAGMENT = shaderParse(require('../shaders/moon/fragment.glsl'));
+const VERTEX = shaderParse(require('../shaders/moon2/vertex.glsl'));
+const FRAGMENT = shaderParse(require('../shaders/moon2/fragment.glsl'));
 
 let Material = function (scene) {
 

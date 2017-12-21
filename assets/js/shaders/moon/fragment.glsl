@@ -2,7 +2,11 @@
 uniform float opacity;
 uniform float iGlobalTime;
 uniform vec3 diffuse;
+uniform vec3 emissive;
+uniform vec3 lightColor;
+uniform vec3 lightPos;
 varying vec2 vUv;
+varying vec3 vNormal;
 //chunk(common);
 //chunk(fog_pars_fragment);
 
@@ -58,15 +62,27 @@ float fBm(in vec2 p)
 
 void main(void) {
 
+	vec4 lDirection = viewMatrix * vec4( lightPos, 0.0 );
+	vec3 lVector = normalize( lDirection.xyz );
+	vec3 normal = normalize( vNormal );
+
+	// celshading based on light position
+	float diff = 0.5 * max(-1.0, dot( normal, lVector ));
 
   float noise = fBm(vec2(vUv) + vec2(iGlobalTime * 0.005, 0.0));
-
+	//noise = ceil(noise * 5.0) * 0.2;
 	//noise =  clamp(noise, 0.2, 0.95);
 	vec3 col = vec3(1.0);
 	if(noise >= 0.0){
-		col = smoothstep(mix(vec3(1.0), diffuse, 0.2), diffuse * 1.5, vec3(0.7 * noise));;
+		col = smoothstep(mix(vec3(1.0), diffuse, 0.2), diffuse * 1.5, vec3(noise));;
 	}
-  gl_FragColor = vec4(col, 0.5);
+
+	col *= lightColor * 1.6 * diff;
+	//col *= mix(col, emissive, diff);
+	//vec3 li = vec3(pow(diff,3.0));
+
+
+  gl_FragColor = vec4(col, diff);
 
 
 }

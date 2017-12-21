@@ -27,7 +27,7 @@ class Composer {
       },
       lightPosition: {
         type: 'v2',
-        value: new THREE.Vector2(0.5, 0.5),
+        value: new THREE.Vector2(0.3, 0.6),
       },
       exposure: {
         type: 'f',

@@ -6,7 +6,7 @@ import Clock from '../scene/clock';
 const DISPLACEMENT_VERTEX = shaderParse(require('../shaders/displacement/vertex.glsl'));
 const DISPLACEMENT_FRAGMENT = shaderParse(require('../shaders/displacement/fragment.glsl'));
 
-let DisplacementMaterial = function (scene) {
+let Material = function (scene) {
 
   let uniforms = THREE.UniformsUtils.merge([{
     iGlobalTime: { type: 'f', value: new Clock().getDelta(), hidden: 1 },
@@ -35,4 +35,4 @@ let DisplacementMaterial = function (scene) {
   return material;
 };
 
-export default DisplacementMaterial;
+export default Material;
