@@ -12,7 +12,7 @@ class CameraFrustrum {
     this.camera.position.set(
       -options.camera.distance * 4,
       options.camera.distance * 3,
-      -options.camera.distance * 1.5,
+      -options.camera.distance * 0.0,
     );
 
     this.camera.lookAt(new THREE.Vector3(

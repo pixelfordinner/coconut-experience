@@ -16,7 +16,7 @@ let Material = function (scene, diffuse, emissive, name) {
       },
       luminosity: {
         type: 'f',
-        value: 0.0,
+        value: 0.25,
       },
       lightColor: {
         type: 'c',

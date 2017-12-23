@@ -28,8 +28,8 @@ class Moon {
         z: 0,
       },
       name: 'Moon_',
-      widthSegments: 20,
-      heightSegments: 20,
+      widthSegments: 60,
+      heightSegments: 60,
       castShadow: false,
       receiveShadow: false,
       physics: {

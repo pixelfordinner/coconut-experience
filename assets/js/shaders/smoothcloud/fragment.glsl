@@ -46,7 +46,7 @@ float fBm(in vec2 p)
     p = mod(p, scale);
 	float amp   = 0.6;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		f += Noise(p, scale) * amp;
 		amp *= 0.5;
@@ -59,9 +59,9 @@ float fBm(in vec2 p)
 
 void main(void) {
 
-  float alpha = fBm(vec2(vUv  ) - vec2(iGlobalTime * 0.005, 0.0));
+  float alpha = fBm(vec2(vUv  ) - vec2(iGlobalTime * 0.01, 0.0));
   alpha = clamp(pow(alpha, 4.0), 0.0, 1.0) - 0.15;
-  vec3 bright = vec3(fBm(vec2(vUv  ) - vec2(iGlobalTime * 0.005, 0.0)));
+  vec3 bright = vec3(fBm(vec2(vUv  ) - vec2(iGlobalTime * 0.01, 0.0)));
   bright = vec3(smoothstep(0.5, 1.0, bright));
   bright = mix(bright * 3.5, lightColor, 0.5);
   vec4 col = vec4(bright, alpha);

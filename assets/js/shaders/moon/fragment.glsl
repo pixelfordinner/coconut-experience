@@ -67,22 +67,23 @@ void main(void) {
 	vec3 normal = normalize( vNormal );
 
 	// celshading based on light position
-	float diff = 0.5 * max(-1.0, dot( normal, lVector ));
+	float diff = 0.4 * max(-1.0, dot( normal, lVector ));
 
   float noise = fBm(vec2(vUv) + vec2(iGlobalTime * 0.005, 0.0));
 	//noise = ceil(noise * 5.0) * 0.2;
 	//noise =  clamp(noise, 0.2, 0.95);
 	vec3 col = vec3(1.0);
-	if(noise >= 0.0){
-		col = smoothstep(mix(vec3(1.0), diffuse, 0.2), diffuse * 1.5, vec3(noise));;
-	}
-
-	col *= lightColor * 1.6 * diff;
-	//col *= mix(col, emissive, diff);
+	// if(noise >= 0.0){
+	// 	col = smoothstep(mix(vec3(1.0), diffuse, 0.2), diffuse * 1.5, vec3(noise));
+	// }
+	//col = smoothstep(mix(vec3(1.0), diffuse, 0.2), diffuse * 1.5, vec3(noise));
+	//col *= lightColor * 1.6 * diff;
+	vec3 shade = smoothstep(lightColor, emissive, vec3(noise));
+	//col = mix(col, emissive, diff);
 	//vec3 li = vec3(pow(diff,3.0));
 
 
-  gl_FragColor = vec4(col, diff);
+  gl_FragColor = vec4(shade, diff);
 
 
 }

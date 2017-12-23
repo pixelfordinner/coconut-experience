@@ -29,15 +29,11 @@ class Scene {
     };
     this.options.camera.distance = 10;
     this.options.camera.position = {
-      x: 66,
-      y: 24,
-      z: 20,
-    };
-    this.options.camera.lookAt = {
-      x: 0,
-      y: 15,
+      x: 80,
+      y: 20,
       z: 0,
     };
+    this.options.camera.lookAt = new THREE.Vector3(0.0, 15.0, 0.0);
     this.scene = new THREE.Scene();
     this.count = true;
     this.renderer = new Renderer(options);
@@ -68,6 +64,7 @@ class Scene {
     this.lights.forEach((function(light) {
       this.scene.add(light);
     }).bind(this));
+
     //this.addRenderTargetImage();
     // Frustrum
     //this.scene.add(this.frustrum);
@@ -84,8 +81,6 @@ class Scene {
     //  this.options.dimensions.height * 0.5);
     //  this.composer = new Composer(this.renderer, this.occlusionRenderTarget);
   }
-
-
 
   updateSize() {
     this.options.dimensions = {
@@ -149,6 +144,12 @@ class Scene {
     }
   }
 
+  preloopWorld(num){
+    for (var i = 0; i < num; i++) {
+      this.world.step();
+    }
+  }
+
   updatePositions() {
 
     this.world.step();
@@ -159,7 +160,7 @@ class Scene {
         object.mesh.quaternion.copy(object.body.getQuaternion());
       }
 
-      if (object.mesh.name === 'Wolf') {
+      if (object.mesh.name === 'Wolf' || object.mesh.name === 'Ghost') {
           object.mesh.rotation.set(0, this.clock.getElapsedTime() * 0.1, 0);
       }
 
@@ -243,7 +244,7 @@ class Scene {
             Montain: 'displacement_box',
             Blob: 'displacement',
             Sky: 'smooth_cloud',
-            Wolf: 'celshading_cyan',
+            Wolf: 'celshading_pink',
             Moon: 'moon',
           };
 
@@ -268,7 +269,6 @@ class Scene {
           'Coco',
           'Crown',
           'Sky',
-
         ];
 
         const parts = object.mesh.name.split('_');
@@ -305,6 +305,7 @@ class Scene {
       }
     }.bind(this));
   }
+
 
   renderEffect() {
 
@@ -348,6 +349,8 @@ class Scene {
     this.oclMaterials();
     this.renderEffect();
     this.updateMaterials();
+    //this.camera.lookAt(new THREE.Vector3(0,15,0));
+    this.camera.lookAt(this.options.camera.lookAt);
     this.render();
 
     let animate = function () {

@@ -26,7 +26,7 @@ void main() {
   shade = mix(shade, 0.2 - vec4(grain), 0.1);
   // vigneting
   vec2 px  = 1. - 2. * vUv ;
-  float vign  = 1.0 - (0.5 * smoothstep(.7, 1.4, length(px * px)));
+  float vign  = 1.0 - (0.5 * smoothstep(.4, 1.4, length(px * px)));
 
   shade *= vec4(vign);
 

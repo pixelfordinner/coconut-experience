@@ -13,7 +13,7 @@ let Material = function (scene) {
       diffuse: { type: 'c', value: new THREE.Color(scene.options.colors.darkpurple) },
       lightColor: { type: 'c', value: new THREE.Color(scene.options.colors.cyan) },
       emissive: { type: 'c', value: new THREE.Color(scene.options.colors.background) },
-      lightPos: { type: 'v3', value: new THREE.Vector3(10.0, 0.0, 20.0) },
+      lightPos: { type: 'v3', value: new THREE.Vector3(-5.0, 0.0, 20.0) },
       iGlobalTime: { type: 'f', value: 0.0 },
     },
         THREE.UniformsLib.fog,

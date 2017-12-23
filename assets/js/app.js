@@ -16,6 +16,7 @@ import Moon from './objects/moon';
 import Sky from './objects/sky';
 
 // MATERIALS
+import WireMaterial from './materials/wireframebasic.js';
 import BlankMaterial from './materials/blankmaterial.js';
 import MoonMaterial from './materials/moonmaterial.js';
 import MoonCelMaterial from './materials/mooncelmaterial.js';
@@ -61,7 +62,7 @@ class App {
         position: {
           x: 0,
           y: 3,
-          z: -1,
+          z: 0,
         },
       },
       colors: {
@@ -70,6 +71,7 @@ class App {
         background: 0x3d1687,
         blue: 0x106cc1,
         cyan: 0x74fbff,
+        lightcyan: 0xacf0ff,
         darkgrey: 0X3b3b3b,
         mediumgrey: 0x717171,
         lightgrey: 0xc7c7c7,
@@ -93,11 +95,12 @@ class App {
     this.scene.init();
     this.registerMaterials();
     this.populateScene();
+    this.scene.preloopWorld(40);
     this.scene.animate();
   }
 
   registerMaterials() {
-
+    new WireMaterial(this.scene);
     new BlankMaterial();
     new PhongReflectiveMaterial(this.scene, this.scene.cubecamera);
     new ShadowShaderMaterial();
@@ -131,6 +134,11 @@ class App {
       new THREE.Color(this.options.colors.purple),
       'cyan'
     );
+    new CelShadingMaterial(this.scene,
+      new THREE.Color(this.options.colors.lightcyan),
+      new THREE.Color(this.options.colors.purple),
+      'pink'
+    );
 
     new CelShadowMaterial(this.scene, new THREE.Color(0x2b2b2b), 'grey');
     new CelShadowMaterial(this.scene, new THREE.Color(0x61ffd9), 'blue');
@@ -161,27 +169,11 @@ class App {
         z: 150,
       },
       position: {
-        x: -900,
-        y: 15,
-        z: -200,
+        x: -800,
+        y: 10,
+        z: 0,
       },
     });
-    // new Moon(this.scene, {
-    //   index: 1,
-    //   widthSegments: 30,
-    //   heightSegments: 30,
-    //   radius: 1,
-    //   scale: {
-    //     x: 20,
-    //     y: 20,
-    //     z: 20,
-    //   },
-    //   position: {
-    //     x: -800,
-    //     y: 90,
-    //     z: 10,
-    //   },
-    // });
     new Sky(this.scene, {
       radius: 70,
     });
@@ -207,9 +199,9 @@ class App {
       name: 'Wolf_',
       index: 0,
       position: {
-        x: 0,
+        x: 0.5,
         y: 20,
-        z: 0,
+        z: 0.5,
       },
     });
 
