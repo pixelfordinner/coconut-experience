@@ -17,6 +17,7 @@ import Sky from './objects/sky';
 
 // MATERIALS
 import WireMaterial from './materials/wireframebasic.js';
+import StarFieldMaterial from './materials/starfieldmaterial.js';
 import BlankMaterial from './materials/blankmaterial.js';
 import MoonMaterial from './materials/moonmaterial.js';
 import MoonCelMaterial from './materials/mooncelmaterial.js';
@@ -53,7 +54,7 @@ class App {
         distance: 40,
         fov: 35,
         near: .5,
-        far: 1000,
+        far: 1500,
         lookAt: {
           x: 0,
           y: 20,
@@ -102,6 +103,8 @@ class App {
   registerMaterials() {
     new WireMaterial(this.scene);
     new BlankMaterial();
+    console.log(this.scene.renderer.getSize());
+    new StarFieldMaterial(this.options.colors, this.scene.renderer.getSize());
     new PhongReflectiveMaterial(this.scene, this.scene.cubecamera);
     new ShadowShaderMaterial();
     new MoonCelMaterial(this.scene);

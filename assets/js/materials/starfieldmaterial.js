@@ -3,15 +3,15 @@ import * as THREE from 'three';
 import shaderParse from '../shaders/shaderparse.js';
 import { MaterialManager } from './manager';
 
-const VERTEX = shaderParse(require('../shaders/smoothcloud/vertex.glsl'));
-const FRAGMENT = shaderParse(require('../shaders/smoothcloud/fragment.glsl'));
+const VERTEX = shaderParse(require('../shaders/starfield/vertex.glsl'));
+const FRAGMENT = shaderParse(require('../shaders/starfield/fragment.glsl'));
 
-let Material = function (colors) {
+let Material = function (colors, size) {
 
   let uniforms = THREE.UniformsUtils.merge([{
+      diffuse: { type: 'c', value: new THREE.Color(colors.fog) },
+      ratio: { type: 'f', value: size.height / size.width },
       opacity: { type: 'f', value: 0.75 },
-      diffuse: { type: 'c', value: new THREE.Color(colors.bluishgrey) },
-      lightColor: { type: 'c', value: new THREE.Color(colors.cyan) },
       iGlobalTime: { type: 'f', value: 0.0 },
     },
         THREE.UniformsLib.fog,
@@ -24,11 +24,11 @@ let Material = function (colors) {
     fragmentShader: FRAGMENT,
     fog: true,
     lights: true,
-    transparent: true,
+    transparent: false,
 
   });
   material.side = THREE.BackSide;
-  MaterialManager.set('smooth_cloud', material);
+  MaterialManager.set('starfield', material);
   return material;
 };
 

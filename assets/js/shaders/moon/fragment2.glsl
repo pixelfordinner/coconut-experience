@@ -52,7 +52,7 @@ float fBm(in vec2 p)
 	for (int i = 0; i < 4; i++)
 	{
 		f += Noise(p, scale) * amp;
-		amp *= 0.55;
+		amp *= 0.45;
 		// Scale must be multiplied by an integer value...
 		scale *= 2.0;
 	}
@@ -69,7 +69,7 @@ void main(void) {
 	// celshading based on light position
 	float diff = 0.4 * max(-1.0, dot( normal, lVector ));
 
-  float noise = fBm(vec2(vUv * 2.));
+  float noise = fBm(vec2(vUv) + vec2(iGlobalTime * 0.005, 0.0));
 	//noise = ceil(noise * 5.0) * 0.2;
 	//noise =  clamp(noise, 0.2, 0.95);
 	vec3 col = vec3(1.0);
@@ -78,12 +78,12 @@ void main(void) {
 	// }
 	//col = smoothstep(mix(vec3(1.0), diffuse, 0.2), diffuse * 1.5, vec3(noise));
 	//col *= lightColor * 1.6 * diff;
-	vec3 shade =  diff * .5 + smoothstep(vec3(1.0), vec3(.0), vec3(noise));
+	vec3 shade = smoothstep(lightColor, emissive, vec3(noise));
 	//col = mix(col, emissive, diff);
 	//vec3 li = vec3(pow(diff,3.0));
 
 
-  gl_FragColor = 3. * vec4(shade , diff);
+  gl_FragColor = vec4(shade, diff);
 
 
 }

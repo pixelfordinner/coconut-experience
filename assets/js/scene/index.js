@@ -29,7 +29,7 @@ class Scene {
     };
     this.options.camera.distance = 10;
     this.options.camera.position = {
-      x: 80,
+      x: 100,
       y: 20,
       z: 0,
     };
@@ -68,7 +68,6 @@ class Scene {
     //this.addRenderTargetImage();
     // Frustrum
     //this.scene.add(this.frustrum);
-
 
     // Event Listeners
     let updateSize = function() {
@@ -150,9 +149,16 @@ class Scene {
     }
   }
 
+  updateCamera() {
+    if(this.camera.position.x > 70){
+      this.camera.position.x -= 0.25;
+    }
+  }
+
   updatePositions() {
 
     this.world.step();
+    this.updateCamera();
     this.objects.forEach(function (object) {
 
       if (object.hasOwnProperty('body') === true) {
@@ -210,6 +216,7 @@ class Scene {
           'Wolf',
           'Moon',
           'Sky',
+          'Starfield',
         ];
 
         const parts = object.mesh.name.split('_');
@@ -227,6 +234,7 @@ class Scene {
             Blob: 'displacement',
             Base: 'toon_darkpurple',
             Sky: 'smooth_cloud',
+            Starfield: 'starfield',
             Wolf: 'celshading_purple',
             Moon: 'moon',
           };
@@ -244,6 +252,7 @@ class Scene {
             Montain: 'displacement_box',
             Blob: 'displacement',
             Sky: 'smooth_cloud',
+            Starfield: 'starfield',
             Wolf: 'celshading_pink',
             Moon: 'moon',
           };
@@ -269,6 +278,7 @@ class Scene {
           'Coco',
           'Crown',
           'Sky',
+          'Starfield',
         ];
 
         const parts = object.mesh.name.split('_');
@@ -294,6 +304,7 @@ class Scene {
             //Crown: 'absolute_mediumgrey',
             Moon: 'moon_cel',
             Sky: 'blank_material',
+            Stafield: 'blank_material',
             Wolf: 'blank_material',
           };
 
