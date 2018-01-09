@@ -150,7 +150,7 @@ class Scene {
   }
 
   updateCamera() {
-    if(this.camera.position.x > 70){
+    if (this.camera.position.x > 90) {
       this.camera.position.x -= 0.25;
     }
   }
