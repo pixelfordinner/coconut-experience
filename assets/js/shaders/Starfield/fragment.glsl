@@ -12,53 +12,58 @@ float hash( float n ) {
     return fract(sin(n)*43758.5453123);
 }
 
-float make_dot (vec2 uv, vec2 pos, float r)
+float star (vec2 uv, vec2 pos, float r)
 {
-   return smoothstep(.0 , r , min( length(uv - pos), r));
+    return smoothstep(.0, r, length(uv - pos));
 }
 
+float field (vec2 uv)
+{
+    float field = .0;
+    vec2 l1 = uv * .2;
+    vec2 l2 = uv * .2;
+    vec2 l3 = uv * .2;
+
+
+    vec2 g1 = ceil(l1 * 40.) * .025;
+    vec2 g2 = ceil(l2 * 20.) * .050;
+    vec2 g3 = ceil(l3 * 10.) * .100;
+
+    float n1 = 1. - pow(hash(g1.x + g1.y * 1745.543), .2);
+    float n2 = 1. - pow(hash(g2.x + g2.y * 2423.123), .2);
+    float n3 = 1. - pow(hash(g3.x + g3.y * 4236.123), .2);
+
+    float s1 =  1. - star(l1, vec2(g1.x - .0125, g1.y - .0125), n1 *.030);
+    float s2 =  1. - star(l2, vec2(g2.x - .0250, g2.y - .0250), n2 *.045);
+    float s3 =  1. - star(l3, vec2(g3.x - .0500, g3.y - .0500), n3 *.060);
+
+    float c1 =  pow(n1 * clamp(pow(s1, 2.), .0, 1.0), 6.);
+    float c2 =  pow(n2 * clamp(pow(s2, 2.), .0, 1.0), 5.);
+    float c3 =  pow(n3 * clamp(pow(s3, 2.), .0, 1.0), 4.);
+
+    float ds = length(uv);
+    ds = 1. - smoothstep(.1, 1.4, ds);
+    ds = 1.;
+
+   	float shade = ds * (c1 + c2 + c3);
+
+    for(int i = 0; i< 5; i++){
+    field +=  shade;
+    }
+
+ 	return field;
+}
 
 void main(void) {
 
 		vec2 uv = vUv;
 		vec2 uv2 = uv - .5;
-    uv *= 40.;
-
+    uv *= 400.;
     uv.y *= ratio;
 
-    float c = .0;
-    float c2 = .0;
-    float c3 = .0;
-    vec4 shade = vec4(.0);
+    float d2 =    1. - smoothstep(-.1, .1, length(uv2.y));
+    float tot = field(uv);
+    vec4 shade = vec4(diffuse + vec3(  tot), pow( tot, 1.));
 
-    vec2 gr  = ceil(uv * 40.) * .025;
-    vec2 gr2 = ceil(uv * 20.) * .050;
-    vec2 gr3 = ceil(uv * 10.) * .075;
-
-		float density =   smoothstep(-.35, .35, length(uv2.y));
-
-		density *=    smoothstep(-.15, .15, length(uv2.y));
-		density *=    smoothstep(-.01, .01, length(uv2.y));
-    float d2 =    1. - smoothstep(-.05, .05, length(uv2.y));
-
-
-    float n  = 1. - pow(hash( gr.x  * gr.y  * 1745.5431), .1 / density);
-    float n2 = 1. - pow(hash( gr2.x * gr2.y * 24236.123), .2 / density);
-    float n3 = 1. - pow(hash( gr3.x * gr3.y * 4236.1234), .3 / density);
-
-    float s  =  1. - make_dot(uv, vec2(gr.x  - .0125, gr.y - .0125), n * .025 );
-    float s2 =  1. - make_dot(uv, vec2(gr2.x - .025, gr2.y - .025), n2 * .025);
-    float s3 =  1. - make_dot(uv, vec2(gr3.x - .05, gr3.y - .05), n3 * .025);
-
-    c  = 1.5 * pow(  n * clamp(pow(s,  2.), .0, 1.0), 3.);
-    c2 = 1.5 * pow( n2 * clamp(pow(s2, 2.), .0, 1.0), 5.);
-    c3 = 1.5 * pow( n3 * clamp(pow(s3, 2.), .0, 1.0), 7.);
-
-
-    shade = vec4(diffuse + vec3(  c+c2+c3 ), pow(c+c2+c3, 2.));
-
-
-    gl_FragColor = mix(shade, shade + d2, .5);
-
-
+    gl_FragColor = mix(shade, shade + d2, .15);
 }

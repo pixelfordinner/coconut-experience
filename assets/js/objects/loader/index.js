@@ -69,8 +69,6 @@ class Loader {
         }
       });
 
-      scene.Mirrors.push(model);
-
       scene.add(model, params);
 
       // let ghostModel = model.clone();
