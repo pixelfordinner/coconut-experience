@@ -10,6 +10,7 @@ void main(void) {
   //chunk(worldpos_vertex);
   vUv = uv;
   gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+  //vNormal = normalize( projectionMatrix * normalMatrix * normal );
   vNormal = normalize( normalMatrix * normal );
   //chunk(fog_vertex);
 }

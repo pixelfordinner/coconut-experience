@@ -123,9 +123,9 @@ class Gestures {
   mouseDown(e) {
     let intersects;
     //this.updateMouse(e);
-    if (e.button !== 0) {
-      return;
-    }
+    // if (e.button !== 0) {
+    //   return;
+    // }
 
     if (this.dragStatus !== DRAG_STATUS_NONE) {
       return;

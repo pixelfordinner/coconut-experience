@@ -5,26 +5,35 @@ import Sphere from './geometry/sphere';
 import Cylinder from './geometry/cylinder';
 import Box from './geometry/box';
 
-// OBJECTSs
+// OBJECTS
 import Scene from './scene';
 import Floor from './objects/floor';
 import Palmtree from './objects/palmtree';
+
+//import Landscape from './objects/landscape';
 import Wolf from './objects/loader';
 import Moon from './objects/moon';
 import Sky from './objects/sky';
 
 // MATERIALS
+//import WireMaterial from './materials/wireframebasic.js';
 import StarFieldMaterial from './materials/starfieldmaterial.js';
 import BlankMaterial from './materials/blankmaterial.js';
 import MoonMaterial from './materials/moonmaterial.js';
 import MoonCelMaterial from './materials/mooncelmaterial.js';
+//import PhongReflectiveMaterial from './materials/phongreflective.js';
 import PhongColorMaterial from './materials/phongcolormaterial.js';
 import AbsoluteColorMaterial from './materials/absolutecolormaterial.js';
 import ToonColorMaterial from './materials/tooncolormaterial.js';
 import StripesMaterial from './materials/stripesmaterial.js';
 import CelShadingMaterial from './materials/celshadingmaterial.js';
 import CelShadowMaterial from './materials/celshadingshadowmaterial.js';
+//import TransparenceMaterial from './materials/transparence_basic.js';
+//import ShadowShaderMaterial from './materials/shadowmaterial.js';
+//import DisplacementShaderMaterial from './materials/displacementmaterial.js';
+//import DisplacementBoxShaderMaterial from './materials/displacementbox.js';
 import SmoothCloudMaterial from './materials/smoothcloudmaterial.js';
+//import MakeMaterial from './materials/makematerial.js';
 import shaderParse from './shaders/shaderparse.js';
 
 // MATERIAL MANAGER
@@ -87,26 +96,32 @@ class App {
     this.scene.init();
     this.registerMaterials();
     this.populateScene();
-    this.scene.preloopWorld(30.);
+    this.scene.preloopWorld(40);
     this.scene.animate();
   }
 
   registerMaterials() {
-
+    //new WireMaterial(this.scene);
     new BlankMaterial();
+    //console.log(this.scene.renderer.getSize());
     new StarFieldMaterial(this.options.colors, this.scene.renderer.getSize());
-    new MoonCelMaterial(this.scene);
+    //new PhongReflectiveMaterial(this.scene, this.scene.cubecamera);
+    //new ShadowShaderMaterial();
+    new MoonCelMaterial(this.scene, this.scene.renderer.getSize());
     new MoonMaterial(this.scene);
     new SmoothCloudMaterial(this.scene.options.colors);
+    //new DisplacementShaderMaterial(this.scene);
     new StripesMaterial(this.scene);
     new CelShadingMaterial(this.scene);
-
+    //new DisplacementBoxShaderMaterial(this.scene);
+    //new TransparenceMaterial(this.scene);
     new PhongColorMaterial(this.scene,
       new THREE.Color(this.options.colors.bluishgrey),
       new THREE.Color(this.options.colors.darkpurple),
       new THREE.Color(this.options.colors.white),
      'purple'
    );
+
     new CelShadingMaterial(this.scene,
       new THREE.Color(this.options.colors.bluishgrey),
       new THREE.Color(this.options.colors.purple),
@@ -128,11 +143,14 @@ class App {
       'pink'
     );
 
+    new CelShadowMaterial(this.scene, new THREE.Color(0x2b2b2b), 'grey');
+    new CelShadowMaterial(this.scene, new THREE.Color(0x61ffd9), 'blue');
+    new CelShadowMaterial(this.scene, new THREE.Color(0xff5be0), 'pink');
+
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.darkpurple), 'darkpurple');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.grey), 'grey');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.cyan), 'cyan');
-
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.white), 'white');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.black), 'black');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.darkgrey), 'darkgrey');
@@ -160,9 +178,15 @@ class App {
       },
     });
 
-    new Sky(this.scene, {
-      radius: 70,
-    });
+    if (this.scene.ismobile != true) {
+
+      console.log('Lets add a sky :-)!');
+      new Sky(this.scene, {
+        radius: 70,
+      });
+    } else {
+      console.log('So bad we have no sky :-(');
+    }
 
     new Floor(this.scene, {
       size: {
@@ -200,7 +224,6 @@ class App {
         z: 6,
       },
     });
-
     new Palmtree(this.scene, {
       name: 'Palmtree_',
       index: 2,

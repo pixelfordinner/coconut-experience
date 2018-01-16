@@ -1,5 +1,6 @@
 
 uniform float opacity;
+uniform float ratio;
 uniform float iGlobalTime;
 uniform vec3 diffuse;
 uniform vec3 emissive;
@@ -16,8 +17,12 @@ float Hash(in vec2 p, in float scale)
 {
 	// This is tiling part, adjusts with the scale...
 	p = mod(p, scale);
+
 	return fract(sin(dot(p, vec2(27.16898, 38.90563))) * 5151.5473453);
 }
+
+
+
 
 //----------------------------------------------------------------------------------------
 float Noise(in vec2 p, in float scale )
@@ -45,14 +50,16 @@ float fBm(in vec2 p)
   //  p += vec2(iGlobalTime * 0.1, iGlobalTime * 0.01) * vec2(0.01)  ;
 	float f = 0.0;
 	// Change starting scale to any integer value...
-	float scale = 15.;
-    p = mod(p, scale);
+	float scale = 10.;
+  p = mod(p, scale);
+
+
 	float amp   = 0.6;
 
 	for (int i = 0; i < 4; i++)
 	{
 		f += Noise(p, scale) * amp;
-		amp *= 0.55;
+		amp *= 0.65;
 		// Scale must be multiplied by an integer value...
 		scale *= 2.0;
 	}
@@ -62,17 +69,22 @@ float fBm(in vec2 p)
 
 void main(void) {
 
+	vec2 uv = - 1.0 + 2.0 * vUv;
+//vec2 uv = vUv;
+	//uv.x *= ratio;
+	//vec2 uv =  vUv;
+
 	vec4 lDirection = viewMatrix * vec4( lightPos, 0.0 );
 	vec3 lVector = normalize( lDirection.xyz );
 	vec3 normal = normalize( vNormal );
 
 	// celshading based on light position
-	float diff = 0.4 * max(-1.0, dot( normal, lVector ));
+	float diff = 0.4 * max(-.1, dot( normal, lVector ));
 
-  float noise = fBm(vec2(vUv * 2.));
+  float noise = fBm(uv);
 	//noise = ceil(noise * 5.0) * 0.2;
 	//noise =  clamp(noise, 0.2, 0.95);
-	vec3 col = vec3(1.0);
+	//vec3 col = vec3(1.0);
 	// if(noise >= 0.0){
 	// 	col = smoothstep(mix(vec3(1.0), diffuse, 0.2), diffuse * 1.5, vec3(noise));
 	// }
@@ -83,7 +95,7 @@ void main(void) {
 	//vec3 li = vec3(pow(diff,3.0));
 
 
-  gl_FragColor = 3. * vec4(shade , diff);
+  gl_FragColor = 3. * vec4(shade, diff);
 
 
 }

@@ -42,9 +42,9 @@ void main(void) {
     float d2 =    1. - smoothstep(-.1, .1, length(uv2.y));
 
 
-    float n  = 1. - pow(hash( sin(gr.x  * 18245.5654) + sin(gr.y  * 1745.5431)), density * .5);
-    float n2 = 1. - pow(hash( sin(gr2.x * 34598.8245) + sin(gr2.y * 24236.123)),  density *.2);
-    float n3 = 1. - pow(hash( sin(gr3.x * 43654.6541) + sin(gr3.y * 4236.1234)),  density *.2);
+    float n  = 1. - pow(hash( sin(gr.x  * 18245.5654) + sin(gr.y  * 1745.5431)), .5 * density * .5);
+    float n2 = 1. - pow(hash( sin(gr2.x * 34598.8245) + sin(gr2.y * 24236.123)),  density *.3);
+    float n3 = 1. - pow(hash( sin(gr3.x * 43654.6541) + sin(gr3.y * 4236.1234)),  density *.1);
 
     float s  =  1. - make_dot(uv, vec2(gr.x  - .0125, gr.y - .0125), n * .015 );
     float s2 =  1. - make_dot(uv, vec2(gr2.x - .025, gr2.y - .025), n2 * .025);

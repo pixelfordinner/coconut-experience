@@ -10,7 +10,7 @@ let Material = function (colors, size) {
 
   let uniforms = THREE.UniformsUtils.merge([{
       diffuse: { type: 'c', value: new THREE.Color(colors.fog) },
-      ratio: { type: 'f', value: size.height / size.width },
+      ratio: { type: 'v2', value: size },
       opacity: { type: 'f', value: 0.75 },
       iGlobalTime: { type: 'f', value: 0.0 },
     },

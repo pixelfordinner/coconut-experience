@@ -15,6 +15,7 @@ const $ = require('jquery');
 
 class Scene {
   constructor(options) {
+    this.ismobile = true;
     this.options = options;
     this.objects = [];
     this.cocos = [];
@@ -28,10 +29,11 @@ class Scene {
     };
     this.options.camera.distance = 10;
     this.options.camera.position = {
-      x: 110,
+      x: 95,
       y: 20,
       z: 10,
     };
+
     this.options.camera.lookAt = new THREE.Vector3(0.0, 15.0, 0.0);
     this.scene = new THREE.Scene();
     this.count = true;
@@ -55,6 +57,11 @@ class Scene {
       new THREE.Color(this.options.colors.fog),
       this.options.scene.fog.factor
     );
+    //console.log('W: ' + this.options.dimensions.width + ' H: ' + this.options.dimensions.height);
+    if (this.options.dimensions.width >= 1080) {
+      this.ismobile = false;
+    }
+    //console.log('ISMOBILE: '+ this.ismobile);
 
     // Lights
     this.lights.forEach(light => this.scene.add(light));
@@ -139,7 +146,7 @@ class Scene {
   }
 
   updateCamera() {
-    if (this.camera.position.x > 90) {
+    if (this.camera.position.x > 75) {
       this.camera.position.x -= 0.25;
     }
 
@@ -267,6 +274,7 @@ class Scene {
           const materials = {
             Tile: 'absolute_white',
             Moon: 'moon_cel',
+            Coco: 'absolute_mediumgrey',
             Sky: 'blank_material',
             Stafield: 'blank_material',
             Wolf: 'blank_material',

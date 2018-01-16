@@ -43,7 +43,7 @@ class Sky {
       this.options.position.y,
       this.options.position.z,
     );
-    mesh.rotateY(-Math.PI);
+    //mesh.rotateY(-Math.PI);
 
     let mesh2 = mesh.clone();
 
@@ -53,7 +53,7 @@ class Sky {
       19,
     );
 
-mesh2.rotateY(-Math.PI*2.);
+    //mesh2.rotateY(-Math.PI*2.);
     mesh2.material = MaterialManager.get('starfield');
 
     mesh2.name = 'Starfield';
