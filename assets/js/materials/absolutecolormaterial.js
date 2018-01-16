@@ -9,7 +9,7 @@ import {
 const VERTEX = shaderParse(require('../shaders/absolute_color/vertex.glsl'));
 const FRAGMENT = shaderParse(require('../shaders/absolute_color/fragment.glsl'));
 
-let CelShadingMaterial = function (scene, color, name) {
+let Material = function (scene, color, name) {
 
   let uniforms = THREE.UniformsUtils.merge([{
 
@@ -42,4 +42,4 @@ let CelShadingMaterial = function (scene, color, name) {
   return material;
 };
 
-export default CelShadingMaterial;
+export default Material;

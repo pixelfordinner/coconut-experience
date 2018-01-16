@@ -1,13 +1,9 @@
 
 uniform float opacity;
-uniform float ratio;
 uniform float iGlobalTime;
 uniform vec3 diffuse;
-uniform vec3 emissive;
 uniform vec3 lightColor;
-uniform vec3 lightPos;
 varying vec2 vUv;
-varying vec3 vNormal;
 //chunk(common);
 //chunk(fog_pars_fragment);
 
@@ -17,12 +13,8 @@ float Hash(in vec2 p, in float scale)
 {
 	// This is tiling part, adjusts with the scale...
 	p = mod(p, scale);
-
 	return fract(sin(dot(p, vec2(27.16898, 38.90563))) * 5151.5473453);
 }
-
-
-
 
 //----------------------------------------------------------------------------------------
 float Noise(in vec2 p, in float scale )
@@ -50,16 +42,14 @@ float fBm(in vec2 p)
   //  p += vec2(iGlobalTime * 0.1, iGlobalTime * 0.01) * vec2(0.01)  ;
 	float f = 0.0;
 	// Change starting scale to any integer value...
-	float scale = 10.;
-  p = mod(p, scale);
-
-
+	float scale = 1.;
+    p = mod(p, scale);
 	float amp   = 0.6;
 
 	for (int i = 0; i < 4; i++)
 	{
 		f += Noise(p, scale) * amp;
-		amp *= 0.35;
+		amp *= 0.5;
 		// Scale must be multiplied by an integer value...
 		scale *= 2.0;
 	}
@@ -69,15 +59,16 @@ float fBm(in vec2 p)
 
 void main(void) {
 
-	vec2 uv = - 1.0 + 2.0 * vUv;
-  uv.x += iGlobalTime * .02;
-  float noise = fBm(uv);
-  noise = smoothstep(.2, 1., noise);
-  noise = pow(noise, 3.);
+	vec2 uv = -1.0 + 2.0 * vUv;
+	//uv.x *= 1.6;
+  float alpha = fBm(vec2(vUv) - vec2(iGlobalTime * 0.01, 0.0));
+  alpha = clamp(pow(alpha, 4.0), 0.0, 1.0) - 0.15;
+  vec3 bright = vec3(fBm(vec2(vUv  ) - vec2(iGlobalTime * 0.01, 0.0)));
+  bright = vec3(smoothstep(0.5, 1.0, bright));
+  bright = mix(bright * 3.5, lightColor, 0.5);
+  vec4 col = vec4(bright, alpha);
 
-
-
-  gl_FragColor = vec4(vec3(1.) , noise);
-
-
+  gl_FragColor = col;
+  // ADD FOG
+  //chunk(fog_fragment);
 }

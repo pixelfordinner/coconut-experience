@@ -16,6 +16,7 @@ class Moon {
     this.options = {
       radius: 1,
       index: 1,
+      material: new THREE.MeshLambertMaterial(),
       scale: {
         x: 1,
         y: 1,
@@ -27,8 +28,8 @@ class Moon {
         z: 0,
       },
       name: 'Moon_',
-      widthSegments: 20,
-      heightSegments: 20,
+      widthSegments: 60,
+      heightSegments: 60,
       castShadow: false,
       receiveShadow: false,
       physics: {
