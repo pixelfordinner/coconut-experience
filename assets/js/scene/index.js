@@ -11,6 +11,8 @@ import World from './world';
 import Gestures from './gestures';
 import Controls from './controls';
 import { MaterialManager } from '../materials/manager';
+import { SoundManager } from '../sound/manager';
+
 const $ = require('jquery');
 
 class Scene {
@@ -221,6 +223,7 @@ class Scene {
             MaterialManager.get(sleepingMaterials[name]) :
             MaterialManager.get('toon_darkpurple');
         } else {
+
           const materials = {
             TrunkSegment: 'celshading_stripes_material',
             Crown: 'celshading_purple',
@@ -231,6 +234,10 @@ class Scene {
             Wolf: 'celshading_pink',
             Moon: 'moon',
           };
+
+         if(object.mesh.name == 'Wolf' ){
+            // SoundManager.play('contact');
+          }
 
           object.mesh.material = materials.hasOwnProperty(name) ?
             MaterialManager.get(materials[name]) :

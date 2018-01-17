@@ -3,6 +3,7 @@ import {
 } from '../../materials/manager';
 import * as THREE from 'three';
 const OIMO = require('oimo');
+import { SoundManager } from '../../sound/manager';
 
 const DRAG_STATUS_NONE = 'DRAG_STATUS_NONE';
 const DRAG_STATUS_START = 'DRAG_STATUS_START';
@@ -153,6 +154,13 @@ class Gestures {
             if (name[i] == excluded[j]) {
               draggable = false;
               this.dragStatus = DRAG_STATUS_NONE;
+              console.log(name[i]);
+
+              if (name[i] == 'Wolf') {
+                SoundManager.play('wolf');
+              }
+
+              break;
             }
           }
         }
@@ -161,6 +169,12 @@ class Gestures {
           if (name == excluded[i]) {
             draggable = false;
             this.dragStatus = DRAG_STATUS_NONE;
+
+              console.log(name);
+
+              if (name == 'Wolf') {
+                SoundManager.play('wolf');
+              }
           }
         }
       }

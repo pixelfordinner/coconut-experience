@@ -36,6 +36,8 @@ import SmoothCloudMaterial from './materials/smoothcloudmaterial.js';
 //import MakeMaterial from './materials/makematerial.js';
 import shaderParse from './shaders/shaderparse.js';
 
+import { SoundManager } from './sound/manager';
+
 // MATERIAL MANAGER
 import {
   MaterialManager
@@ -95,6 +97,7 @@ class App {
     this.scene = new Scene(this.options);
     this.scene.init();
     this.registerMaterials();
+    this.registerSounds();
     this.populateScene();
     this.scene.preloopWorld(40);
     this.scene.animate();
@@ -156,7 +159,26 @@ class App {
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.darkgrey), 'darkgrey');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.mediumgrey), 'mediumgrey');
     new AbsoluteColorMaterial(this.scene, new THREE.Color(this.options.colors.lightgrey), 'lightgrey');
+  }
 
+  registerSounds() {
+    SoundManager.register({
+        ambiance: {
+            src: ['/assets/sounds/atmosphere.mp3'],
+            autoplay: true,
+            loop: true,
+        },
+        theme: {
+            src: ['/assets/sounds/theme.mp3'],
+            autoplay: true,
+        },
+        wolf: {
+            src: ['/assets/sounds/wolf.mp3'],
+        },
+        contact: {
+            src: ['/assets/sounds/lightstilt.mp3'],
+        },
+    });
   }
 
   populateScene() {
