@@ -85,6 +85,10 @@ class Gestures {
     window.addEventListener('mouseup', mouseUp, true);
     window.addEventListener('mousedown', mouseDown, true);
 
+    window.addEventListener('touchmove', mouseMove, true);
+    window.addEventListener('touchend', mouseUp, true);
+    window.addEventListener('touchstart', mouseDown, true);
+
     return this.gestures;
   }
 
@@ -113,7 +117,7 @@ class Gestures {
         this.dragLineModel = null;
       }
 
-      this.scene.controls.enabled = true;
+      // this.scene.controls.enabled = false;
       this.dragStatus = DRAG_STATUS_NONE;
       this.dragPointView.visible = false;
       this.dragPlaneView.visible = false;
@@ -170,8 +174,6 @@ class Gestures {
             draggable = false;
             this.dragStatus = DRAG_STATUS_NONE;
 
-              console.log(name);
-
               if (name == 'Wolf') {
                 SoundManager.play('wolf');
               }
@@ -195,8 +197,19 @@ class Gestures {
   }
 
   updateMouse(e) {
-    this.mouse.x = (e.layerX / this.scene.options.dimensions.width) * 2 - 1;
-    this.mouse.y = -(e.layerY / this.scene.options.dimensions.height) * 2 + 1;
+    let x = 0;
+    let y = 0;
+
+    if (e.layerX && e.layerY) {
+        x = e.layerX;
+        y = e.layerY;
+    } else if (e.targetTouches && e.targetTouches.length > 0) {
+        x = e.targetTouches[0].clientX;
+        y = e.targetTouches[0].clientY;
+    }
+
+    this.mouse.x = (x / this.scene.options.dimensions.width) * 2 - 1;
+    this.mouse.y = -(y / this.scene.options.dimensions.height) * 2 + 1;
   }
 
   localAnchorPoint(blockName, anchorPointInThree) {

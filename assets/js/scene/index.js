@@ -76,6 +76,7 @@ class Scene {
     window.addEventListener('resize', updateSize, false);
     this.gestures = new Gestures(this);
     this.controls = new Controls(this.options, this.camera);
+    this.controls.enabled = false;
   }
 
   updateSize() {
