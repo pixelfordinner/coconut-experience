@@ -12,6 +12,7 @@ const DRAG_STATUS_DRAGGING = 'DRAG_STATUS_DRAGGING';
 class Gestures {
   constructor(scene, options = {}) {
     this.dragStatus = DRAG_STATUS_NONE;
+    this.objectDragged = .0 ;
     this.ray = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
 
@@ -68,7 +69,7 @@ class Gestures {
       noSleep: true,
       collision: false,
       name: 'dragPointBody',
-      config: [0.02, 0.0, 0.0, 1 << 2, 1 << 2],
+      config: [0.01, 0.0, 0.0, 1 << 2, 1 << 2],
     });
 
     let mouseMove = function (e) {
@@ -84,7 +85,6 @@ class Gestures {
     window.addEventListener('mousemove', mouseMove, true);
     window.addEventListener('mouseup', mouseUp, true);
     window.addEventListener('mousedown', mouseDown, true);
-
     window.addEventListener('touchmove', mouseMove, true);
     window.addEventListener('touchend', mouseUp, true);
     window.addEventListener('touchstart', mouseDown, true);
@@ -153,10 +153,14 @@ class Gestures {
       name = intersects[0].object.name;
       if (name.includes('_')) {
         name = name.split('_');
+      //  console.log(name);
+        this.objectDragged = name[1];
+      //  console.log(name[1]);
         for (let i = 0; i < name.length; i++) {
           for (let j = 0; j < excluded.length; j++) {
             if (name[i] == excluded[j]) {
               draggable = false;
+
               this.dragStatus = DRAG_STATUS_NONE;
               console.log(name[i]);
 
@@ -233,9 +237,9 @@ class Gestures {
         this.dragBlockLocalAnchorPoint.z,
       ],
       pos2: [0, 0, 0],
-      min: -1,
-      max: 1,
-      spring: [3, 0.0005],
+      min: 0,
+      max: 0.1,
+      spring: [0.1, 0.0005],
     });
   }
 

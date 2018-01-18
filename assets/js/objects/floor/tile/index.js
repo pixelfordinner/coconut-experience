@@ -18,6 +18,7 @@ class Tile {
         z: 0,
       },
       name: 'Tile_',
+      sound: false,
       castShadow: true,
       receiveShadow: true,
       physics: {

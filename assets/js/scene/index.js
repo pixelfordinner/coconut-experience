@@ -137,7 +137,7 @@ class Scene {
       let cocoPos = this.cocos[i].body.position;
       if (cocoPos.y < -50 && cocoPos.y > -51) {
         let palmIndex = this.cocos[i].mesh.name.split('_')[1];
-        console.log(palmIndex);
+        //console.log(palmIndex);
       }
     }
   }
@@ -147,6 +147,7 @@ class Scene {
       this.world.step();
     }
   }
+
 
   updateCamera() {
     if (this.camera.position.x > 75) {
@@ -236,9 +237,7 @@ class Scene {
             Moon: 'moon',
           };
 
-         if(object.mesh.name == 'Wolf' ){
-            // SoundManager.play('contact');
-          }
+
 
           object.mesh.material = materials.hasOwnProperty(name) ?
             MaterialManager.get(materials[name]) :
@@ -263,7 +262,20 @@ class Scene {
           'Starfield',
         ];
 
-        const parts = object.mesh.name.split('_');
+       const parts = object.mesh.name.split('_');
+
+       let objectId = parts[2];
+       let match = false;
+       if(parts[2] == 'Coco' ){
+         let id = parts[1];
+         if(id == this.gestures.objectDragged && this.gestures.dragStatus === 'DRAG_STATUS_DRAGGING'){
+           match = true;
+         } else{
+           match = false;
+         }
+       };
+
+
         const matches = parts.filter(part => updatables.indexOf(part) > -1 ? true : false);
         const name = parts.length > 0 && matches.length > 0 ?
           matches[0] :
@@ -282,11 +294,13 @@ class Scene {
           const materials = {
             Tile: 'absolute_white',
             Moon: 'moon_cel',
-            Coco: 'absolute_mediumgrey',
+            Coco: match === true ?  'absolute_mediumgrey' : 'blank_material',
             Sky: 'blank_material',
             Stafield: 'blank_material',
             Wolf: 'blank_material',
           };
+          //console.log(this.gestures.dragStatus);
+
 
           object.mesh.material = materials.hasOwnProperty(name) ?
             MaterialManager.get(materials[name]) :
@@ -313,6 +327,7 @@ class Scene {
     this.updateGestures();
     this.updatePositions();
     this.updateShaders();
+
 
     if (this.count === true) {
       this.initCocos();
