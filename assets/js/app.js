@@ -104,20 +104,14 @@ class App {
   }
 
   registerMaterials() {
-    //new WireMaterial(this.scene);
+
     new BlankMaterial();
-    //console.log(this.scene.renderer.getSize());
     new StarFieldMaterial(this.options.colors, this.scene.renderer.getSize());
-    //new PhongReflectiveMaterial(this.scene, this.scene.cubecamera);
-    //new ShadowShaderMaterial();
     new MoonCelMaterial(this.scene, this.scene.renderer.getSize());
     new MoonMaterial(this.scene);
     new SmoothCloudMaterial(this.scene.options.colors);
-    //new DisplacementShaderMaterial(this.scene);
     new StripesMaterial(this.scene);
     new CelShadingMaterial(this.scene);
-    //new DisplacementBoxShaderMaterial(this.scene);
-    //new TransparenceMaterial(this.scene);
     new PhongColorMaterial(this.scene,
       new THREE.Color(this.options.colors.bluishgrey),
       new THREE.Color(this.options.colors.darkpurple),
@@ -149,7 +143,6 @@ class App {
     new CelShadowMaterial(this.scene, new THREE.Color(0x2b2b2b), 'grey');
     new CelShadowMaterial(this.scene, new THREE.Color(0x61ffd9), 'blue');
     new CelShadowMaterial(this.scene, new THREE.Color(0xff5be0), 'pink');
-
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.darkpurple), 'darkpurple');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.grey), 'grey');
     new ToonColorMaterial(this.scene, new THREE.Color(this.options.colors.blue), 'blue');
@@ -201,13 +194,9 @@ class App {
     });
 
     if (this.scene.ismobile != true) {
-
-      console.log('Lets add a sky :-)!');
       new Sky(this.scene, {
         radius: 70,
       });
-    } else {
-      console.log('So bad we have no sky :-(');
     }
 
     new Floor(this.scene, {

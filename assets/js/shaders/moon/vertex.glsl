@@ -1,7 +1,7 @@
 
 varying vec3 vNormal;
 varying vec2 vUv;
-//chunk(fog_pars_vertex);
+//(fog_pars_vertex);
 
 void main(void) {
 
@@ -11,5 +11,5 @@ void main(void) {
   vUv = uv;
   gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
   vNormal = normalize( normalMatrix * normal );
-  //chunk(fog_vertex);
+  //(fog_vertex);
 }

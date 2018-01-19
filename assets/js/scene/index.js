@@ -19,6 +19,7 @@ class Scene {
   constructor(options) {
     this.ismobile = true;
     this.options = options;
+    this.lostcocos = 0;
     this.objects = [];
     this.cocos = [];
     this.Joints = [];
@@ -113,6 +114,7 @@ class Scene {
 
   updateCocos() {
     if (this.world.numJoints != null) {
+
       for (let i = 0; i < this.Joints.length; i++) {
         let pos = new THREE.Vector3(
           this.Joints[i].body1.position.x,
@@ -125,21 +127,30 @@ class Scene {
         if (dist > 0.15) {
           if (this.jointStrenth[i] > 0) {
             this.jointStrenth[i] -= 0.5;
+            console.log(this.jointStrenth[i]);
           }
         } else if (dist <= 0.03 && this.jointStrenth[i] <= 0) {
           this.world.removeJoint(this.Joints[i]);
+          if (this.jointStrenth[i]== 0) {
+            this.lostcocos ++;
+            this.jointStrenth[i] = -1;
+            console.log(this.lostcocos);
+            // this.Joints = this.Joints.splice(i, 0);
+             //this.lastJointPos = this.lastJointPos.splice(i, 0);
+          }
         }
         this.lastJointPos[i] = pos;
       }
     }
 
-    for (let i = 0; i < this.cocos.length; i++) {
-      let cocoPos = this.cocos[i].body.position;
-      if (cocoPos.y < -50 && cocoPos.y > -51) {
-        let palmIndex = this.cocos[i].mesh.name.split('_')[1];
-        //console.log(palmIndex);
-      }
-    }
+    // for (let i = 0; i < this.cocos.length; i++) {
+    //   let cocoPos = this.cocos[i].body.position;
+    //   if (cocoPos.y < -50 && cocoPos.y > -51) {
+    //     let palmIndex = this.cocos[i].mesh.name.split('_')[1];
+    //     this.lostcocos += 1.;
+    //     console.log('We lost the coco n˚ '+ palmIndex + 'and a total of :' + this.lostcocos + 'cocos');
+    //   }
+    // }
   }
 
   preloopWorld(num) {
@@ -185,6 +196,26 @@ class Scene {
     if (MaterialManager.get('smooth_cloud') != null) {
       let material = MaterialManager.get('smooth_cloud');
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
+    }
+  }
+
+  updateSounds(){
+
+    if(this.lostcocos > 0){
+      this.objects.forEach(function (object) {
+        if (object.mesh.name.includes('Tile')) {
+          //console.log(object.mesh.name);
+          const parts = object.mesh.name.split('_');
+          let index = parts[3];
+
+          if( object.mesh.material.name = 'toon_cyan'){
+            //let playsound = object.options.sound;
+
+          //  console.log('Tile' + index + ' is lighten');
+
+          }
+        }
+      }.bind(this));
     }
   }
 
@@ -262,7 +293,7 @@ class Scene {
           'Starfield',
         ];
 
-       const parts = object.mesh.name.split('_');
+        const parts = object.mesh.name.split('_');
 
        let objectId = parts[2];
        let match = false;
@@ -338,6 +369,7 @@ class Scene {
     this.oclMaterials();
     this.renderEffect();
     this.updateMaterials();
+    this.updateSounds();
     this.camera.lookAt(this.options.camera.lookAt);
     this.render();
 

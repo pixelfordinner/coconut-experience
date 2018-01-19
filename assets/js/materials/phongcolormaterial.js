@@ -10,7 +10,6 @@ let Material = function (camera, color, emissive, specular, name) {
     opacity: 1.0,
     shininess: 300,
     reflectivity: .99,
-    flatShading: false,
     transparent: false,
   });
 

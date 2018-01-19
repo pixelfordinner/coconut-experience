@@ -8,7 +8,7 @@ uniform vec3 lightPos;
 varying vec2 vUv;
 varying vec3 vNormal;
 //chunk(common);
-//chunk(fog_pars_fragment);
+//(fog_pars_fragment);
 
 
 

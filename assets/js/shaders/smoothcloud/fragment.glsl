@@ -7,12 +7,11 @@ uniform vec3 emissive;
 uniform vec3 lightColor;
 uniform vec3 lightPos;
 varying vec2 vUv;
-varying vec3 vNormal;
 //chunk(common);
-//chunk(fog_pars_fragment);
+//(fog_pars_fragment);
 
 // Tiling 2D noise by Dave Hoskin https://www.shadertoy.com/view/4dlGW2
-//----------------------------------------------------------------------------------------
+//---------------------------------------------------------------------
 float Hash(in vec2 p, in float scale)
 {
 	// This is tiling part, adjusts with the scale...
@@ -21,10 +20,7 @@ float Hash(in vec2 p, in float scale)
 	return fract(sin(dot(p, vec2(27.16898, 38.90563))) * 5151.5473453);
 }
 
-
-
-
-//----------------------------------------------------------------------------------------
+// Noise & fbm function taken from iq // https://www.shadertoy.com/view/lsfGRr
 float Noise(in vec2 p, in float scale )
 {
 	vec2 f;
@@ -44,7 +40,6 @@ float Noise(in vec2 p, in float scale )
     return res;
 }
 
-//----------------------------------------------------------------------------------------
 float fBm(in vec2 p)
 {
   //  p += vec2(iGlobalTime * 0.1, iGlobalTime * 0.01) * vec2(0.01)  ;
@@ -52,8 +47,6 @@ float fBm(in vec2 p)
 	// Change starting scale to any integer value...
 	float scale = 10.;
   p = mod(p, scale);
-
-
 	float amp   = 0.6;
 
 	for (int i = 0; i < 4; i++)
@@ -74,8 +67,6 @@ void main(void) {
   float noise = fBm(uv);
   noise = smoothstep(.2, 1., noise);
   noise = pow(noise, 3.);
-
-
 
   gl_FragColor = vec4(vec3(1.) , noise);
 
