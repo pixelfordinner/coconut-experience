@@ -35,8 +35,7 @@ let Material = function (scene, color, name) {
     transparent: false,
 
   });
-  //material.depthWrite = false;
-  //material.side = THREE.DoubleSide;
+
   MaterialManager.set('absolute_' + name, material);
 
   return material;

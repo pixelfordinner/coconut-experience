@@ -94,6 +94,7 @@ class Composer {
     pass.renderToScreen = true;
     pass.name = 'Additive_Blending';
     this.blendingComposer.addPass(pass);
+
     // console.log('tAdd');
     // console.log(pass.uniforms.tAdd.value);
     // console.log(this.occlusionTarget.texture);

@@ -44,7 +44,6 @@ let Material = function (scene, color, name) {
 
   MaterialManager.set('celshader_' + name, material);
 
-
   return material;
 };
 

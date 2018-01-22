@@ -12,10 +12,9 @@ const DRAG_STATUS_DRAGGING = 'DRAG_STATUS_DRAGGING';
 class Gestures {
   constructor(scene, options = {}) {
     this.dragStatus = DRAG_STATUS_NONE;
-    this.objectDragged = .0 ;
+    this.objectDragged = 0;
     this.ray = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
-
     this.scene = scene;
     this.meshes = [];
 
@@ -117,7 +116,6 @@ class Gestures {
         this.dragLineModel = null;
       }
 
-      // this.scene.controls.enabled = false;
       this.dragStatus = DRAG_STATUS_NONE;
       this.dragPointView.visible = false;
       this.dragPlaneView.visible = false;
@@ -127,10 +125,6 @@ class Gestures {
 
   mouseDown(e) {
     let intersects;
-    //this.updateMouse(e);
-    // if (e.button !== 0) {
-    //   return;
-    // }
 
     if (this.dragStatus !== DRAG_STATUS_NONE) {
       return;
@@ -144,8 +138,6 @@ class Gestures {
       'Floor', 'Land', 'Montain', 'Wolf', 'Moon', 'Starfield',
     ];
 
-    //let draggable = intersects.length > 0 && excluded.indexOf(intersects[0].object.name) === -1;
-
     let draggable = true;
     if (intersects.length > 0) {
       draggable = true;
@@ -153,9 +145,7 @@ class Gestures {
       name = intersects[0].object.name;
       if (name.includes('_')) {
         name = name.split('_');
-      //  console.log(name);
         this.objectDragged = name[1];
-      //  console.log(name[1]);
         for (let i = 0; i < name.length; i++) {
           for (let j = 0; j < excluded.length; j++) {
             if (name[i] == excluded[j]) {
@@ -177,10 +167,9 @@ class Gestures {
           if (name == excluded[i]) {
             draggable = false;
             this.dragStatus = DRAG_STATUS_NONE;
-
-              if (name == 'Wolf') {
-                SoundManager.play('wolf');
-              }
+            if (name == 'Wolf') {
+              SoundManager.play('wolf');
+            }
           }
         }
       }
@@ -205,11 +194,11 @@ class Gestures {
     let y = 0;
 
     if (e.layerX && e.layerY) {
-        x = e.layerX;
-        y = e.layerY;
+      x = e.layerX;
+      y = e.layerY;
     } else if (e.targetTouches && e.targetTouches.length > 0) {
-        x = e.targetTouches[0].clientX;
-        y = e.targetTouches[0].clientY;
+      x = e.targetTouches[0].clientX;
+      y = e.targetTouches[0].clientY;
     }
 
     this.mouse.x = (x / this.scene.options.dimensions.width) * 2 - 1;

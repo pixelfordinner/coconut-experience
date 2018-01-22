@@ -5,12 +5,6 @@ import {
 } from '../../materials/manager';
 const defaultsDeep = require('lodash.defaultsdeep');
 
-// import Clock from '../../scene/clock';
-// import shaderParse from '../../shaders/shaderparse';
-// const glslify = require('glslify');
-// const FRAGMENT = glslify(shaderParse(require('raw-loader!shaderlib/depth_frag.glsl'), true));
-// const VERTEX = shaderParse(require('../../shaders/displacement_depth/vertex.glsl'));
-
 class Moon {
   constructor(scene, options = {}) {
     this.options = {
@@ -51,11 +45,7 @@ class Moon {
       heightSegments: this.options.heightSegments,
     });
 
-    // let geo = new THREE.IcosahedronGeometry(1, 3);
-
     let material = MaterialManager.get('absolute_white');
-
-
     var mesh = new THREE.Mesh(sphere, material);
     mesh.name = this.options.name + this.options.index;
     mesh.receiveShadow = true;

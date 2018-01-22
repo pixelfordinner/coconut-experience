@@ -71,12 +71,6 @@ class Loader {
 
       scene.add(model, params);
 
-      // let ghostModel = model.clone();
-      // ghostModel.name = 'Ghost';
-      // let ghostMaterial = MaterialManager.get('wireframe_basic');
-      // ghostModel.material = ghostMaterial;
-      // scene.add(ghostModel, params);
-
     }
 
     return this.loader;

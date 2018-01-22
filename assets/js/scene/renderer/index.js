@@ -28,8 +28,8 @@ class Renderer {
     //THREE.PCFShadowMap;
 
     this.renderer.setPixelRatio(1);
-    //window.devicePixelRatio
 
+    //window.devicePixelRatio
     return this.renderer;
   }
 }

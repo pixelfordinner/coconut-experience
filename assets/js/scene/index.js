@@ -13,7 +13,6 @@ import Controls from './controls';
 import { MaterialManager } from '../materials/manager';
 import { SoundManager } from '../sound/manager';
 
-
 const $ = require('jquery');
 
 class Scene {
@@ -27,7 +26,6 @@ class Scene {
     this.cracks = [];
     this.notes = [];
     this.playnotes = [];
-
     this.lastJointPos = [];
     this.jointStrenth = [];
 
@@ -65,11 +63,11 @@ class Scene {
       new THREE.Color(this.options.colors.fog),
       this.options.scene.fog.factor
     );
+
     //console.log('W: ' + this.options.dimensions.width + ' H: ' + this.options.dimensions.height);
     if (this.options.dimensions.width >= 1080) {
       this.ismobile = false;
     }
-    //console.log('ISMOBILE: '+ this.ismobile);
 
     // Lights
     this.lights.forEach(light => this.scene.add(light));
@@ -107,11 +105,11 @@ class Scene {
     if (this.world.numJoints != null) {
       for (let i = 0; i < this.Joints.length; i++) {
         let pos = new THREE.Vector3(this.Joints[i].body1.position.x,
-          this.Joints[i].body1.position.y,
-          this.Joints[i].body1.position.z);
-          this.cracks.push(1);
-          this.lastJointPos.push(pos);
-          this.jointStrenth.push(1);
+        this.Joints[i].body1.position.y,
+        this.Joints[i].body1.position.z);
+        this.cracks.push(1);
+        this.lastJointPos.push(pos);
+        this.jointStrenth.push(1);
       }
 
       this.count = false;
@@ -129,16 +127,13 @@ class Scene {
 
     for (let i = 0; i < this.notes.length; i++) {
 
-
       if (this.notes[i].mesh.material == MaterialManager.get('toon_cyan')) {
 
         if (this.playnotes[i] === false) {
-          console.log('CONTACT');
-          console.log(this.notes[i]);
           SoundManager.play('contact');
           this.playnotes[i] = true;
         }
-      } else{
+      } else {
         this.playnotes[i] = false;
       }
     }
@@ -276,8 +271,6 @@ class Scene {
             Moon: 'moon',
           };
 
-
-
           object.mesh.material = materials.hasOwnProperty(name) ?
             MaterialManager.get(materials[name]) :
             MaterialManager.get('toon_darkpurple');
@@ -303,17 +296,17 @@ class Scene {
 
         const parts = object.mesh.name.split('_');
 
-       let objectId = parts[2];
-       let match = false;
-       if(parts[2] == 'Coco' ){
-         let id = parts[1];
-         if(id == this.gestures.objectDragged && this.gestures.dragStatus === 'DRAG_STATUS_DRAGGING'){
-           match = true;
-         } else{
-           match = false;
-         }
-       };
-
+        let objectId = parts[2];
+        let match = false;
+        if (parts[2] == 'Coco') {
+          let id = parts[1];
+          if (id == this.gestures.objectDragged
+              && this.gestures.dragStatus === 'DRAG_STATUS_DRAGGING') {
+            match = true;
+          } else {
+            match = false;
+          }
+        };
 
         const matches = parts.filter(part => updatables.indexOf(part) > -1 ? true : false);
         const name = parts.length > 0 && matches.length > 0 ?
@@ -338,8 +331,6 @@ class Scene {
             Stafield: 'blank_material',
             Wolf: 'blank_material',
           };
-          //console.log(this.gestures.dragStatus);
-
 
           object.mesh.material = materials.hasOwnProperty(name) ?
             MaterialManager.get(materials[name]) :
@@ -366,7 +357,6 @@ class Scene {
     this.updateGestures();
     this.updatePositions();
     this.updateShaders();
-
 
     if (this.count === true) {
       this.initNotes();
