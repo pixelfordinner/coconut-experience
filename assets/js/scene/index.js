@@ -13,6 +13,7 @@ import Controls from './controls';
 import { MaterialManager } from '../materials/manager';
 import { SoundManager } from '../sound/manager';
 
+
 const $ = require('jquery');
 
 class Scene {
@@ -23,6 +24,10 @@ class Scene {
     this.objects = [];
     this.cocos = [];
     this.Joints = [];
+    this.cracks = [];
+    this.notes = [];
+    this.playnotes = [];
+
     this.lastJointPos = [];
     this.jointStrenth = [];
 
@@ -104,53 +109,77 @@ class Scene {
         let pos = new THREE.Vector3(this.Joints[i].body1.position.x,
           this.Joints[i].body1.position.y,
           this.Joints[i].body1.position.z);
-        this.lastJointPos.push(pos);
-        this.jointStrenth.push(1);
+          this.cracks.push(1);
+          this.lastJointPos.push(pos);
+          this.jointStrenth.push(1);
       }
 
       this.count = false;
     }
   }
 
-  updateCocos() {
-    if (this.world.numJoints != null) {
+  initNotes() {
 
+    for (let i = 0; i < this.notes.length; i++) {
+      this.playnotes[i] = 3;
+    }
+  }
+
+  updateNotes() {
+
+    for (let i = 0; i < this.notes.length; i++) {
+
+
+      if (this.notes[i].mesh.material == MaterialManager.get('toon_cyan')) {
+
+        if (this.playnotes[i] === false) {
+          console.log('CONTACT');
+          console.log(this.notes[i]);
+          SoundManager.play('contact');
+          this.playnotes[i] = true;
+        }
+      } else{
+        this.playnotes[i] = false;
+      }
+    }
+  }
+
+  updateCocos() {
+
+    if (this.world.numJoints != null) {
       for (let i = 0; i < this.Joints.length; i++) {
         let pos = new THREE.Vector3(
           this.Joints[i].body1.position.x,
           this.Joints[i].body1.position.y,
           this.Joints[i].body1.position.z
         );
-
         let pos2 = this.lastJointPos[i];
         let dist = pos.distanceTo(pos2);
+
         if (dist > 0.15) {
           if (this.jointStrenth[i] > 0) {
             this.jointStrenth[i] -= 0.5;
-            console.log(this.jointStrenth[i]);
           }
         } else if (dist <= 0.03 && this.jointStrenth[i] <= 0) {
           this.world.removeJoint(this.Joints[i]);
-          if (this.jointStrenth[i]== 0) {
-            this.lostcocos ++;
+          if (this.jointStrenth[i] == 0) {
+            this.lostcocos++;
             this.jointStrenth[i] = -1;
-            console.log(this.lostcocos);
-            // this.Joints = this.Joints.splice(i, 0);
-             //this.lastJointPos = this.lastJointPos.splice(i, 0);
           }
         }
+
+        if (this.lostcocos > 0 && this.jointStrenth[i] == -1) {
+          let c = this.Joints[i].body1.numContacts;
+
+          if (c == 1 && this.cracks[i] > 0) {
+            SoundManager.play('contact');
+            this.cracks[i]--;
+          }
+        }
+
         this.lastJointPos[i] = pos;
       }
     }
-
-    // for (let i = 0; i < this.cocos.length; i++) {
-    //   let cocoPos = this.cocos[i].body.position;
-    //   if (cocoPos.y < -50 && cocoPos.y > -51) {
-    //     let palmIndex = this.cocos[i].mesh.name.split('_')[1];
-    //     this.lostcocos += 1.;
-    //     console.log('We lost the coco n˚ '+ palmIndex + 'and a total of :' + this.lostcocos + 'cocos');
-    //   }
-    // }
   }
 
   preloopWorld(num) {
@@ -158,7 +187,6 @@ class Scene {
       this.world.step();
     }
   }
-
 
   updateCamera() {
     if (this.camera.position.x > 75) {
@@ -196,26 +224,6 @@ class Scene {
     if (MaterialManager.get('smooth_cloud') != null) {
       let material = MaterialManager.get('smooth_cloud');
       material.uniforms.iGlobalTime.value = this.clock.getElapsedTime();
-    }
-  }
-
-  updateSounds(){
-
-    if(this.lostcocos > 0){
-      this.objects.forEach(function (object) {
-        if (object.mesh.name.includes('Tile')) {
-          //console.log(object.mesh.name);
-          const parts = object.mesh.name.split('_');
-          let index = parts[3];
-
-          if( object.mesh.material.name = 'toon_cyan'){
-            //let playsound = object.options.sound;
-
-          //  console.log('Tile' + index + ' is lighten');
-
-          }
-        }
-      }.bind(this));
     }
   }
 
@@ -361,6 +369,7 @@ class Scene {
 
 
     if (this.count === true) {
+      this.initNotes();
       this.initCocos();
     } else {
       this.updateCocos();
@@ -369,7 +378,7 @@ class Scene {
     this.oclMaterials();
     this.renderEffect();
     this.updateMaterials();
-    this.updateSounds();
+    this.updateNotes();
     this.camera.lookAt(this.options.camera.lookAt);
     this.render();
 

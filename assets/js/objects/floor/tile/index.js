@@ -18,7 +18,7 @@ class Tile {
         z: 0,
       },
       name: 'Tile_',
-      sound: false,
+      index: 0,
       castShadow: true,
       receiveShadow: true,
       physics: {
@@ -50,9 +50,6 @@ class Tile {
       this.options.position.y,
       this.options.position.z
     );
-
-
-
     return scene.add(mesh, this.options.physics);
   }
 }
