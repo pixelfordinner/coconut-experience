@@ -127,19 +127,22 @@ class Gestures {
 
   mouseDown(e) {
     let intersects;
+    //this.updateMouse(e);
+    // if (e.button !== 0) {
+    //   return;
+    // }
+
     if (this.dragStatus !== DRAG_STATUS_NONE) {
       return;
     }
 
-  //  this.updateMouse(e);
+    this.updateMouse(e);
     this.ray.setFromCamera(this.mouse, this.scene.camera);
-    //this.ray.origin.width = 500;
-    //this.ray.origin.height = 500;
+    intersects = this.ray.intersectObjects(this.meshes, true);
 
-    intersects = this.ray.intersectObjects(this.meshes);
-
-    const included = ['TrunkSegment', 'Coco', 'Crown', 'Wolf'];
-    const dragged = ['TrunkSegment', 'Coco', 'Crown'];
+    const excluded = ['Ground', 'Sky', 'Eye', 'Hole', 'Tile',
+      'Floor', 'Land', 'Montain', 'Wolf', 'Moon', 'Starfield',
+    ];
 
     const getRandomIntInclusive = (min, max) => {
       min = Math.ceil(min);
@@ -148,19 +151,25 @@ class Gestures {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     };
 
-    let draggable = false;
+    //let draggable = intersects.length > 0 && excluded.indexOf(intersects[0].object.name) === -1;
+
+    let draggable = true;
     if (intersects.length > 0) {
-      draggable = false;
+      draggable = true;
       let name = intersects[0].object.name;
       name = intersects[0].object.name;
       if (name.includes('_')) {
         name = name.split('_');
         for (let i = 0; i < name.length; i++) {
-          for (let j = 0; j < included.length; j++) {
-            if (name[i] == included[j]) {
-              draggable = true;
+          for (let j = 0; j < excluded.length; j++) {
+            if (name[i] == excluded[j]) {
+              draggable = false;
+              this.dragStatus = DRAG_STATUS_NONE;
+              console.log(name[i]);
+
               if (name[i] == 'Wolf') {
                 SoundManager.play('wolf_' + getRandomIntInclusive(0, 7));
+                console.log('wolf_' + getRandomIntInclusive(0, 7));
               }
 
               break;
@@ -168,38 +177,19 @@ class Gestures {
           }
         }
       } else {
-        for (let i = 0; i < included.length; i++) {
-          if (name == included[i]) {
-            draggable = true;
-            if (name == 'Wolf') {
-              SoundManager.play('wolf_' + getRandomIntInclusive(0, 7));
-            }
+        for (let i = 0; i < excluded.length; i++) {
+          if (name == excluded[i]) {
+            draggable = false;
+            this.dragStatus = DRAG_STATUS_NONE;
+
+              if (name == 'Wolf') {
+                SoundManager.play('wolf_' + getRandomIntInclusive(0, 7));
+                console.log('wolf_' + getRandomIntInclusive(0, 7));
+              }
           }
         }
       }
     } else {
-      let dist = 1000000;
-
-      for (let i = 0; i < this.scene.objects.length; i++) {
-        let name = this.scene.objects[i].mesh.name;
-        let closest = 'Donald';
-
-
-
-        for (let j = 0; j < dragged.length; j++) {
-          if (name.includes(dragged[j])) {
-            console.log('hello');
-            let pos = this.scene.objects[i].mesh.position;
-            let r =   new THREE.Raycaster(this.mouse);
-            console.log(r);
-
-          //  let distance = pos.distanceTo(planepos[0]);
-
-
-          }
-        }
-      }
-
       draggable = false;
     }
 
