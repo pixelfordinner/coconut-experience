@@ -3,7 +3,6 @@ import {
   MaterialManager
 } from '../../materials/manager';
 const defaultsDeep = require('lodash.defaultsdeep');
-const $ = require('jquery');
 
 class Loader {
   constructor(scene, options = {}) {

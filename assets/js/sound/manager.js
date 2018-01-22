@@ -1,4 +1,4 @@
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 
 class Manager {
     constructor() {
@@ -21,6 +21,10 @@ class Manager {
 
     has(sound) {
         return this.library.hasOwnProperty(sound);;
+    }
+
+    mute(muted) {
+        Howler.mute(muted);
     }
 }
 

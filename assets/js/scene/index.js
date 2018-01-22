@@ -13,8 +13,6 @@ import Controls from './controls';
 import { MaterialManager } from '../materials/manager';
 import { SoundManager } from '../sound/manager';
 
-const $ = require('jquery');
-
 class Scene {
   constructor(options) {
     this.ismobile = true;
@@ -30,8 +28,8 @@ class Scene {
     this.jointStrenth = [];
 
     this.options.dimensions = {
-      width: $(this.options.renderer.canvas).width(),
-      height: $(this.options.renderer.canvas).height(),
+      width: this.options.renderer.canvas.offsetWidth,
+      height: this.options.renderer.canvas.offsetHeight,
     };
     this.options.camera.distance = 10;
     this.options.camera.position = {
@@ -85,8 +83,8 @@ class Scene {
 
   updateSize() {
     this.options.dimensions = {
-      width: $(this.options.renderer.canvas).width(),
-      height: $(this.options.renderer.canvas).height(),
+      width: this.options.renderer.canvas.offsetWidth,
+      height: this.options.renderer.canvas.offsetHeight,
     };
 
     this.camera.aspect =
@@ -119,18 +117,25 @@ class Scene {
   initNotes() {
 
     for (let i = 0; i < this.notes.length; i++) {
-      this.playnotes[i] = 3;
+      this.playnotes[i] = false;
     }
   }
 
   updateNotes() {
+
+    const getRandomIntInclusive = (min, max) => {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
 
     for (let i = 0; i < this.notes.length; i++) {
 
       if (this.notes[i].mesh.material == MaterialManager.get('toon_cyan')) {
 
         if (this.playnotes[i] === false) {
-          SoundManager.play('contact');
+          SoundManager.play('contact_' + getRandomIntInclusive(0, 4));
           this.playnotes[i] = true;
         }
       } else {

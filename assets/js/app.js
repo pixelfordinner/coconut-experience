@@ -36,15 +36,12 @@ import SmoothCloudMaterial from './materials/smoothcloudmaterial.js';
 //import MakeMaterial from './materials/makematerial.js';
 import shaderParse from './shaders/shaderparse.js';
 
-import { SoundManager } from './sound/manager';
-
 // MATERIAL MANAGER
-import {
-  MaterialManager
-} from './materials/manager';
+import { MaterialManager } from './materials/manager';
 
-// JQUERY
-const $ = require('jquery');
+import { SoundManager } from './sound/manager';
+import WebfontLoader from 'webfontloader';
+import WhenDomReady from 'when-dom-ready';
 
 class App {
   constructor() {
@@ -92,6 +89,9 @@ class App {
           factor: .010,
         },
       },
+      sound: {
+        muted: false,
+      },
     };
 
     this.scene = new Scene(this.options);
@@ -101,6 +101,43 @@ class App {
     this.populateScene();
     this.scene.preloopWorld(40);
     this.scene.animate();
+    this.webfonts();
+    this.bindings();
+  }
+
+  webfonts() {
+    WebfontLoader.load({
+        typekit: {
+            id: 'kkp5dfn',
+        },
+        google: {
+            families: ['Cousine:400']
+        }
+    });
+  }
+
+  bindings() {
+    const intro = document.querySelector('.intro');
+
+    intro.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        intro.classList.add('is-inactive');
+        this.options.renderer.canvas.classList.add('is-active');
+    });
+
+    const volume = document.querySelector('.volume');
+
+    volume.addEventListener('click', e => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        volume.classList.toggle('is-active');
+        SoundManager.mute(!this.options.sound.muted);
+
+        this.options.sound.muted = !this.options.sound.muted;
+    });
   }
 
   registerMaterials() {
@@ -157,19 +194,31 @@ class App {
   registerSounds() {
     SoundManager.register({
         ambiance: {
-            src: ['/assets/sounds/atmosphere.mp3'],
+            src: ['/dist/sounds/atmosphere.mp3'],
             autoplay: true,
             loop: true,
         },
         theme: {
-            src: ['/assets/sounds/theme.mp3'],
+            src: ['/dist/sounds/theme.mp3'],
             autoplay: true,
         },
         wolf: {
-            src: ['/assets/sounds/wolf.mp3'],
+            src: ['/dist/sounds/wolf.mp3'],
         },
-        contact: {
-            src: ['/assets/sounds/lightstilt.mp3'],
+        'contact_0': {
+            src: ['/dist/sounds/contact/0.mp3'],
+        },
+        'contact_1': {
+            src: ['/dist/sounds/contact/1.mp3'],
+        },
+        'contact_2': {
+            src: ['/dist/sounds/contact/2.mp3'],
+        },
+        'contact_3': {
+            src: ['/dist/sounds/contact/3.mp3'],
+        },
+        'contact_4': {
+            src: ['/dist/sounds/contact/4.mp3'],
         },
     });
   }
@@ -247,6 +296,4 @@ class App {
   }
 }
 
-$(document).ready(function () {
-  new App();
-});
+WhenDomReady().then(() => new App());
