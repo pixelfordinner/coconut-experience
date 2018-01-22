@@ -12,9 +12,9 @@ const DRAG_STATUS_DRAGGING = 'DRAG_STATUS_DRAGGING';
 class Gestures {
   constructor(scene, options = {}) {
     this.dragStatus = DRAG_STATUS_NONE;
-    this.objectDragged = 0;
     this.ray = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
+
     this.scene = scene;
     this.meshes = [];
 
@@ -68,7 +68,7 @@ class Gestures {
       noSleep: true,
       collision: false,
       name: 'dragPointBody',
-      config: [0.01, 0.0, 0.0, 1 << 2, 1 << 2],
+      config: [0.02, 0.0, 0.0, 1 << 2, 1 << 2],
     });
 
     let mouseMove = function (e) {
@@ -84,6 +84,7 @@ class Gestures {
     window.addEventListener('mousemove', mouseMove, true);
     window.addEventListener('mouseup', mouseUp, true);
     window.addEventListener('mousedown', mouseDown, true);
+
     window.addEventListener('touchmove', mouseMove, true);
     window.addEventListener('touchend', mouseUp, true);
     window.addEventListener('touchstart', mouseDown, true);
@@ -116,6 +117,7 @@ class Gestures {
         this.dragLineModel = null;
       }
 
+      // this.scene.controls.enabled = false;
       this.dragStatus = DRAG_STATUS_NONE;
       this.dragPointView.visible = false;
       this.dragPlaneView.visible = false;
@@ -125,6 +127,10 @@ class Gestures {
 
   mouseDown(e) {
     let intersects;
+    //this.updateMouse(e);
+    // if (e.button !== 0) {
+    //   return;
+    // }
 
     if (this.dragStatus !== DRAG_STATUS_NONE) {
       return;
@@ -138,6 +144,15 @@ class Gestures {
       'Floor', 'Land', 'Montain', 'Wolf', 'Moon', 'Starfield',
     ];
 
+    const getRandomIntInclusive = (min, max) => {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    //let draggable = intersects.length > 0 && excluded.indexOf(intersects[0].object.name) === -1;
+
     let draggable = true;
     if (intersects.length > 0) {
       draggable = true;
@@ -145,17 +160,16 @@ class Gestures {
       name = intersects[0].object.name;
       if (name.includes('_')) {
         name = name.split('_');
-        this.objectDragged = name[1];
         for (let i = 0; i < name.length; i++) {
           for (let j = 0; j < excluded.length; j++) {
             if (name[i] == excluded[j]) {
               draggable = false;
-
               this.dragStatus = DRAG_STATUS_NONE;
               console.log(name[i]);
 
               if (name[i] == 'Wolf') {
-                SoundManager.play('wolf');
+                SoundManager.play('wolf_' + getRandomIntInclusive(0, 7));
+                console.log('wolf_' + getRandomIntInclusive(0, 7));
               }
 
               break;
@@ -167,9 +181,11 @@ class Gestures {
           if (name == excluded[i]) {
             draggable = false;
             this.dragStatus = DRAG_STATUS_NONE;
-            if (name == 'Wolf') {
-              SoundManager.play('wolf');
-            }
+
+              if (name == 'Wolf') {
+                SoundManager.play('wolf_' + getRandomIntInclusive(0, 7));
+                console.log('wolf_' + getRandomIntInclusive(0, 7));
+              }
           }
         }
       }
@@ -194,11 +210,11 @@ class Gestures {
     let y = 0;
 
     if (e.layerX && e.layerY) {
-      x = e.layerX;
-      y = e.layerY;
+        x = e.layerX;
+        y = e.layerY;
     } else if (e.targetTouches && e.targetTouches.length > 0) {
-      x = e.targetTouches[0].clientX;
-      y = e.targetTouches[0].clientY;
+        x = e.targetTouches[0].clientX;
+        y = e.targetTouches[0].clientY;
     }
 
     this.mouse.x = (x / this.scene.options.dimensions.width) * 2 - 1;
@@ -226,9 +242,9 @@ class Gestures {
         this.dragBlockLocalAnchorPoint.z,
       ],
       pos2: [0, 0, 0],
-      min: 0,
-      max: 0.1,
-      spring: [0.1, 0.0005],
+      min: -1,
+      max: 1,
+      spring: [3, 0.0005],
     });
   }
 

@@ -194,31 +194,52 @@ class App {
   registerSounds() {
     SoundManager.register({
         ambiance: {
-            src: ['/dist/sounds/atmosphere.mp3'],
+            src: ['/assets/sounds/atmosphere.mp3'],
             autoplay: true,
             loop: true,
         },
         theme: {
-            src: ['/dist/sounds/theme.mp3'],
+            src: ['/assets/sounds/theme.mp3'],
             autoplay: true,
         },
-        wolf: {
-            src: ['/dist/sounds/wolf.mp3'],
+        'wolf_0': {
+            src: ['/assets/sounds/wolf/0.mp3'],
+        },
+        'wolf_1': {
+            src: ['/assets/sounds/wolf/1.mp3'],
+        },
+        'wolf_2': {
+            src: ['/assets/sounds/wolf/2.mp3'],
+        },
+        'wolf_3': {
+            src: ['/assets/sounds/wolf/3.mp3'],
+        },
+        'wolf_4': {
+            src: ['/assets/sounds/wolf/4.mp3'],
+        },
+        'wolf_5': {
+            src: ['/assets/sounds/wolf/5.mp3'],
+        },
+        'wolf_6': {
+            src: ['/assets/sounds/wolf/6.mp3'],
+        },
+        'wolf_7': {
+            src: ['/assets/sounds/wolf/7.mp3'],
         },
         'contact_0': {
-            src: ['/dist/sounds/contact/0.mp3'],
+            src: ['/assets/sounds/contact/0.mp3'],
         },
         'contact_1': {
-            src: ['/dist/sounds/contact/1.mp3'],
+            src: ['/assets/sounds/contact/1.mp3'],
         },
         'contact_2': {
-            src: ['/dist/sounds/contact/2.mp3'],
+            src: ['/assets/sounds/contact/2.mp3'],
         },
         'contact_3': {
-            src: ['/dist/sounds/contact/3.mp3'],
+            src: ['/assets/sounds/contact/3.mp3'],
         },
         'contact_4': {
-            src: ['/dist/sounds/contact/4.mp3'],
+            src: ['/assets/sounds/contact/4.mp3'],
         },
     });
   }
