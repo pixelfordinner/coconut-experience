@@ -93,8 +93,8 @@ class Gestures {
     return this.gestures;
   }
 
-  enableDrag() {
-    this.dragStatus = DRAG_STATUS_NONE;
+  enableDrag(enabled) {
+    this.dragStatus = enabled ? DRAG_STATUS_NONE : DRAG_STATUS_DISABLED;
   }
 
   mouseMove(e) {

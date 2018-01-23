@@ -173,6 +173,8 @@ class Scene {
 
             const outro = document.querySelector('.outro');
 
+            this.gestures.enableDrag(false);
+
             setTimeout(() => this.options.renderer.canvas.classList.remove('is-active'), 6000);
             setTimeout(() => outro.classList.add('is-active'), 7000);
           }

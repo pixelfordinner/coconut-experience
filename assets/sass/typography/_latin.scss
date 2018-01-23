@@ -84,6 +84,8 @@ $letter-spacing: (
 
     &--m5 {
         @include sassline('5', get-font('primary'), 6);
+
+        font-weight: get-font(primary, bold);
     }
 }
 

@@ -111,7 +111,7 @@ class App {
             id: 'kkp5dfn',
         },
         google: {
-            families: ['Cousine:400']
+            families: ['Cousine:400,700']
         }
     });
   }
@@ -125,7 +125,7 @@ class App {
 
         intro.classList.add('is-inactive');
         this.options.renderer.canvas.classList.add('is-active');
-        this.scene.gestures.enableDrag();
+        this.scene.gestures.enableDrag(true);
     });
 
     const volume = document.querySelector('.volume');
