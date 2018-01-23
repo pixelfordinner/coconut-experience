@@ -26,6 +26,12 @@ class Manager {
     mute(muted) {
         Howler.mute(muted);
     }
+
+    fade(sound, start, finish, time) {
+        if (this.has(sound)) {
+            this.library[sound].fade(start, finish, time);
+        }
+    }
 }
 
 export const SoundManager = new Manager();

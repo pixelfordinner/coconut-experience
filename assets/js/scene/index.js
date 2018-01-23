@@ -175,8 +175,10 @@ class Scene {
 
             this.gestures.enableDrag(false);
 
-            setTimeout(() => this.options.renderer.canvas.classList.remove('is-active'), 6000);
-            setTimeout(() => outro.classList.add('is-active'), 7000);
+            setTimeout(() => SoundManager.fade('theme', 1, 0, 2000), 3000);
+            setTimeout(() => SoundManager.play('final'), 5200);
+            setTimeout(() => this.options.renderer.canvas.classList.remove('is-active'), 5000);
+            setTimeout(() => outro.classList.add('is-active'), 6000);
           }
         }
 

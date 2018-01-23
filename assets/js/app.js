@@ -241,6 +241,10 @@ class App {
         'contact_4': {
             src: ['/assets/sounds/contact/4.mp3'],
         },
+        'final': {
+            src: ['/assets/sounds/final.mp3'],
+            loop: true,
+        },
     });
   }
 
