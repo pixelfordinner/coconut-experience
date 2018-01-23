@@ -26,6 +26,7 @@ class Scene {
     this.playnotes = [];
     this.lastJointPos = [];
     this.jointStrenth = [];
+    this.gameOver = false;
 
     this.options.dimensions = {
       width: this.options.renderer.canvas.offsetWidth,
@@ -165,6 +166,15 @@ class Scene {
           if (this.jointStrenth[i] == 0) {
             this.lostcocos++;
             this.jointStrenth[i] = -1;
+          }
+
+          if (!this.gameOver && this.lostcocos >= 30) {
+            this.gameOver = true;
+
+            const outro = document.querySelector('.outro');
+
+            setTimeout(() => this.options.renderer.canvas.classList.remove('is-active'), 6000);
+            setTimeout(() => outro.classList.add('is-active'), 7000);
           }
         }
 

@@ -5,13 +5,14 @@ import * as THREE from 'three';
 const OIMO = require('oimo');
 import { SoundManager } from '../../sound/manager';
 
+const DRAG_STATUS_DISABLED = 'DRAG_STATUS_DISABLED';
 const DRAG_STATUS_NONE = 'DRAG_STATUS_NONE';
 const DRAG_STATUS_START = 'DRAG_STATUS_START';
 const DRAG_STATUS_DRAGGING = 'DRAG_STATUS_DRAGGING';
 
 class Gestures {
   constructor(scene, options = {}) {
-    this.dragStatus = DRAG_STATUS_NONE;
+    this.dragStatus = DRAG_STATUS_DISABLED;
     this.ray = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
 
@@ -92,7 +93,15 @@ class Gestures {
     return this.gestures;
   }
 
+  enableDrag() {
+    this.dragStatus = DRAG_STATUS_NONE;
+  }
+
   mouseMove(e) {
+    if (this.dragStatus === DRAG_STATUS_DISABLED) {
+        return;
+    }
+
     let intersects;
     let dintersect;
     this.updateMouse(e);
@@ -110,6 +119,9 @@ class Gestures {
   }
 
   mouseUp(e) {
+    if (this.dragStatus === DRAG_STATUS_DISABLED) {
+        return;
+    }
 
     this.updateMouse(e);
     if (this.dragStatus !== DRAG_STATUS_NONE) {
@@ -128,6 +140,9 @@ class Gestures {
   }
 
   mouseDown(e) {
+    if (this.dragStatus === DRAG_STATUS_DISABLED) {
+        return;
+    }
 
     let intersects;
     let dintersect;

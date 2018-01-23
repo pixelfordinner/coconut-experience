@@ -125,6 +125,7 @@ class App {
 
         intro.classList.add('is-inactive');
         this.options.renderer.canvas.classList.add('is-active');
+        this.scene.gestures.enableDrag();
     });
 
     const volume = document.querySelector('.volume');

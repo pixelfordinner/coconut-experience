@@ -59,9 +59,11 @@ body {
     filter: blur(18px);
     transition: filter get-transition('long') ease-out;
     transition-delay: get-transition('slow');
+    pointer-events: none;
 
     &.is-active {
         filter: blur(0);
+        pointer-events: auto;
     }
 }
 
@@ -88,22 +90,22 @@ body {
     margin: 1rem auto;
 }
 
-.noise {
+%overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+}
+
+.noise {
+    @extend %overlay;
     background: url('/dist/images/noise.png') repeat;
     pointer-events: none;
     opacity: 0.1;
 }
  .intro {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    @extend %overlay;
     z-index: 10;
     transition: opacity get-transition('slow') get-easing('natural'),
         visibility get-transition('slow');
@@ -161,6 +163,35 @@ body {
     }
 }
 
+.outro {
+    @extend %overlay;
+
+    top: 16rem;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity get-transition('slow') get-easing('natural');
+
+    &.is-active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .box:nth-of-type(2) {
+        display: none;
+    }
+}
+
+.hny {
+    position: absolute;
+    top: -8rem;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
  @include breakpoint(get-layout('box-bp-2')) {
     .logo {
         width: 60px;
@@ -171,6 +202,10 @@ body {
         width: 236px;
         height: 60px;
     }
+
+    .outro .box:nth-of-type(2) {
+        display: block;
+    }
  }
 
 
@@ -178,4 +213,9 @@ body {
     .headphones {
         bottom: 1rem;
     }
+ }
+
+ a {
+    text-decoration: underline;
+    color: $teal;
  }
