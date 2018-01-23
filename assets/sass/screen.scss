@@ -132,11 +132,11 @@ body {
 }
 
 .footer {
+    display: inline-block;
     position: absolute;
     z-index: 10;
     left: 0;
     bottom: 0;
-    width: 100%;
 }
 
 .volume {
@@ -190,6 +190,33 @@ body {
     left: 0;
     width: 100%;
     text-align: center;
+}
+
+.relaunch {
+    display: inline-block;
+    position: absolute;
+    z-index: 50;
+    right: 0;
+    bottom: 0;
+    text-align: right;
+    cursor: pointer;
+
+    &:hover {
+        color: $teal;
+    }
+
+    .paragraph {
+        display: inline-block;
+        margin-bottom: 0.75rem;
+    }
+}
+
+.relaunch-icon {
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    margin: 0 1rem 0.5rem;
+    vertical-align: middle;
 }
 
  @include breakpoint(get-layout('box-bp-2')) {
