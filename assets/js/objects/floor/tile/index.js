@@ -24,7 +24,7 @@ class Tile {
       physics: {
         type: 'box',
         move: true,
-        density: 100,
+        density: 100000,
         friction: 0.01,
         restitution: 0.0,
         belongsTo: 2,

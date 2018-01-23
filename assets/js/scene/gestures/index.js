@@ -62,13 +62,13 @@ class Gestures {
 
     this.dragPointBody = scene.world.add({
       type: 'sphere',
-      size: [2.0],
+      size: [1.5],
       pos: [0, 0, 0],
       move: true,
       noSleep: true,
       collision: false,
       name: 'dragPointBody',
-      config: [0.02, 0.0, 0.0, 1 << 2, 1 << 2],
+      config: [0.01, 0.0, 0.0, 1 << 2, 1 << 2],
     });
 
     let mouseMove = function (e) {
@@ -111,6 +111,7 @@ class Gestures {
 
   mouseUp(e) {
 
+    this.updateMouse(e);
     if (this.dragStatus !== DRAG_STATUS_NONE) {
 
       if (this.dragLineModel != null) {
@@ -130,7 +131,7 @@ class Gestures {
 
     let intersects;
     let dintersect;
-
+    this.updateMouse(e);
     if (this.dragStatus !== DRAG_STATUS_NONE) {
       return;
     }
