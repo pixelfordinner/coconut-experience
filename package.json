@@ -45,6 +45,7 @@
     "three-obj-loader": "^1.1.2",
     "three-orbit-controls": "^82.1.0",
     "webfontloader": "^1.6.28",
+    "wheel": "0.0.5",
     "when-dom-ready": "^1.2.12"
   }
 }

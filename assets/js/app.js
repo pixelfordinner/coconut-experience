@@ -42,6 +42,7 @@ import { MaterialManager } from './materials/manager';
 import { SoundManager } from './sound/manager';
 import WebfontLoader from 'webfontloader';
 import WhenDomReady from 'when-dom-ready';
+import WheelListener from 'wheel';
 
 class App {
   constructor() {
@@ -119,14 +120,20 @@ class App {
   bindings() {
     const intro = document.querySelector('.intro');
 
-    intro.addEventListener('click', e => {
+    const closeIntro = e => {
         e.preventDefault();
         e.stopPropagation();
 
         intro.classList.add('is-inactive');
         this.options.renderer.canvas.classList.add('is-active');
         this.scene.gestures.enableDrag(true);
-    });
+
+        intro.removeEventListener('click', closeIntro);
+        WheelListener.removeWheelListener(window, closeIntro);
+    };
+
+    intro.addEventListener('click', closeIntro);
+    WheelListener.addWheelListener(window, closeIntro);
 
     const volume = document.querySelector('.volume');
 
