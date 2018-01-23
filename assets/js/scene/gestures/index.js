@@ -94,6 +94,7 @@ class Gestures {
 
   mouseMove(e) {
     let intersects;
+    let dintersect;
     this.updateMouse(e);
     this.ray.setFromCamera(this.mouse, this.scene.camera);
 
@@ -126,16 +127,15 @@ class Gestures {
   }
 
   mouseDown(e) {
+
     let intersects;
+    let dintersect;
+
     if (this.dragStatus !== DRAG_STATUS_NONE) {
       return;
     }
 
-  //  this.updateMouse(e);
     this.ray.setFromCamera(this.mouse, this.scene.camera);
-    //this.ray.origin.width = 500;
-    //this.ray.origin.height = 500;
-
     intersects = this.ray.intersectObjects(this.meshes);
 
     const included = ['TrunkSegment', 'Coco', 'Crown', 'Wolf'];
@@ -153,6 +153,7 @@ class Gestures {
       draggable = false;
       let name = intersects[0].object.name;
       name = intersects[0].object.name;
+      console.log(name);
       if (name.includes('_')) {
         name = name.split('_');
         for (let i = 0; i < name.length; i++) {
@@ -162,7 +163,6 @@ class Gestures {
               if (name[i] == 'Wolf') {
                 SoundManager.play('wolf_' + getRandomIntInclusive(0, 7));
               }
-
               break;
             }
           }
@@ -178,29 +178,17 @@ class Gestures {
         }
       }
     } else {
-      let dist = 1000000;
-
-      for (let i = 0; i < this.scene.objects.length; i++) {
-        let name = this.scene.objects[i].mesh.name;
-        let closest = 'Donald';
-
-
-
-        for (let j = 0; j < dragged.length; j++) {
-          if (name.includes(dragged[j])) {
-            console.log('hello');
-            let pos = this.scene.objects[i].mesh.position;
-            let r =   new THREE.Raycaster(this.mouse);
-            console.log(r);
-
-          //  let distance = pos.distanceTo(planepos[0]);
-
-
-          }
-        }
-      }
 
       draggable = false;
+    }
+
+    if (draggable === false) {
+      console.log(this.mouse.x);
+      if (this.mouse.x < 0) {
+        dintersect = this.scene.scene.getObjectByName('Palmtree_1_TrunkSegment_9');
+      } else {
+        dintersect = this.scene.scene.getObjectByName('Palmtree_2_TrunkSegment_9');
+      }
     }
 
     if (draggable) {
@@ -208,6 +196,16 @@ class Gestures {
       this.scene.controls.enabled = false;
       this.dragPoint = intersects[0].point;
       this.dragBlockName = intersects[0].object.name;
+      this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
+        this.dragBlockName,
+        this.dragPoint
+      );
+    } else {
+
+      this.dragStatus = DRAG_STATUS_START;
+      this.scene.controls.enabled = false;
+      this.dragPoint = dintersect.position;
+      this.dragBlockName = dintersect.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
         this.dragBlockName,
         this.dragPoint
