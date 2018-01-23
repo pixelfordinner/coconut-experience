@@ -15,7 +15,7 @@ class Gestures {
     this.dragStatus = DRAG_STATUS_DISABLED;
     this.ray = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
-
+    this.objectDragged;
     this.scene = scene;
     this.meshes = [];
 
@@ -169,9 +169,10 @@ class Gestures {
       draggable = false;
       let name = intersects[0].object.name;
       name = intersects[0].object.name;
-      console.log(name);
+    //  console.log(name);
       if (name.includes('_')) {
         name = name.split('_');
+        this.objectDragged = name[1];
         for (let i = 0; i < name.length; i++) {
           for (let j = 0; j < included.length; j++) {
             if (name[i] == included[j]) {
@@ -199,12 +200,14 @@ class Gestures {
     }
 
     if (draggable === false) {
-      console.log(this.mouse.x);
+      //console.log(this.mouse.x);
       if (this.mouse.x < 0) {
         dintersect = this.scene.scene.getObjectByName('Palmtree_1_TrunkSegment_9');
       } else {
         dintersect = this.scene.scene.getObjectByName('Palmtree_2_TrunkSegment_9');
       }
+      let parts = dintersect.name.split('_');
+      this.objectDragged = parts[1];
     }
 
     if (draggable) {
@@ -212,15 +215,19 @@ class Gestures {
       this.scene.controls.enabled = false;
       this.dragPoint = intersects[0].point;
       this.dragBlockName = intersects[0].object.name;
+      //this.objectDragged = intersects[0].object.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
-        this.dragBlockName,
-        this.dragPoint
+      this.dragBlockName,
+      this.dragPoint
+
       );
     } else {
 
       this.dragStatus = DRAG_STATUS_START;
       this.scene.controls.enabled = false;
       this.dragPoint = dintersect.position;
+      //this.objectDragged = dintersect.name;
+      //console.log(this.objectDragged);
       this.dragBlockName = dintersect.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
         this.dragBlockName,
