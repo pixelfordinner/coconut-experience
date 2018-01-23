@@ -315,9 +315,16 @@ class Scene {
         let match = false;
         if (parts[2] == 'Coco') {
           let id = parts[1];
-          if (id == this.gestures.objectDragged
-              && this.gestures.dragStatus === 'DRAG_STATUS_DRAGGING') {
-            match = true;
+
+          if (id === this.gestures.objectDragged){
+
+              if( this.gestures.dragStatus === 'DRAG_STATUS_DRAGGING' || this.gestures.dragStatus === 'DRAG_STATUS_START') {
+                match = true;
+
+            } else {
+                match = false;
+
+            }
           } else {
             match = false;
           }
