@@ -194,14 +194,13 @@ class App {
 
   registerSounds() {
     SoundManager.register({
-        ambiance: {
-            src: ['/assets/sounds/atmosphere.mp3'],
-            autoplay: true,
-            loop: true,
-        },
         theme: {
             src: ['/assets/sounds/theme.mp3'],
             autoplay: true,
+            loop: true,
+        },
+        'contactcoco': {
+            src: ['/assets/sounds/contactcoco.mp3'],
         },
         'wolf_0': {
             src: ['/assets/sounds/wolf/0.mp3'],

@@ -182,7 +182,7 @@ class Scene {
           let c = this.Joints[i].body1.numContacts;
 
           if (c == 1 && this.cracks[i] > 0) {
-            SoundManager.play('contact');
+            SoundManager.play('contactcoco');
             this.cracks[i]--;
           }
         }
