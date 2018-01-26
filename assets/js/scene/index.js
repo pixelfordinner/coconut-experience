@@ -163,12 +163,13 @@ class Scene {
           this.Joints[i].body1.position.y,
           this.Joints[i].body1.position.z
         );
+
         let pos2 = this.lastJointPos[i];
         let dist = pos.distanceTo(pos2);
 
         if (dist > 0.15) {
           if (this.jointStrenth[i] > 0) {
-            this.jointStrenth[i] -= 0.5;
+            this.jointStrenth[i] -= this.ismobile ? 0.15 : 0.05;
           }
         } else if (dist <= 0.03 && this.jointStrenth[i] <= 0) {
           this.world.removeJoint(this.Joints[i]);
@@ -219,12 +220,14 @@ class Scene {
   }
 
   updateCamera() {
-    if (this.camera.position.x > 75) {
+    let focus = this.mobile ? 90 : 75;
+    let speed = this.mobile ? 0.1 : 0.125;
+    if (this.camera.position.x > focus) {
       this.camera.position.x -= 0.25;
     }
 
     if (this.camera.position.z > 0) {
-      this.camera.position.z -= 0.125;
+      this.camera.position.z -= speed;
     }
   }
 
