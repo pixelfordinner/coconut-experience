@@ -100,7 +100,7 @@ body {
 
 .noise {
     @extend %overlay;
-    background: url('/dist/images/noise.png') repeat;
+    background: url('../images/noise.png') repeat;
     pointer-events: none;
     opacity: 0.1;
 }

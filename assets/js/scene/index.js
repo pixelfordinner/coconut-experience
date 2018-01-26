@@ -27,6 +27,8 @@ class Scene {
     this.lastJointPos = [];
     this.jointStrenth = [];
     this.gameOver = false;
+    this.seeds = 0;
+    this.hash = null;
 
     this.options.dimensions = {
       width: this.options.renderer.canvas.offsetWidth,
@@ -80,6 +82,13 @@ class Scene {
     this.gestures = new Gestures(this);
     this.controls = new Controls(this.options, this.camera);
     this.controls.enabled = false;
+
+    fetch('https://hny2018.pixelfordinner.com/api/start.php', {credentials: 'include'})
+        .then(res => res.json())
+        .then(res => {
+            this.hash = res.hash;
+            this.seeds = res.seeds;
+        });
   }
 
   updateSize() {
@@ -172,13 +181,20 @@ class Scene {
             this.gameOver = true;
 
             const outro = document.querySelector('.outro');
-
             this.gestures.enableDrag(false);
 
+            const seeds = document.querySelector('[data-seeds]');
+            if (seeds) {
+                seeds.textContent = parseInt(this.seeds) + 30;
+            }
+
             setTimeout(() => SoundManager.fade('theme', 1, 0, 2000), 3000);
+            setTimeout(() => SoundManager.play('wolf_2'), 1800);
             setTimeout(() => SoundManager.play('final'), 5200);
             setTimeout(() => this.options.renderer.canvas.classList.remove('is-active'), 5000);
             setTimeout(() => outro.classList.add('is-active'), 6000);
+
+            fetch(`https://hny2018.pixelfordinner.com/api/seed.php?hash=${this.hash}`, { credentials: 'include' });
           }
         }
 
