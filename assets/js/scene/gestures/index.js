@@ -202,8 +202,25 @@ class Gestures {
     }
 
     if (draggable === false) {
-      //console.log(this.mouse.x);
-      if (this.mouse.x < 0) {
+      console.log(this.mouse.x);
+      let c = 0;
+
+      let mp = new THREE.Vector2(this.mouse.x * this.scene.options.dimensions.width,
+         this.mouse.y * this.scene.options.dimensions.height) ;
+      let palm1 = this.scene.scene.getObjectByName('Palmtree_1_TrunkSegment_9');
+      let palm2 = this.scene.scene.getObjectByName('Palmtree_2_TrunkSegment_9');
+
+      let pos1 = new THREE.Vector2(palm1.position.x, palm1.position.y);
+      let pos2 = new THREE.Vector2(palm2.position.x, palm2.position.y);
+
+      let dist1 = mp.distanceTo(pos1);
+      let dist2 = mp.distanceTo(pos2);
+
+    //  console.log( );
+
+
+
+      if (dist1 < dist2) {
         dintersect = this.scene.scene.getObjectByName('Palmtree_1_TrunkSegment_9');
       } else {
         dintersect = this.scene.scene.getObjectByName('Palmtree_2_TrunkSegment_9');
@@ -233,8 +250,9 @@ class Gestures {
       //console.log(this.objectDragged);
       this.dragBlockName = dintersect.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
-        this.dragPoint,
-        this.dragBlockName
+
+        this.dragBlockName,
+        this.dragPoint
 
       );
     }
