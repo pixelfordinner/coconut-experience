@@ -18,6 +18,7 @@ class Gestures {
     this.objectDragged;
     this.scene = scene;
     this.meshes = [];
+    this.dragPoint = new THREE.Vector3();
 
     this.dragPointView = new THREE.Mesh(
       new THREE.SphereGeometry(1, 8, 8),
@@ -60,13 +61,13 @@ class Gestures {
     scene.scene.add(this.dragPointView);
     scene.scene.add(this.dragPlaneView);
     scene.scene.add(this.dragLineView);
-    this.dragamp = this.ismobile ?  2.75 : 1.25;
+    this.dragamp = this.ismobile ?  2.5 : 1.;
     this.dragmass = this.ismobile ? 0.2 : 0.1;
 
     this.dragPointBody = scene.world.add({
       type: 'sphere',
       size: [this.dragamp],
-      pos: [0, 0, 0],
+      pos: [0, 10, 0],
       move: true,
       noSleep: true,
       collision: false,
@@ -87,6 +88,12 @@ class Gestures {
     window.addEventListener('mousemove', mouseMove, true);
     window.addEventListener('mouseup', mouseUp, true);
     window.addEventListener('mousedown', mouseDown, true);
+
+
+    window.addEventListener('touchstart', function onFirstTouch() {
+          //this.ismobile = true;
+          window.removeEventListener('touchstart', onFirstTouch, false);
+    }, false);
 
     window.addEventListener('touchmove', mouseMove, true);
     window.addEventListener('touchend', mouseUp, true);
@@ -125,7 +132,7 @@ class Gestures {
         return;
     }
 
-    //this.updateMouse(e);
+    this.updateMouse(e);
     if (this.dragStatus !== DRAG_STATUS_NONE) {
 
       if (this.dragLineModel != null) {
@@ -148,7 +155,7 @@ class Gestures {
 
     let intersects;
     let dintersect;
-    //this.updateMouse(e);
+    this.updateMouse(e);
     if (this.dragStatus !== DRAG_STATUS_NONE) {
       return;
     }
@@ -170,7 +177,7 @@ class Gestures {
     if (intersects.length > 0) {
       draggable = false;
       let name = intersects[0].object.name;
-      name = intersects[0].object.name;
+      //name = intersects[0].object.name;
     //  console.log(name);
       if (name.includes('_')) {
         name = name.split('_');
@@ -222,7 +229,7 @@ class Gestures {
 
 
 
-      if (dist1 > dist2) {
+      if (dist1 >= dist2 ) {
         if (this.ismobile) {
             dintersect = this.scene.scene.getObjectByName('Palmtree_2_TrunkSegment_9');
         } else {
@@ -258,10 +265,10 @@ class Gestures {
 
       this.dragStatus = DRAG_STATUS_START;
       this.scene.controls.enabled = false;
-      this.dragPoint =  dintersect.position;
+      this.dragPoint = this.dragPointBody.position;
       //this.objectDragged = dintersect.name;
       //console.log(this.objectDragged);
-      this.dragBlockName =  dintersect.name
+      this.dragBlockName = dintersect.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
 
         this.dragBlockName,
@@ -297,8 +304,8 @@ class Gestures {
     this.dragLineModel = this.scene.world.add({
       world: this.scene.world,
       type: 'jointBall',
-      body1: 'dragPointBody',
       name: 'dragJoint',
+      body1: 'dragPointBody',
       body2: this.dragBlockName,
       collision: false,
 
@@ -344,9 +351,9 @@ class Gestures {
       this.dragLineView.geometry.verticesNeedUpdate = true;
     }
 
-    // if (this.dragPoint) {
-    //   this.dragPointBody.setPosition(this.dragPoint);
-    // }
+    if (this.dragPoint) {
+      this.dragPointBody.setPosition(this.dragPoint);
+    }
   }
 }
 
