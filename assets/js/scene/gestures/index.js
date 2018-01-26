@@ -60,10 +60,10 @@ class Gestures {
     scene.scene.add(this.dragPointView);
     scene.scene.add(this.dragPlaneView);
     scene.scene.add(this.dragLineView);
-
+    this.amp = this.ismobile ? 3.0 : 1.5;
     this.dragPointBody = scene.world.add({
       type: 'sphere',
-      size: [1.5],
+      size: [this.amp],
       pos: [0, 0, 0],
       move: true,
       noSleep: true,
