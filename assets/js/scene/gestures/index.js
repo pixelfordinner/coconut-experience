@@ -60,7 +60,7 @@ class Gestures {
     scene.scene.add(this.dragPointView);
     scene.scene.add(this.dragPlaneView);
     scene.scene.add(this.dragLineView);
-    this.dragamp = this.ismobile ? 3.0 : 1.5;
+    this.dragamp = this.ismobile ?  2.75 : 1.25;
     this.dragmass = this.ismobile ? 0.2 : 0.1;
 
     this.dragPointBody = scene.world.add({
@@ -220,7 +220,7 @@ class Gestures {
       //this.objectDragged = intersects[0].object.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
         this.dragPoint,
-      this.dragBlockName
+        this.dragBlockName
 
 
       );

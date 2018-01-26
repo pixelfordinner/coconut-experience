@@ -169,9 +169,9 @@ class Scene {
 
         if (dist > 0.15) {
           if (this.jointStrenth[i] > 0) {
-            this.jointStrenth[i] -= this.ismobile ? 0.15 : 0.05;
+            this.jointStrenth[i] -= this.ismobile ? 0.15 : 0.1;
           }
-        } else if (dist <= 0.03 && this.jointStrenth[i] <= 0) {
+        } else if (dist <= 0.05 && this.jointStrenth[i] <= 0) {
           this.world.removeJoint(this.Joints[i]);
           if (this.jointStrenth[i] > -1) {
             this.lostcocos++;

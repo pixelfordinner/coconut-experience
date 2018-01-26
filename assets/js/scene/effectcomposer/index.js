@@ -57,7 +57,7 @@ class Composer {
       fragmentShader: VOLUMETRIC_FRAG,
     });
 
-    this.occlusionTarget = new THREE.WebGLRenderTarget(width, height);
+    this.occlusionTarget = new THREE.WebGLRenderTarget(width * .5, height * .5);
     this.occlusionComposer = new EffectComposer(renderer, this.occlusionTarget);
     this.occlusionComposer.addPass(new EffectComposer.RenderPass(scene, camera));
     let pass = new EffectComposer.ShaderPass(volumetricLightShaders);
