@@ -67,7 +67,7 @@ class Scene {
     );
 
     //console.log('W: ' + this.options.dimensions.width + ' H: ' + this.options.dimensions.height);
-    if (this.options.dimensions.width >= 1080) {
+    if (this.options.dimensions.width >= 1024) {
       this.ismobile = false;
     }
 
