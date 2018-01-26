@@ -87,10 +87,7 @@ class Gestures {
     window.addEventListener('mousemove', mouseMove, true);
     window.addEventListener('mouseup', mouseUp, true);
     window.addEventListener('mousedown', mouseDown, true);
-    window.addEventListener('touchstart', function onFirstTouch() {
-      this.ismobile = true;
-      window.removeEventListener('touchstart', onFirstTouch, false);
-    }, false);
+
     window.addEventListener('touchmove', mouseMove, true);
     window.addEventListener('touchend', mouseUp, true);
     window.addEventListener('touchstart', mouseDown, true);
@@ -253,9 +250,8 @@ class Gestures {
       //console.log(this.objectDragged);
       this.dragBlockName = dintersect.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
-
-        this.dragBlockName,
-        this.dragPoint
+        this.dragPoint,
+        this.dragBlockName
 
       );
     }
