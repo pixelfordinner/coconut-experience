@@ -53,6 +53,7 @@ class Scene {
     this.lights = new Lights(options, this.camera, this.lightfrustrum);
     this.world = new World();
     this.clock = new Clock();
+    this.hasTouchEvents = document.querySelector('html').classList.contains('touchevents');
 
     // Debugg Lights
     //this.frustrum = new Frustrum(this.lightfrustrum);
