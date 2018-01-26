@@ -60,16 +60,18 @@ class Gestures {
     scene.scene.add(this.dragPointView);
     scene.scene.add(this.dragPlaneView);
     scene.scene.add(this.dragLineView);
-    this.amp = this.ismobile ? 3.0 : 1.5;
+    this.dragamp = this.ismobile ? 3.0 : 1.5;
+    this.dragmass = this.ismobile ? 0.2 : 0.1;
+
     this.dragPointBody = scene.world.add({
       type: 'sphere',
-      size: [this.amp],
+      size: [this.dragamp],
       pos: [0, 0, 0],
       move: true,
       noSleep: true,
       collision: false,
       name: 'dragPointBody',
-      config: [0.01, 0.0, 0.0, 1 << 2, 1 << 2],
+      config: [this.dragmass, 0.0, 0.0, 1 << 2, 1 << 2],
     });
 
     let mouseMove = function (e) {
