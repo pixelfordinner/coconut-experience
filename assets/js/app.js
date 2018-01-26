@@ -328,8 +328,8 @@ class App {
       name: 'Palmtree_',
       index: 2,
       position: {
-        x: 6,
-        y: 8,
+        x: 0,
+        y: 9,
         z: -6,
       },
     });

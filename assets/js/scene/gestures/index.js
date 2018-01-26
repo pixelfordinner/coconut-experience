@@ -105,7 +105,7 @@ class Gestures {
     }
 
     let intersects;
-    let dintersect;
+  //  let dintersect;
     this.updateMouse(e);
     this.ray.setFromCamera(this.mouse, this.scene.camera);
 
@@ -205,13 +205,14 @@ class Gestures {
       console.log(this.mouse.x);
       let c = 0;
 
-      let mp = new THREE.Vector2(this.mouse.x * this.scene.options.dimensions.width,
-         this.mouse.y * this.scene.options.dimensions.height) ;
+      let mp = new THREE.Vector3(this.mouse.x * this.scene.options.dimensions.width,
+         this.mouse.y * this.scene.options.dimensions.height, 0) ;
+
       let palm1 = this.scene.scene.getObjectByName('Palmtree_1_TrunkSegment_9');
       let palm2 = this.scene.scene.getObjectByName('Palmtree_2_TrunkSegment_9');
 
-      let pos1 = new THREE.Vector2(palm1.position.x, palm1.position.y);
-      let pos2 = new THREE.Vector2(palm2.position.x, palm2.position.y);
+      let pos1 = new THREE.Vector3(palm1.position.z, palm1.position.y,  palm1.position.x);
+      let pos2 = new THREE.Vector3(palm2.position.z, palm2.position.y,  palm2.position.x);
 
       let dist1 = mp.distanceTo(pos1);
       let dist2 = mp.distanceTo(pos2);
@@ -220,7 +221,8 @@ class Gestures {
 
 
 
-      if (dist1 < dist2) {
+
+      if (dist1 > dist2) {
         dintersect = this.scene.scene.getObjectByName('Palmtree_1_TrunkSegment_9');
       } else {
         dintersect = this.scene.scene.getObjectByName('Palmtree_2_TrunkSegment_9');
@@ -330,9 +332,9 @@ class Gestures {
       this.dragLineView.geometry.verticesNeedUpdate = true;
     }
 
-    if (this.dragPoint) {
-      this.dragPointBody.setPosition(this.dragPoint);
-    }
+    // if (this.dragPoint) {
+    //   this.dragPointBody.setPosition(this.dragPoint);
+    // }
   }
 }
 
