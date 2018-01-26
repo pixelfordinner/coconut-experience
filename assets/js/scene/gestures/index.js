@@ -248,8 +248,9 @@ class Gestures {
       this.dragBlockName = intersects[0].object.name;
       //this.objectDragged = intersects[0].object.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
-        this.dragPoint,
-        this.dragBlockName
+
+        this.dragBlockName,
+        this.dragPoint
 
 
       );
@@ -262,8 +263,9 @@ class Gestures {
       //console.log(this.objectDragged);
       this.dragBlockName = dintersect.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
+
+        this.dragBlockName,
         this.dragPoint,
-        this.dragBlockName
 
       );
     }
