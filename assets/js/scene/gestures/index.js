@@ -223,9 +223,19 @@ class Gestures {
 
 
       if (dist1 > dist2) {
-        dintersect = this.scene.scene.getObjectByName('Palmtree_1_TrunkSegment_9');
+        if (this.ismobile) {
+            dintersect = this.scene.scene.getObjectByName('Palmtree_2_TrunkSegment_9');
+        } else {
+            dintersect = this.scene.scene.getObjectByName('Palmtree_1_TrunkSegment_9');
+        }
+
       } else {
-        dintersect = this.scene.scene.getObjectByName('Palmtree_2_TrunkSegment_9');
+
+        if (this.ismobile) {
+            dintersect = this.scene.scene.getObjectByName('Palmtree_1_TrunkSegment_9');
+        } else {
+            dintersect = this.scene.scene.getObjectByName('Palmtree_2_TrunkSegment_9');
+        }
       }
       let parts = dintersect.name.split('_');
       this.objectDragged = parts[1];
