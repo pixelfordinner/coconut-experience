@@ -125,7 +125,7 @@ class Gestures {
         return;
     }
 
-    this.updateMouse(e);
+    //this.updateMouse(e);
     if (this.dragStatus !== DRAG_STATUS_NONE) {
 
       if (this.dragLineModel != null) {
@@ -148,7 +148,7 @@ class Gestures {
 
     let intersects;
     let dintersect;
-    this.updateMouse(e);
+    //this.updateMouse(e);
     if (this.dragStatus !== DRAG_STATUS_NONE) {
       return;
     }
@@ -219,8 +219,9 @@ class Gestures {
       this.dragBlockName = intersects[0].object.name;
       //this.objectDragged = intersects[0].object.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
-      this.dragBlockName,
-      this.dragPoint
+        this.dragPoint,
+      this.dragBlockName
+
 
       );
     } else {
@@ -232,8 +233,9 @@ class Gestures {
       //console.log(this.objectDragged);
       this.dragBlockName = dintersect.name;
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
-        this.dragBlockName,
-        this.dragPoint
+        this.dragPoint,
+        this.dragBlockName
+
       );
     }
   }
