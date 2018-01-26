@@ -67,9 +67,10 @@ class Scene {
     );
 
     //console.log('W: ' + this.options.dimensions.width + ' H: ' + this.options.dimensions.height);
-    if (this.options.dimensions.width >= 1024) {
-      this.ismobile = false;
-    }
+    // if (this.options.dimensions.width >= 1024) {
+    //   this.ismobile = false;
+    // }
+    this.ismobile  = this.hasTouchEvents;
 
     // Lights
     this.lights.forEach(light => this.scene.add(light));
