@@ -97,6 +97,12 @@ class App {
       },
     };
 
+    const body = document.querySelector('body');
+
+    if (body.offsetHeight > window.innerHeight) {
+        body.style.height = window.innerHeight + 'px';
+    }
+
     this.scene = new Scene(this.options);
     this.scene.init();
     this.registerMaterials();
