@@ -258,14 +258,14 @@ class Gestures {
 
       this.dragStatus = DRAG_STATUS_START;
       this.scene.controls.enabled = false;
-      this.dragPoint = dintersect.position;
+      this.dragPoint =  dintersect.position;
       //this.objectDragged = dintersect.name;
       //console.log(this.objectDragged);
-      this.dragBlockName = dintersect.name;
+      this.dragBlockName =  dintersect.name
       this.dragBlockLocalAnchorPoint = this.localAnchorPoint(
 
         this.dragBlockName,
-        this.dragPoint,
+        this.dragPoint
 
       );
     }
