@@ -173,31 +173,16 @@ class Scene {
           }
         } else if (dist <= 0.03 && this.jointStrenth[i] <= 0) {
           this.world.removeJoint(this.Joints[i]);
-          if (this.jointStrenth[i] == 0) {
+          if (this.jointStrenth[i] > -1) {
             this.lostcocos++;
             this.jointStrenth[i] = -1;
+            console.log(this.lostcocos);
           }
 
-          if (!this.gameOver && this.lostcocos >= 30) {
-            this.gameOver = true;
 
-            const outro = document.querySelector('.outro');
-            this.gestures.enableDrag(false);
-
-            const seeds = document.querySelector('[data-seeds]');
-            if (seeds) {
-                seeds.textContent = parseInt(this.seeds) + 30;
-            }
-
-            setTimeout(() => SoundManager.fade('theme', 1, 0, 2000), 3000);
-            setTimeout(() => SoundManager.play('wolf_2'), 1800);
-            setTimeout(() => SoundManager.play('final'), 5200);
-            setTimeout(() => this.options.renderer.canvas.classList.remove('is-active'), 5000);
-            setTimeout(() => outro.classList.add('is-active'), 6000);
-
-            fetch(`https://hny2018.pixelfordinner.com/api/seed.php?hash=${this.hash}`, { credentials: 'include' });
-          }
         }
+
+
 
         if (this.lostcocos > 0 && this.jointStrenth[i] == -1) {
           let c = this.Joints[i].body1.numContacts;
@@ -210,6 +195,28 @@ class Scene {
 
         this.lastJointPos[i] = pos;
       }
+    }
+  }
+
+  updategame(){
+    if (!this.gameOver && this.lostcocos >= 29) {
+      this.gameOver = true;
+
+      const outro = document.querySelector('.outro');
+      this.gestures.enableDrag(false);
+
+      const seeds = document.querySelector('[data-seeds]');
+      if (seeds) {
+          seeds.textContent = parseInt(this.seeds) + 30;
+      }
+
+      setTimeout(() => SoundManager.fade('theme', 1, 0, 2000), 3000);
+      setTimeout(() => SoundManager.play('wolf_2'), 1800);
+      setTimeout(() => SoundManager.play('final'), 5200);
+      setTimeout(() => this.options.renderer.canvas.classList.remove('is-active'), 5000);
+      setTimeout(() => outro.classList.add('is-active'), 6000);
+
+      fetch(`https://hny2018.pixelfordinner.com/api/seed.php?hash=${this.hash}`, { credentials: 'include' });
     }
   }
 
@@ -414,6 +421,7 @@ class Scene {
     this.renderEffect();
     this.updateMaterials();
     this.updateNotes();
+    this.updategame();
     this.camera.lookAt(this.options.camera.lookAt);
     this.render();
 
